@@ -5,15 +5,26 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "16.2.7",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "gsap": "^3.12.5",
+    "@gsap/react": "^2.1.2",
+    "lenis": "^1.1.18",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.164.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.0.0",
     "@tailwindcss/postcss": "^4",
+    "@types/three": "^0.164.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

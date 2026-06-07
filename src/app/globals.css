@@ -1,26 +1,418 @@
 @import "tailwindcss";
 
+/* ============================================================================
+ * YNARA · Sitio institucional — Sistema de diseño NOCTURNO
+ * ----------------------------------------------------------------------------
+ * La marca está LOCKED. Colores, tipografía y mark salen de la guía 2026 y de
+ * apps/web/src/app/globals.css del monorepo (BriarDevv/Ynara). El PRODUCTO es
+ * light-only; el SITIO institucional vive en la superficie NOCTURNA de marca
+ * (navy + niebla + campo de nodos), que es el target de la demo.
+ *
+ * Único acento = azul plano #2F5AA6. Los gradientes blue/violet/jade/amber son
+ * tints por-modo y glows ambientales — nunca relleno. "Editorial y sereno."
+ * ========================================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ---- Marca: tinta y superficie (de la guía 2026) ---- */
+  --c-navy: #242c3f; /* night / ink */
+  --c-navy-deep: #1b2233; /* ink-deep, titulares con presencia */
+  --c-ivory: #f3f0ea; /* marfil */
+  --c-paper: #faf9f5; /* ivory canvas */
+
+  /* ---- Superficies nocturnas del sitio (derivadas, no de la guía light) ---- */
+  --c-void: #0a0c12; /* borde de página, casi negro (fondo de la demo) */
+  --c-night: #11151f; /* base nocturna */
+  --c-night-2: #161b28; /* paneles */
+  --c-night-3: #1c2230; /* paneles elevados */
+
+  /* ---- Azul de marca — ÚNICO acento (plano) ---- */
+  --c-blue: #2f5aa6;
+  --c-blue-hover: #3768bd;
+  --c-blue-active: #26498a;
+  --c-blue-bright: #4b7ee6; /* glow / highlight sobre nocturno */
+  --c-blue-to: #1f66db;
+
+  /* ---- Periwinkle: acento secundario sobre nocturno (eyebrows, hairlines) ---- */
+  --c-acc: #8b9ad0;
+
+  /* ---- Stops de gradiente por-modo (tints, no rellenos) ---- */
+  --c-violet-from: #8c63b8;
+  --c-violet-to: #7c4fa3;
+  --c-jade-from: #4a9c8c;
+  --c-jade-to: #6fbfae;
+  --c-amber-from: #d9a24a;
+  --c-amber-to: #e8c77a;
+
+  /* ---- Texto sobre nocturno ---- */
+  --c-text: #f3f0ea; /* cuerpo principal (marfil) */
+  --c-text-bright: #ffffff; /* hero / títulos con presencia */
+  --c-text-soft: rgb(243 240 234 / 0.66);
+  --c-text-muted: rgb(243 240 234 / 0.58);
+  --c-text-faint: rgb(243 240 234 / 0.2);
+
+  /* ---- Líneas y bordes sobre nocturno ---- */
+  --c-hair: rgb(255 255 255 / 0.08);
+  --c-hair-2: rgb(255 255 255 / 0.14);
+  --c-hair-strong: rgb(255 255 255 / 0.22);
+
+  /* ---- Vidrio / cards translúcidas ---- */
+  --c-glass: rgb(255 255 255 / 0.035);
+  --c-glass-2: rgb(255 255 255 / 0.06);
+  --c-glass-3: rgb(255 255 255 / 0.09);
+
+  /* ---- Gradientes semánticos ---- */
+  --grad-blue: linear-gradient(135deg, var(--c-blue), var(--c-blue-to));
+  --grad-blue-soft: linear-gradient(135deg, var(--c-blue-bright), #7ba1f4);
+  --grad-violet: linear-gradient(135deg, var(--c-violet-from), var(--c-violet-to));
+  --grad-jade: linear-gradient(135deg, var(--c-jade-from), var(--c-jade-to));
+  --grad-amber: linear-gradient(135deg, var(--c-amber-from), var(--c-amber-to));
+
+  /* Tints por-modo (alias semántico) */
+  --mode-productividad: var(--grad-blue);
+  --mode-estudio: var(--grad-blue-soft);
+  --mode-bienestar: var(--grad-jade);
+  --mode-vida: var(--grad-amber);
+  --mode-memoria: var(--grad-violet);
+
+  /* ---- Radios ---- */
+  --r-sm: 0.5rem;
+  --r-md: 0.75rem;
+  --r-lg: 1rem;
+  --r-xl: 1.25rem;
+  --r-2xl: 1.75rem;
+  --r-pill: 9999px;
+
+  /* ---- Elevación (sombra nocturna: profundidad por luz, no por plástico) ---- */
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -16px rgb(0 0 0 / 0.55);
+  --shadow-lifted: 0 24px 60px -24px rgb(0 0 0 / 0.65), 0 2px 8px rgb(0 0 0 / 0.4);
+  --glow-blue: 0 0 60px -12px rgb(47 90 166 / 0.55);
+
+  /* ---- Motion (vocabulario único; mismas curvas en todas las secciones) ---- */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 0.84, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 0.25s;
+  --dur-base: 0.5s;
+  --dur-slow: 0.9s;
+
+  /* ---- Layout ---- */
+  --maxw: 1280px;
+  --gutter: clamp(1.25rem, 5vw, 6rem);
+  --nav-h: 76px;
 }
 
+/* ============================================================================
+ * Tailwind v4 @theme — expone tokens como utilities (bg-night, text-ivory, …)
+ * ========================================================================== */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-void: var(--c-void);
+  --color-night: var(--c-night);
+  --color-night-2: var(--c-night-2);
+  --color-night-3: var(--c-night-3);
+  --color-navy: var(--c-navy);
+  --color-navy-deep: var(--c-navy-deep);
+  --color-ivory: var(--c-ivory);
+  --color-paper: var(--c-paper);
+
+  --color-blue: var(--c-blue);
+  --color-blue-hover: var(--c-blue-hover);
+  --color-blue-active: var(--c-blue-active);
+  --color-blue-bright: var(--c-blue-bright);
+  --color-acc: var(--c-acc);
+
+  --color-violet: var(--c-violet-to);
+  --color-jade: var(--c-jade-to);
+  --color-amber: var(--c-amber-to);
+
+  --color-text: var(--c-text);
+  --color-text-bright: var(--c-text-bright);
+  --color-text-soft: var(--c-text-soft);
+  --color-text-muted: var(--c-text-muted);
+  --color-text-faint: var(--c-text-faint);
+
+  --color-hair: var(--c-hair);
+  --color-hair-2: var(--c-hair-2);
+  --color-hair-strong: var(--c-hair-strong);
+
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+  --radius-2xl: var(--r-2xl);
+
+  --font-display: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  --font-body: var(--font-body), "DM Sans", system-ui, sans-serif;
+
+  --ease-soft: var(--ease-soft);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================================
+ * Base
+ * ========================================================================== */
+* {
+  min-width: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: auto; /* Lenis maneja el smooth scroll */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--c-void);
+  color: var(--c-text);
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: rgb(47 90 166 / 0.4);
+  color: #fff;
+}
+
+/* Tipografía display por defecto en headings */
+h1, h2, h3, h4 {
+  font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--c-text-bright);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Lock de scroll durante el telón de apertura */
+html.intro-lock,
+html.intro-lock body {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Cursor custom: ocultar el nativo en pointer fino */
+@media (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button,
+  html.has-custom-cursor [data-cursor] {
+    cursor: none;
+  }
+}
+
+/* Scrollbar nocturna discreta */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--c-void);
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 0.08);
+  border-radius: 9999px;
+  border: 2px solid var(--c-void);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(255 255 255 / 0.16);
+}
+
+/* ============================================================================
+ * Utilities — escala tipográfica + componentes recurrentes (el contrato visual
+ * que TODA sección usa). Tailwind no genera estas escalas custom.
+ * ========================================================================== */
+@layer utilities {
+  /* ---- Escala tipográfica ---- */
+  .text-display {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.75rem, 1.2rem + 7vw, 7rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    color: var(--c-text-bright);
+  }
+  .text-h1 {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+  .text-h2 {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  .text-h3 {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .text-lead {
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.375rem);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: var(--c-text-soft);
+  }
+  .text-body-lg {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--c-text-soft);
+  }
+  .text-caption {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--c-text-muted);
+  }
+
+  /* ---- Eyebrow (label de sección) ---- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--c-acc);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+  /* Variante centrada: línea a ambos lados (para heroes / secciones centradas). */
+  .eyebrow--center {
+    justify-content: center;
+  }
+  .eyebrow--center::after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  /* ---- Superficie: card de vidrio nocturna ---- */
+  .surface-card {
+    background: var(--c-glass);
+    border: 1px solid var(--c-hair);
+    border-radius: var(--r-xl);
+    backdrop-filter: blur(8px);
+    transition:
+      border-color 0.35s var(--ease-soft),
+      transform 0.35s var(--ease-soft),
+      background 0.35s var(--ease-soft);
+  }
+  .surface-card:hover {
+    border-color: var(--c-hair-2);
+    background: var(--c-glass-2);
+    transform: translateY(-3px);
+  }
+  .surface-card-2 {
+    background: var(--c-glass-2);
+    border: 1px solid var(--c-hair-2);
+    border-radius: var(--r-xl);
+  }
+  .hairline {
+    border-color: var(--c-hair);
+  }
+
+  /* ---- Texto con gradiente de marca ---- */
+  .text-gradient-blue {
+    background: var(--grad-blue-soft);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---- Chip / pill ---- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--c-hair-2);
+    background: var(--c-glass);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--c-text-soft);
+  }
+
+  /* ---- Layout helpers ---- */
+  .shell {
+    width: 100%;
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .section-pad {
+    padding-block: clamp(5rem, 3rem + 9vw, 11rem);
+  }
+
+  /* ---- Grano sutil + viñeta nocturna (atmósfera) ---- */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+
+  /* ---- Reveal hooks (estado inicial; el motion los anima) ---- */
+  .will-reveal {
+    will-change: transform, opacity;
+  }
+}
+
+/* ============================================================================
+ * Accesibilidad — reduced motion SIEMPRE respetado
+ * ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-blue-bright);
+  outline-offset: 3px;
+  border-radius: 3px;
 }
