@@ -395,6 +395,140 @@ html.intro-lock body {
   .will-reveal {
     will-change: transform, opacity;
   }
+
+  /* ============================================================================
+   * V2 — TIPOGRAFÍA MASIVA (alma tiwis): el tipo es protagonista, llena el ancho.
+   * ========================================================================== */
+  .text-mega {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(3.5rem, 0.5rem + 16vw, 17rem);
+    line-height: 0.86;
+    letter-spacing: -0.05em;
+    color: var(--c-text-bright);
+    text-wrap: balance;
+  }
+  .text-wordmark {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(4.5rem, 1rem + 21vw, 22rem);
+    line-height: 0.82;
+    letter-spacing: -0.055em;
+    color: var(--c-text-bright);
+  }
+  .text-giant {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.6rem, 0.8rem + 8vw, 8rem);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    color: var(--c-text-bright);
+    text-wrap: balance;
+  }
+  /* Wordmark soberano — el clímax: llena y desborda el viewport. */
+  .text-sovereign {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(5rem, 0.5rem + 26vw, 28rem);
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    color: var(--c-text-bright);
+    white-space: nowrap;
+  }
+
+  /* ---- Scrims: contraste AA detrás del texto sobre la forma viva ---- */
+  .scrim-radial::before {
+    content: "";
+    position: absolute;
+    inset: -10% -10% -10% -10%;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(
+      60% 55% at var(--sx, 30%) var(--sy, 50%),
+      rgba(8, 9, 14, 0.82),
+      rgba(8, 9, 14, 0.45) 45%,
+      transparent 75%
+    );
+  }
+  .scrim-bottom::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background: linear-gradient(
+      0deg,
+      rgba(8, 9, 14, 0.85) 0%,
+      rgba(8, 9, 14, 0.35) 35%,
+      transparent 70%
+    );
+  }
+  /* Caja-scrim local: un halo oscuro pegado al texto, para bloques sueltos. */
+  .scrim-text {
+    position: relative;
+    isolation: isolate;
+  }
+  .scrim-text::before {
+    content: "";
+    position: absolute;
+    inset: -1.5em -1.2em;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      70% 70% at 50% 50%,
+      rgba(8, 9, 14, 0.7),
+      transparent 72%
+    );
+  }
+
+  /* ---- Escena: capítulo del viaje continuo sobre la forma ---- */
+  .scene {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .scene-shell {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Micro-label de esquina (alma infinitefield): técnica, chiquita, tracked. */
+  .corner-label {
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--c-acc);
+    line-height: 1.6;
+  }
+  .corner-label--ivory {
+    color: var(--c-text-soft);
+  }
+  /* Regla fina (indicador de scroll / hairline editorial). */
+  .rule {
+    display: inline-block;
+    height: 1px;
+    width: clamp(40px, 6vw, 96px);
+    background: linear-gradient(90deg, var(--c-acc), transparent);
+    vertical-align: middle;
+  }
+
+  /* Char/word wrappers para reveals enmascarados (SplitText o manual). */
+  .line-mask {
+    overflow: hidden;
+    display: block;
+  }
+  .clip-mask {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+  }
 }
 
 /* ============================================================================
@@ -408,6 +542,11 @@ html.intro-lock body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  /* Sin morfeo scrubbeado, las escenas no necesitan alto extra: colapsan a 1
+     viewport (el contenido fluye normal, sin huecos vacíos de scroll). */
+  .scene {
+    min-height: 100svh !important;
   }
 }
 

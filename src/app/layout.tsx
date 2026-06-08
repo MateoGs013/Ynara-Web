@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { AtmosphereDynamic } from "@/components/atmosphere/AtmosphereDynamic";
-import { MemoryThread } from "@/components/MemoryThread";
+import { Field } from "@/components/field/Field";
 import { Preloader } from "@/components/Preloader";
+import SmoothScroll from "@/components/SmoothScroll";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteNav } from "@/components/site/SiteNav";
-import SmoothScroll from "@/components/SmoothScroll";
 import { pricing, site } from "@/content/ynara";
 import { fontBody, fontDisplay } from "./fonts";
 import "./globals.css";
@@ -24,15 +23,19 @@ const jsonLd = {
     {
       "@type": "SoftwareApplication",
       name: "Ynara",
+      url: `https://${site.domain}`,
+      image: `https://${site.domain}/opengraph-image`,
       applicationCategory: "ProductivityApplication",
       operatingSystem: "iOS, Android",
       description: site.description,
       inLanguage: "es-AR",
+      author: { "@type": "Organization", name: "Ynara" },
       offers: pricing.plans.map((p) => ({
         "@type": "Offer",
         name: p.name,
         price: p.name === "Free" ? "0" : "4",
         priceCurrency: "USD",
+        availability: "https://schema.org/PreOrder",
       })),
     },
   ],
@@ -74,17 +77,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
   themeColor: "#0a0c12",
   colorScheme: "dark",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={`${fontDisplay.variable} ${fontBody.variable}`}>
       <body>
-        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD estático y controlado */}
         <script
           type="application/ld+json"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD estático y controlado
@@ -96,10 +98,9 @@ export default function RootLayout({
         >
           Saltar al contenido
         </a>
-        <AtmosphereDynamic />
+        <Field />
         <SmoothScroll />
         <Preloader />
-        <MemoryThread />
         <SiteNav />
         <main id="top" tabIndex={-1} className="outline-none">
           {children}

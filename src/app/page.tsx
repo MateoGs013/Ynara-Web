@@ -1,25 +1,28 @@
-import { CtaSection } from "@/components/sections/CtaSection";
-import { FeelSection } from "@/components/sections/FeelSection";
-import { Hero } from "@/components/sections/Hero";
-import { MemorySection } from "@/components/sections/MemorySection";
-import { NameSection } from "@/components/sections/NameSection";
-import { PricingSection } from "@/components/sections/PricingSection";
-import { ProblemSection } from "@/components/sections/ProblemSection";
-import { ProductSection } from "@/components/sections/ProductSection";
-import { StatementSection } from "@/components/sections/StatementSection";
+import { Closing } from "@/components/scenes/Closing";
+import { Genesis } from "@/components/scenes/Genesis";
+import { Intersection } from "@/components/scenes/Intersection";
+import { Memory } from "@/components/scenes/Memory";
+import { Modes } from "@/components/scenes/Modes";
+import { Pricing } from "@/components/scenes/Pricing";
+import { TheName } from "@/components/scenes/TheName";
+import { Voice } from "@/components/scenes/Voice";
 
+/**
+ * El viaje continuo: 8 capítulos tejidos sobre UNA forma de luz persistente que
+ * morfea con el scroll. Cada capítulo entra con un panel wipe (alma tiwis). No
+ * son cajas: son estados del mismo organismo.
+ */
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <NameSection />
-      <ProblemSection />
-      <StatementSection />
-      <ProductSection />
-      <MemorySection />
-      <FeelSection />
-      <PricingSection />
-      <CtaSection />
+      <Genesis />
+      <TheName />
+      <Intersection />
+      <Modes />
+      <Memory />
+      <Voice />
+      <Pricing />
+      <Closing />
     </>
   );
 }

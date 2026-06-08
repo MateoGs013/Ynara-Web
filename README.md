@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ynara · sitio
 
-## Getting Started
+Experiencia web inmersiva para **Ynara** — el asistente personal adaptativo con
+memoria propia (tesis Da Vinci 2026). No es una página de secciones: es **un objeto
+vivo de luz** que se transforma mientras se recorre.
 
-First, run the development server:
+## La idea
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Una sola **forma generativa 3D** (WebGL) persiste de principio a fin y **morfea con
+el scroll** a través de 8 capítulos — olas de luz → red de puntos → plenitud. La
+tipografía masiva entra como voz. Paleta de marca _locked_: el drama nace del
+contraste de valor, la escala y el movimiento, no de colores nuevos.
+
+## Stack
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · three.js 0.164 ·
+GSAP 3.15 (ScrollTrigger + SplitText) · Lenis · Biome.
+
+## Arquitectura
+
+```
+src/
+  app/                  layout (Field + MasterScroll persistentes) · page (8 escenas) · SEO
+  components/
+    field/              LA FORMA y su motor
+      LightForm.tsx     terreno de luz WebGL (simplex-noise Ashima, morfeo, mouse)
+      fieldState.ts     estado compartido (single source of truth del morfeo)
+      MasterScroll.tsx  UN ScrollTrigger scrubbeado que tweenea fieldTarget por capítulo
+      Field.tsx         canvas fija detrás de todo + base void + grano
+    scenes/             los 8 capítulos tejidos sobre la forma (Scene + SplitReveal)
+    motion/ ui/ site/   primitivos (RevealText, Magnetic, Button, YnaraMark, nav, footer)
+  content/ynara.ts      banco de copy (voz rioplatense)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+El scroll no mueve cajas: **transforma la forma y el tipo**. `MasterScroll` conduce
+los uniforms (amplitud, estado wave↔dots↔plano, brillo, tint de modo, cámara);
+`LightForm` los lee y lerpea cada frame.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Desarrollo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm dev        # http://localhost:3000
+pnpm build      # build de producción
+pnpm typecheck  # tsc --noEmit
+pnpm lint       # biome
+```
 
-## Learn More
+## Calidad
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+a11y AA (reduced-motion = frame estático + contenido completo, scrims de legibilidad,
+foco visible, semántica), perf (DPR cap, pausa fuera de viewport, dispose, malla
+liviana en mobile), SEO (metadata + JSON-LD + OG + sitemap/robots), responsive real.

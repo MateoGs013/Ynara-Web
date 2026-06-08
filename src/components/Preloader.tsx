@@ -135,7 +135,7 @@ export function Preloader() {
                 "radial-gradient(circle, rgba(75,126,230,0.35), rgba(47,90,166,0.10) 42%, transparent 70%)",
             }}
           />
-          <svg viewBox="0 0 300 300" className="absolute inset-0 h-full w-full" aria-hidden>
+          <svg viewBox="0 0 300 300" className="absolute inset-0 h-full w-full" aria-hidden="true">
             {POINTS.map((p, i) => (
               <line
                 // biome-ignore lint/suspicious/noArrayIndexKey: puntos estáticos

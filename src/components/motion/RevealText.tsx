@@ -85,9 +85,7 @@ export function RevealText({
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: palabras estáticas
           <span key={i}>
-            <span
-              style={{ display: "inline-block", overflow: "hidden", verticalAlign: "top" }}
-            >
+            <span style={{ display: "inline-block", overflow: "hidden", verticalAlign: "top" }}>
               <span
                 data-word
                 className={accent ? "text-gradient-blue" : undefined}

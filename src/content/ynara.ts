@@ -26,7 +26,10 @@ export const nav = {
 
 export const hero = {
   eyebrow: "Asistente personal adaptativo",
+  wordmark: "Ynara",
   title: "La única *presencia* que necesitás.",
+  statement:
+    "Tu asistente personal con memoria propia. Organiza, recuerda y te acompaña — todo desde una sola presencia, no desde diez apps sueltas.",
   lead: "Organiza, recuerda y te acompaña: productividad, memoria y bienestar en una sola presencia. Los tres ejes que ninguna otra app cruza.",
   badge: "v0.1 · privado · self-hosted",
   ctaPrimary: { label: "Sumate a la lista", href: "#descargar" },
@@ -35,21 +38,26 @@ export const hero = {
 
 export const name = {
   eyebrow: "El nombre",
+  wordmark: "Ynara",
+  statement:
+    "No es una herramienta más en tu vida: es una presencia. Una sola, estable, que está cuando la necesitás y se corre cuando no.",
   title: "Una palabra nueva, con raíces antiguas.",
-  lead: "Ynara suena a algo que siempre existió. No existe en ningún idioma previo: está construida con piezas reales.",
+  lead: "Ynara no existe en ningún idioma previo. Es una construcción de marca, inspirada en raíces reales que ya cargan el sentido de lo uno y de la presencia.",
   etymology: [
     {
-      part: "*aen-",
-      origin: "Raíz celta",
-      meaning: "De la idea indoeuropea de “uno, único”. De ahí el irlandés óen y el galés un.",
+      part: "óen · un",
+      origin: "Raíz celta de “uno / único”",
+      meaning:
+        "Inspirada en la idea de unidad: el irlandés óen y el galés un. La presencia que es una, no muchas.",
     },
     {
       part: "-ara",
-      origin: "Sufijo indoeuropeo",
-      meaning: "Marca presencia sostenida y condición femenina. Resuena en Clara, Lara, Bárbara.",
+      origin: "Sufijo de presencia femenina",
+      meaning:
+        "El cierre que da cuerpo y permanencia. Resuena en nombres como Clara, Lara o Bárbara.",
     },
   ],
-  result: "“La que es única.” La presencia de lo uno.",
+  result: "Ynara: la presencia que es una.",
   pull: "El usuario no suma una herramienta a su vida. Instala una presencia.",
   qualities: [
     {
@@ -69,6 +77,9 @@ export const name = {
 
 export const problem = {
   eyebrow: "El problema",
+  wordmark: "Una.",
+  statement:
+    "Saltás entre agenda, notas, recordatorios, una IA y una app de bienestar. Ninguna se habla con la otra: el pegamento sos vos. Ynara es una sola, y vive justo donde se cruzan las tres capas que nadie más conecta.",
   title: "Vivís entre ocho apps. Ynara es una.",
   lead: "Agenda, notas, recordatorios, una app de bienestar, una IA para preguntar. Cinco a ocho herramientas que no se hablan entre sí. Vos sos el pegamento.",
   layers: [
@@ -86,6 +97,10 @@ export const problem = {
 
 export const product = {
   eyebrow: "Cinco modos, una identidad",
+  wordmark: "Modos",
+  statement:
+    "Cinco modos que se activan solos según el contexto. No configurás nada: Ynara entiende si estás produciendo, estudiando o necesitás un respiro, y cambia con vos.",
+  hint: "Arrastrá para recorrerlos →",
   title: "Se adapta sola. Vos no configurás nada.",
   lead: "Un solo producto con cinco modos que se activan según el contexto. No hay versiones separadas: la propuesta es la integración.",
   modes: [
@@ -129,6 +144,9 @@ export const product = {
 
 export const memory = {
   eyebrow: "Memoria",
+  wordmark: "Memoria",
+  statement:
+    "Te recuerda de verdad: nombres, charlas, tu forma de hacer las cosas. Y es tuyo — la inferencia corre on-prem, privada. Nada se vende, nada sale del perímetro.",
   title: "Recuerda por vos. Con discreción, no con vigilancia.",
   lead: "Tu contexto es tuyo. La inferencia corre sobre infraestructura propia, on-prem. Nada se vende, nada sale del perímetro.",
   layers: [
@@ -142,6 +160,9 @@ export const memory = {
 
 export const feel = {
   eyebrow: "La voz",
+  wordmark: "Voz",
+  statement:
+    "Habla como vos: rioplatense, directa, sin sermones. Cierra una tarea en un mensaje y, cuando no sabe algo, te lo dice.",
   title: "Habla como vos. Sin vueltas, sin sermones.",
   lead: "Rioplatense natural. Directa cuando hay que cerrar una tarea, cálida cuando hace falta. Honesta cuando no sabe algo.",
   chats: [
@@ -165,6 +186,9 @@ export const feel = {
 
 export const pricing = {
   eyebrow: "Precio",
+  wordmark: "Gratis",
+  statement:
+    "Los cinco modos y la memoria reciente, gratis para siempre. Premium suma memoria extendida, modos avanzados y multidispositivo por USD 4–6 al mes.",
   title: "Empezá gratis. Subí cuando lo necesites.",
   lead: "Funciones core gratis, para siempre. La suscripción suma memoria extendida y modos avanzados.",
   plans: [
@@ -196,6 +220,8 @@ export const pricing = {
 export const cta = {
   eyebrow: "Disponible pronto",
   title: "Pensar mejor, recordar siempre.",
+  statement:
+    "La única presencia que necesitás. MVP en el segundo semestre de 2026, para iOS y Android. Sumate a la lista y entrá entre los primeros.",
   lead: "La única presencia que necesitás. MVP en el segundo semestre de 2026, para iOS y Android.",
   primary: { label: "Sumate a la lista", href: "mailto:hola@ynara.app" },
   stores: ["App Store · Próximamente", "Google Play · Próximamente"],
