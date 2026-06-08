@@ -42,3 +42,6 @@ next-env.d.ts
 
 # visual verification harness (dev tooling, not shipped)
 /.shots
+
+# local agent/orchestration tooling state
+/.omc
