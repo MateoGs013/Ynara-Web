@@ -38,6 +38,16 @@ export type FieldState = {
   reveal: number;
   /** Multiplicador de la perturbación por mouse (algunos capítulos la suben/bajan). */
   mouse: number;
+  /** Intersección: 0 = olas base · 1 = tres corrientes direccionales. */
+  streams: number;
+  /** Intersección: 0 = corrientes separadas · 1 = fundidas en un pico central. */
+  converge: number;
+  /** Morfeo: 0 = nodos sueltos · 1 = nodos UNIDOS por una retícula de líneas. */
+  connect: number;
+  /** Morfeo: 0 = campo vivo · 1 = plano sólido de un color sereno (calma total). */
+  solid: number;
+  /** Intensidad de las curvas de nivel sobre el terreno (linework del gráfico). */
+  contour: number;
   /** Cámara: altura, distancia y punto de mira (parallax sutil por capítulo). */
   camY: number;
   camZ: number;
@@ -70,6 +80,11 @@ export const BASE_FIELD: FieldState = {
   tint: { ...TINT.blue },
   reveal: 0.0,
   mouse: 1.0,
+  streams: 0.0,
+  converge: 0.0,
+  connect: 0.0,
+  solid: 0.0,
+  contour: 1.0,
   camY: 0.85,
   camZ: 5.0,
   lookY: -0.4,

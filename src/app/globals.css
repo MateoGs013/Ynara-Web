@@ -35,6 +35,11 @@
   /* ---- Periwinkle: acento secundario sobre nocturno (eyebrows, hairlines) ---- */
   --c-acc: #8b9ad0;
 
+  /* ---- Paleta de identidad 2026 (planos, sin gradiente decorativo) ---- */
+  --c-indigo: #434a82; /* índigo */
+  --c-blue-violet: #5c6fb3; /* azul violáceo */
+  --c-violet: #8165a3; /* violeta — ACENTO DE SEÑAL */
+
   /* ---- Stops de gradiente por-modo (tints, no rellenos) ---- */
   --c-violet-from: #8c63b8;
   --c-violet-to: #7c4fa3;
@@ -157,6 +162,10 @@ html {
   font-size: 16px;
   scroll-behavior: auto; /* Lenis maneja el smooth scroll */
   -webkit-text-size-adjust: 100%;
+  /* `clip` (no `hidden`) no crea contenedor de scroll → no rompe position:sticky
+     de las escenas, pero mata el rubber-band horizontal en reduced-motion donde
+     el contenedor de scroll es el html nativo (Lenis off). */
+  overflow-x: clip;
 }
 
 body {
@@ -241,6 +250,50 @@ html.intro-lock body {
  * que TODA sección usa). Tailwind no genera estas escalas custom.
  * ========================================================================== */
 @layer utilities {
+  /* ---- Grid editorial de 12 columnas (gramática de layout Tiwis) ----
+     Base 1440: gap/padding 1.389vw = 20px. Los hijos se colocan por
+     grid-column EXPLÍCITO (asimétrico, nunca auto-flow). En <=767 colapsa a
+     6 columnas y, por defecto, cada hijo ocupa todo el ancho (apila en filas);
+     las secciones reescriben colocaciones puntuales en su propio media query. */
+  .grid12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 1.389vw;
+    row-gap: 1.389vw;
+    padding-left: 1.389vw;
+    padding-right: 1.389vw;
+  }
+  @media (max-width: 767px) {
+    .grid12 {
+      grid-template-columns: repeat(6, 1fr);
+      column-gap: 4.5vw;
+      row-gap: 4.5vw;
+      padding-left: 5vw;
+      padding-right: 5vw;
+    }
+    .grid12 > * {
+      grid-column: 1 / -1;
+    }
+  }
+  /* Hairline editorial: 1px que se funde sobre el campo (mix-blend), anima width 0→100% */
+  .u-hairline {
+    display: block;
+    width: 0%;
+    height: 1px;
+    background: var(--c-acc);
+    mix-blend-mode: screen;
+  }
+  /* Etiqueta de margen: el tag diminuto en mayúsculas anclado a una columna */
+  .u-tag {
+    margin: 0;
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: clamp(0.62rem, 0.694vw, 0.78rem);
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--c-acc);
+  }
+
   /* ---- Escala tipográfica ---- */
   .text-display {
     font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
@@ -435,6 +488,25 @@ html.intro-lock body {
     color: var(--c-text-bright);
     white-space: nowrap;
   }
+  /* Mobile: el tipo soberano envuelve y se ajusta al ancho — `nowrap` a 26vw
+     recortaba "Memoria"/"Productividad" por ambos bordes en 390px (clip invisible). */
+  @media (max-width: 640px) {
+    .text-sovereign {
+      font-size: clamp(2.5rem, 17vw, 6rem);
+      white-space: normal;
+      overflow-wrap: anywhere;
+      line-height: 0.85;
+    }
+    /* Filmstrip de Modos: el nombre del modo debe LEERSE entero (es navegación,
+       no clímax). A 9vw "Productividad" (13 chars) entra en UNA línea hasta
+       ~360px — sin el corte feo "Productivid/ad" del wrap soberano. */
+    .mode-title {
+      font-size: clamp(1.5rem, 9vw, 2.5rem);
+      white-space: nowrap;
+      overflow-wrap: normal;
+      line-height: 1;
+    }
+  }
 
   /* ---- Scrims: contraste AA detrás del texto sobre la forma viva ---- */
   .scrim-radial::before {
@@ -543,10 +615,13 @@ html.intro-lock body {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  /* Sin morfeo scrubbeado, las escenas no necesitan alto extra: colapsan a 1
-     viewport (el contenido fluye normal, sin huecos vacíos de scroll). */
-  .scene {
-    min-height: 100svh !important;
+  /* Sin scroll-reveal (el JS hace early-return), NINGÚN elemento debe quedar
+     atrapado en su estado inicial oculto. Lo único oculto por CSS es la hairline
+     del Demo (las demás se ocultan por gsap.set, que no corre en reduced-motion).
+     Las reglas/ledger usan scaleX vía GSAP → ya quedan a escala 1. El marquee
+     frena su loop en su propio media query local. */
+  .vc-hairline {
+    width: 100% !important;
   }
 }
 

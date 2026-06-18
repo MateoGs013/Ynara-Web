@@ -43,7 +43,43 @@ export default function SmoothScroll() {
     gsap.ticker.lagSmoothing(0);
     document.documentElement.classList.add("lenis");
 
+    // COORDINACIÓN: re-medir TODOS los ScrollTriggers (reveals, el pin
+    // horizontal y el endY del campo) contra el layout FINAL — después de que
+    // las fuentes ajustan las alturas del texto y el canvas montó. Sin esto las
+    // posiciones se calculan contra un layout a medio asentar y los reveals/pin
+    // quedan corridos. Varios refreshes cubren mounts/fuentes/imagenes tardías.
+    const refresh = () => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    };
+    const settleTimers = [
+      window.setTimeout(refresh, 350),
+      window.setTimeout(refresh, 1200),
+    ];
+    document.fonts?.ready?.then(refresh).catch(() => {});
+    window.addEventListener("load", refresh);
+
+    // Anclas in-page → scroll suave con Lenis, aterrizando DESPUÉS del wipe de la
+    // sección (si lo tiene) para no caer en el panel de transición vacío.
+    const onAnchorClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey) return;
+      const a = (e.target as HTMLElement | null)?.closest?.(
+        'a[href^="#"]',
+      ) as HTMLAnchorElement | null;
+      const id = a?.getAttribute("href")?.slice(1);
+      if (!id) return; // ignora href="#" (placeholders)
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const wipe = target.querySelector<HTMLElement>("[data-wipe]");
+      lenis.scrollTo(target, { offset: wipe ? wipe.offsetHeight : 0 });
+    };
+    document.addEventListener("click", onAnchorClick);
+
     return () => {
+      document.removeEventListener("click", onAnchorClick);
+      window.removeEventListener("load", refresh);
+      settleTimers.forEach(clearTimeout);
       gsap.ticker.remove(raf);
       lenis.destroy();
       window.__lenis = undefined;

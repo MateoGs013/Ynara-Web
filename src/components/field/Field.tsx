@@ -2,34 +2,39 @@
 
 import dynamic from "next/dynamic";
 
-// La forma es client-only (WebGL). Sin SSR para el canvas.
-const LightForm = dynamic(() => import("./LightForm"), { ssr: false });
+// El campo es client-only (WebGL). Sin SSR para el canvas.
+const CascadeField = dynamic(() => import("./CascadeField"), { ssr: false });
 
 /**
- * Capa de fondo persistente: la FORMA de luz fija detrás de todo el contenido,
- * sobre la base void de marca. Vive de principio a fin; el scroll la morfea
- * (ver MasterScroll). El grano y la viñeta dan textura nocturna.
+ * Capa de fondo persistente: el CAMPO CASCADA fijo detrás de todo el contenido.
+ * Vive de principio a fin; el scroll lo conduce por UN timeline maestro
+ * (olas → giro cenital → plano → puntos → tablero → onda tenue) que COMPLETA
+ * exactamente donde arranca la sección horizontal (`[data-cascade-end]`).
+ * Viñeta y grano dan la textura nocturna sobre el carbón azulado.
  */
 export function Field() {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10">
-      {/* Base void — casi negro, el lienzo del drama de valor. */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "radial-gradient(120% 80% at 50% 0%, #0c1018 0%, #0a0c12 55%, #08090e 100%)",
-        }}
-      />
-      {/* La forma. */}
       <div className="absolute inset-0">
-        <LightForm className="h-full w-full" />
+        <CascadeField bare endSelector="[data-cascade-end]" />
       </div>
-      {/* Viñeta para hundir los bordes y concentrar la luz al centro. */}
+      {/* Legibilidad SIN costuras: el oscurecido vive en la capa FIJA continua
+          (no por sección → nunca aparece una línea al scrollear). Oscurece el
+          lado izquierdo (donde vive el texto) y deja la derecha limpia para
+          que el campo se vea. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(8,9,14,0.55) 100%)",
+            "linear-gradient(100deg, rgba(8,10,16,0.7) 0%, rgba(8,10,16,0.34) 30%, rgba(8,10,16,0) 56%)",
+        }}
+      />
+      {/* Viñeta muy suave para asentar los bordes (sin tapar el campo). */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(130% 120% at 50% 45%, transparent 72%, rgba(8,9,14,0.4) 100%)",
         }}
       />
       {/* Grano sutil. */}

@@ -30,13 +30,14 @@ const jsonLd = {
       description: site.description,
       inLanguage: "es-AR",
       author: { "@type": "Organization", name: "Ynara" },
-      offers: pricing.plans.map((p) => ({
-        "@type": "Offer",
-        name: p.name,
-        price: p.name === "Free" ? "0" : "4",
+      offers: {
+        "@type": "AggregateOffer",
+        lowPrice: "0",
+        highPrice: "6",
         priceCurrency: "USD",
+        offerCount: pricing.plans.length,
         availability: "https://schema.org/PreOrder",
-      })),
+      },
     },
   ],
 };
@@ -44,7 +45,7 @@ const jsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL(`https://${site.domain}`),
   title: {
-    default: "Ynara · La única presencia que necesitás",
+    default: "Ynara · Tu asistente personal con memoria",
     template: "%s · Ynara",
   },
   description: site.description,
@@ -66,12 +67,12 @@ export const metadata: Metadata = {
     locale: "es_AR",
     url: `https://${site.domain}`,
     siteName: "Ynara",
-    title: "Ynara · La única presencia que necesitás",
+    title: "Ynara · Tu asistente personal con memoria",
     description: site.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ynara · La única presencia que necesitás",
+    title: "Ynara · Tu asistente personal con memoria",
     description: site.description,
   },
 };
@@ -85,7 +86,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={`${fontDisplay.variable} ${fontBody.variable}`}>
+    <html lang="es-AR" className={`${fontDisplay.variable} ${fontBody.variable}`}>
       <body>
         <script
           type="application/ld+json"

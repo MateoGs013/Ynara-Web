@@ -19,6 +19,9 @@ const VERT = /* glsl */ `
   uniform float uNoiseScale;
   uniform float uNoiseSpeed;
   uniform float uFlat;
+  uniform float uSolid;
+  uniform float uStreams;
+  uniform float uConverge;
   uniform vec2  uMouse;
   uniform float uMouseStrength;
   varying float vH;
@@ -59,15 +62,41 @@ const VERT = /* glsl */ `
     return d;
   }
 
+  // Tres corrientes direccionales (120° entre sí) que CONVERGEN hacia el centro.
+  // El diferencial de Ynara: tres capas que nadie más conecta, hechas una.
+  float streams(vec2 p, float conv){
+    float h = 0.0;
+    for(int i = 0; i < 3; i++){
+      float a = float(i) * 2.0943951 + 0.5;
+      vec2 dir  = vec2(cos(a), sin(a));
+      vec2 perp = vec2(-dir.y, dir.x);
+      float along = dot(p, dir);
+      float trans = dot(p, perp);
+      float travel = along * 0.5 - uTime * 0.5 * uNoiseSpeed;
+      float wave = sin(travel) * 0.5 + 0.5;
+      wave *= wave;                          // crestas más definidas
+      float laneW = mix(6.0, 3.4, conv);     // se angosta pero NO se apilan en el centro
+      float lane = exp(-(trans * trans) / (laneW * laneW));
+      h += wave * lane * 0.5;                // amplitud acotada por corriente
+    }
+    float r2 = dot(p, p);
+    float peakW = mix(5.0, 2.8, conv);
+    float peak = exp(-r2 / (peakW * peakW)) * conv * 0.45;   // realce central chico
+    return h + peak;
+  }
+
   void main(){
     vUv = uv;
     float h = field(position.xy);
+    if (uStreams > 0.001) {
+      h = mix(h, streams(position.xy, uConverge), uStreams);
+    }
     // Hinchazón suave y ANCHA que sigue al cursor (no un bump filoso).
     float md = distance(position.xy, uMouse);
     float swell = smoothstep(4.2, 0.0, md) * uMouseStrength;
     vMouse = swell;
     h += swell * 0.95;
-    h *= (1.0 - uFlat);                 // aplana hacia plano calmo
+    h *= (1.0 - clamp(uFlat + uSolid, 0.0, 1.0)); // aplana hacia plano / sólido calmo
     vH = h;
     vec3 pos = position;
     pos.z += h * uAmp;
@@ -81,6 +110,9 @@ const FRAG = /* glsl */ `
   uniform float uBrightness;
   uniform float uBand;
   uniform float uDots;
+  uniform float uConnect;
+  uniform float uSolid;
+  uniform float uContour;
   uniform float uGridScale;
   uniform float uDotRadius;
   uniform float uTintMix;
@@ -96,49 +128,71 @@ const FRAG = /* glsl */ `
   void main(){
     float t = smoothstep(-1.1, 1.8, vH);
 
-    // Rampa de valor: void → azul de marca → cresta brillante. EL DRAMA ES VALOR.
+    // ── Rampa DUSK: valle slate-púrpura → cuerpo slate-azul → cresta malva/rosa.
+    // El drama es VALOR + tono cálido en las crestas (gráfico de marca de Ynara).
     vec3 col = mix(uLow, uMid, smoothstep(0.0, 0.55, t));
     col = mix(col, uHigh, smoothstep(0.5, 1.0, t));
 
     float glow = pow(t, 2.0);
 
-    // Bandas de luz que fluyen por las crestas (infinitefield).
+    // Sheen lavanda en las crestas (no revienta a blanco — bajo contraste).
+    col += vec3(0.16, 0.17, 0.22) * pow(t, 3.0);
+
+    // Bandas de luz que fluyen por las crestas (sutiles, dusk).
     float s = fract(uTime * 0.05 + vUv.y * 3.0 - vH * 0.16);
     float band = smoothstep(0.0, 0.5, s) * (1.0 - smoothstep(0.5, 1.0, s));
-    glow += band * pow(t, 3.0) * 0.7 * uBand;
+    col += uHigh * band * pow(t, 3.0) * 0.22 * uBand;
+
+    // ── CURVAS DE NIVEL: linework fino que recorre el terreno (el del gráfico).
+    float cn = vH * 3.4;
+    float cf = abs(fract(cn) - 0.5);
+    float contour = (1.0 - smoothstep(0.0, 0.055, cf)) * uContour;
+    col += vec3(0.62, 0.65, 0.82) * contour * (0.30 + glow * 0.5);
 
     // Realce donde está el cursor.
-    glow += vMouse * 0.45;
+    glow += vMouse * 0.4;
 
-    // Tint de modo — SUTIL (la forma sigue azul-dominante).
-    col = mix(col, uTint * (0.55 + glow), uTintMix);
+    // Tint de modo — SUTIL.
+    col = mix(col, uTint * (0.6 + glow), uTintMix * 0.5);
 
-    // Borde que se funde en el void (la forma no tiene marco).
+    // Borde que se funde en el fondo dusk (la forma no tiene marco).
     float ex = smoothstep(0.0, 0.14, vUv.x) * smoothstep(1.0, 0.86, vUv.x);
     float ey = smoothstep(0.0, 0.07, vUv.y) * smoothstep(1.0, 0.90, vUv.y);
     float edge = ex * ey;
 
-    // Red de puntos de luz (capítulo Memoria): la misma malla → constelación.
+    // ── NODOS + CONEXIONES (Memoria): la malla se vuelve red de nodos UNIDOS.
     vec2 gp = fract(vUv * uGridScale) - 0.5;
     float dd = length(gp);
     float dotShape = 1.0 - smoothstep(uDotRadius * 0.5, uDotRadius, dd);
+    // retícula de líneas que conectan los nodos (ejes de cada celda).
+    float lh = 1.0 - smoothstep(0.0, 0.05, abs(gp.y));
+    float lv = 1.0 - smoothstep(0.0, 0.05, abs(gp.x));
+    float link = max(lh, lv) * uConnect;
 
-    // Contribución SUPERFICIE continua (olas).
-    vec3  colSurface = col * (0.30 + glow * 1.05);
-    float aSurface   = 0.04 + glow * 0.62;
+    // Contribución SUPERFICIE continua (olas dusk).
+    vec3  colSurface = col * (0.7 + glow * 0.7);
+    float aSurface   = (0.5 + glow * 0.5) * 0.92;
 
-    // Contribución CONSTELACIÓN: cada punto es luz con piso de brillo (no se apaga).
-    vec3  colDots = col * (0.60 + glow * 1.5) * dotShape;
-    float aDots   = dotShape * (0.16 + glow * 0.78);
+    // Contribución RED: nodos brillantes + líneas de conexión.
+    vec3  nodeCol = mix(col, vec3(0.80, 0.82, 0.96), 0.45);
+    vec3  colDots = nodeCol * (dotShape + link * 0.55) * (0.7 + glow * 1.1);
+    float aDots   = clamp(dotShape * (0.55 + glow * 0.7) + link * (0.22 + glow * 0.3), 0.0, 1.0);
 
-    // Mezcla superficie ↔ constelación según el morfeo.
-    vec3  outc  = mix(colSurface, colDots, uDots) * uBrightness;
+    // Mezcla superficie ↔ red según el morfeo.
+    vec3  outc  = mix(colSurface, colDots, uDots);
     float alpha = mix(aSurface, aDots, uDots);
 
-    // Borde que se funde + génesis: la luz crece radialmente desde el centro.
+    // ── PLANO SÓLIDO de calma: todo colapsa a un único color sereno, pleno.
+    vec3 calm = vec3(0.30, 0.27, 0.40);
+    outc  = mix(outc, calm, uSolid);
+    alpha = mix(alpha, 1.0, uSolid);
+
+    outc *= uBrightness;
+
+    // Borde que se funde + génesis radial (el plano sólido NO se recorta).
     float rad  = distance(vUv, vec2(0.5));
     float grow = smoothstep(0.0, 1.0, uReveal * 1.7 - rad);
-    alpha *= edge * grow;
+    alpha *= mix(edge * grow, 1.0, uSolid);
 
     gl_FragColor = vec4(outc, alpha);
   }
@@ -186,19 +240,25 @@ export default function LightForm({ className, quality }: Props) {
       uNoiseScale: { value: fieldTarget.noiseScale },
       uNoiseSpeed: { value: fieldTarget.noiseSpeed },
       uFlat: { value: fieldTarget.flat },
+      uSolid: { value: fieldTarget.solid },
+      uStreams: { value: fieldTarget.streams },
+      uConverge: { value: fieldTarget.converge },
       uMouse: { value: new THREE.Vector2(-99, -99) },
       uMouseStrength: { value: 0 },
       uBrightness: { value: fieldTarget.brightness },
       uBand: { value: fieldTarget.band },
       uDots: { value: fieldTarget.dots },
+      uConnect: { value: fieldTarget.connect },
+      uContour: { value: fieldTarget.contour },
       uGridScale: { value: fieldTarget.gridScale },
       uDotRadius: { value: fieldTarget.dotRadius },
       uTintMix: { value: fieldTarget.tintMix },
       uTint: { value: new THREE.Color(fieldTarget.tint.r, fieldTarget.tint.g, fieldTarget.tint.b) },
       uReveal: { value: 0 },
-      uLow: { value: new THREE.Color(0.02, 0.04, 0.1) },
-      uMid: { value: new THREE.Color(0.16, 0.32, 0.72) },
-      uHigh: { value: new THREE.Color(0.62, 0.76, 1.0) },
+      // Paleta DUSK del gráfico de marca: valle slate-púrpura → slate-azul → malva/rosa.
+      uLow: { value: new THREE.Color(0.16, 0.17, 0.26) },
+      uMid: { value: new THREE.Color(0.4, 0.46, 0.7) },
+      uHigh: { value: new THREE.Color(0.74, 0.6, 0.74) },
     };
     const material = new THREE.ShaderMaterial({
       vertexShader: VERT,
@@ -206,7 +266,7 @@ export default function LightForm({ className, quality }: Props) {
       transparent: true,
       depthWrite: false,
       depthTest: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       uniforms: u,
     });
     const mesh = new THREE.Mesh(geometry, material);
@@ -217,6 +277,8 @@ export default function LightForm({ className, quality }: Props) {
     const resize = () => {
       const w = canvas.clientWidth || window.innerWidth;
       const h = canvas.clientHeight || window.innerHeight;
+      // Recalcular DPR por si cambió de monitor (relevante en demos/proyector).
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 1.75));
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
@@ -245,9 +307,14 @@ export default function LightForm({ className, quality }: Props) {
       u.uNoiseScale.value = lerp(u.uNoiseScale.value, fieldTarget.noiseScale, k);
       u.uNoiseSpeed.value = lerp(u.uNoiseSpeed.value, fieldTarget.noiseSpeed, k);
       u.uFlat.value = lerp(u.uFlat.value, fieldTarget.flat, k);
+      u.uSolid.value = lerp(u.uSolid.value, fieldTarget.solid, k);
+      u.uStreams.value = lerp(u.uStreams.value, fieldTarget.streams, k);
+      u.uConverge.value = lerp(u.uConverge.value, fieldTarget.converge, k);
       u.uBrightness.value = lerp(u.uBrightness.value, fieldTarget.brightness, k);
       u.uBand.value = lerp(u.uBand.value, fieldTarget.band, k);
       u.uDots.value = lerp(u.uDots.value, fieldTarget.dots, k);
+      u.uConnect.value = lerp(u.uConnect.value, fieldTarget.connect, k);
+      u.uContour.value = lerp(u.uContour.value, fieldTarget.contour, k);
       u.uGridScale.value = lerp(u.uGridScale.value, fieldTarget.gridScale, k);
       u.uDotRadius.value = lerp(u.uDotRadius.value, fieldTarget.dotRadius, k);
       u.uTintMix.value = lerp(u.uTintMix.value, fieldTarget.tintMix, k);

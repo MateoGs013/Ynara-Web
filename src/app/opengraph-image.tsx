@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/content/ynara";
 
-export const alt = "Ynara · La única presencia que necesitás";
+export const alt = "Ynara · Tu asistente personal con memoria";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -43,7 +43,7 @@ export default function OpengraphImage() {
         Ynara
       </div>
       <div style={{ display: "flex", marginTop: 8, fontSize: 30, color: "#8b9ad0" }}>
-        Organiza · Recuerda · Acompaña · Aconseja
+        Organiza · Recuerda · Acompaña
       </div>
       <div
         style={{
