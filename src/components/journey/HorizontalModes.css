@@ -178,3 +178,28 @@
     .h-slide { flex: none; width: 100%; height: auto; min-height: 60svh; }
     .h-slide.side { min-height: 30svh; }
   }
+
+  /* Garantía de visibilidad en mobile / touch / reduced-motion. El viaje
+     horizontal (desktop, puntero fino) esconde el contenido de las cards con
+     gsap.set(opacity:0) + SplitText antes de revelarlo por scroll. Al pasar a
+     mobile (carga directa o redimensionando), esos estilos inline podían quedar
+     y dejar los títulos/labels/trazos invisibles. Estas reglas !important ganan
+     sobre el inline y aseguran que el stack vertical SIEMPRE se vea completo. */
+  @media (max-width: 767px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .hm-pin-label,
+    .hm-pin-text,
+    .h-slide__claim,
+    .h-slide__word,
+    .h-slide__label,
+    .h-slide__features li,
+    .slide-side__label {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .slide-side__svg path,
+    .slide-side__svg circle,
+    .slide-side__svg line,
+    .slide-side__svg polyline {
+      stroke-dashoffset: 0 !important;
+    }
+  }

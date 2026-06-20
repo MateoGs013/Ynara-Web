@@ -2,8 +2,7 @@
 
 import { useRef } from "react";
 import { problem } from "@/content/ynara";
-import { gsap, reducedMotion, registerGsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/motion";
-import { lineReveal } from "@/lib/reveal";
+import { gsap, reducedMotion, registerGsap, ScrollTrigger, useGSAP } from "@/lib/motion";
 import "./HorizontalModes.css";
 
 /**
@@ -71,7 +70,6 @@ export function HorizontalModes() {
   const rootRef = useRef<HTMLElement>(null);
   const textPinRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const claimSplitsRef = useRef<Map<number, SplitText>>(new Map());
   const revealedRef = useRef<Set<number>>(new Set());
   const firstCardTweenRef = useRef<gsap.core.Tween | null>(null);
 
@@ -98,13 +96,23 @@ export function HorizontalModes() {
   );
 
   function setupMobileFallback() {
-    // Mobile / touch: stack vertical con el contenido SIEMPRE visible.
-    // Antes se enmascaraba cada card con SplitText y se revelaba en "top 80%";
-    // si ese ScrollTrigger no disparaba (Lenis + layout tardío del stack), las
-    // cards de abajo quedaban ocultas para siempre — solo se veía la primera.
-    // En mobile la legibilidad manda: no escondemos nada. El reveal con máscaras
-    // es exclusivo del viaje horizontal (desktop, puntero fino). El CSS ya deja
-    // el stack legible, así que acá no hace falta tocar el DOM.
+    // Mobile / touch: stack vertical con el contenido SIEMPRE visible. El reveal
+    // por scroll es exclusivo del viaje horizontal (desktop). Acá NO escondemos
+    // nada y, además, limpiamos ACTIVAMENTE cualquier estilo inline que el viaje
+    // horizontal pudiera haber dejado al redimensionar desktop->mobile (los
+    // gsap.set(opacity:0)/transform no siempre los revierte matchMedia). clearProps
+    // los borra y el contenido vuelve a su estado natural; el CSS !important del
+    // breakpoint mobile es la garantía final de visibilidad.
+    for (const el of slideRefs.current) {
+      if (!el) continue;
+      const targets = el.querySelectorAll<HTMLElement>(
+        ".h-slide__claim, .h-slide__word, .h-slide__label, .h-slide__features li, .slide-side__label",
+      );
+      const strokes = el.querySelectorAll<SVGGeometryElement>(
+        ".slide-side__svg path, .slide-side__svg circle, .slide-side__svg line, .slide-side__svg polyline",
+      );
+      gsap.set([...targets, ...strokes], { clearProps: "all" });
+    }
   }
 
   function setupDesktop() {
@@ -213,7 +221,16 @@ export function HorizontalModes() {
         scrollTrigger: { trigger: textPin, start: "clamp(top 80%)" },
       });
     }
-    if (pinText) lineReveal(pinText, { y: "150%", rot: 2.5, dur: 1.2, stagger: 0.15 });
+    if (pinText) {
+      gsap.set(pinText, { opacity: 0, y: 20 });
+      gsap.to(pinText, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: textPin, start: "clamp(top 80%)" },
+      });
+    }
 
     // cleanup: matchMedia revierte triggers/pin/splits; el IO se desconecta acá.
     return () => observer?.disconnect();
@@ -229,21 +246,19 @@ export function HorizontalModes() {
         const word = el.querySelector<HTMLElement>(".h-slide__word");
         const feats = el.querySelectorAll<HTMLElement>(".h-slide__features li");
         if (feats.length) gsap.set(feats, { opacity: 0, y: 14 });
-        if (i === 0) {
-          if (claim) {
-            firstCardTweenRef.current = lineReveal(claim, {
-              y: "140%",
-              rot: 0,
-              dur: 0.7,
-              stagger: 0.05,
-              immediate: true,
-            });
-          }
-        } else if (claim) {
-          // partir YA y esconder las LÍNEAS dentro de sus máscaras
-          const split = SplitText.create(claim, { type: "lines", mask: "lines" });
-          gsap.set(split.lines, { y: "140%" });
-          claimSplitsRef.current.set(i, split);
+        // Claims: fade simple (opacity + y), sin SplitText. El reveal por
+        // líneas enmascaradas dejaba estructuras que no se limpiaban al pasar a
+        // mobile (claim con height:0). Un fade es revertible con clearProps/CSS.
+        if (claim) gsap.set(claim, { opacity: 0, y: 24 });
+        if (i === 0 && claim) {
+          // card 0: reveal gateado por el timeline (al terminar la escala).
+          firstCardTweenRef.current = gsap.to(claim, {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            paused: true,
+          });
         }
         if (label) gsap.set(label, { opacity: 0 });
         if (word) gsap.set(word, { y: "140%", opacity: 0 });
@@ -291,12 +306,11 @@ export function HorizontalModes() {
     const isCard = idx % 2 === 0;
 
     if (isCard) {
+      const claim = el.querySelector<HTMLElement>(".h-slide__claim");
       const label = el.querySelector<HTMLElement>(".h-slide__label");
       const word = el.querySelector<HTMLElement>(".h-slide__word");
       const feats = el.querySelectorAll<HTMLElement>(".h-slide__features li");
-      const split = claimSplitsRef.current.get(idx);
-      if (split)
-        gsap.to(split.lines, { y: "0%", duration: 0.7, ease: "power3.out", stagger: 0.05 });
+      if (claim) gsap.to(claim, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" });
       if (label) gsap.to(label, { opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.1 });
       if (word)
         gsap.to(word, { y: "0%", opacity: 1, duration: 0.9, ease: "power3.out", delay: 0.15 });
