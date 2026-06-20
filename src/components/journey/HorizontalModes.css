@@ -155,32 +155,79 @@
     stroke-linejoin: round;
   }
 
-  @media (max-width: 767px) {
-    /* !important para ganarle a los estilos inline que deja el viaje horizontal
-       (sobre todo el scale(0) del wrapper de setupDesktop): sin esto, al achicar
-       una ventana de desktop con mouse (pointer: fine), el wrapper quedaba en
-       scale(0) y colapsaba TODAS las cards a tamaño cero — solo se veía la
-       primera y el scroll pasaba de largo. */
-    .horizontal-section { height: auto !important; margin-top: 0 !important; position: static !important; }
-    .horizontal-wrapper { overflow: visible !important; transform: none !important; height: auto !important; }
-    .track { flex-direction: column !important; height: auto !important; transform: none !important; }
-    .h-slide { flex: none !important; width: 100% !important; height: auto !important; min-height: 70svh; padding: 10vw 6vw 8vw; }
-    .h-slide.side { min-height: 40svh; }
-  }
-  /* respaldo: cualquier dispositivo touch neutraliza el pin horizontal aunque el
-     JS no haya corrido (el viaje horizontal solo aplica a punteros finos) */
-  @media (pointer: coarse) {
-    .horizontal-section { height: auto !important; margin-top: 0 !important; position: static !important; }
-    .horizontal-wrapper { overflow: visible !important; transform: none !important; height: auto !important; }
-    .track { flex-direction: column; height: auto; transform: none !important; }
-    .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; }
+  /* ── Stack vertical mobile / touch / reduced-motion ──────────────────────
+     El viaje horizontal de desktop usa un pin de ScrollTrigger que envuelve la
+     sección en un .pin-spacer y le escribe estilos INLINE (position, top/left,
+     width, height, max-width, max-height, transform). Al venir de desktop y
+     achicar, esos inline + el pin-spacer SOBREVIVEN; en particular el max-height
+     (~1 pantalla) clavaba la sección a una pantalla aunque pusiéramos height:auto,
+     dejando Memoria/Bienestar fuera y tapadas por la sección siguiente.
+     Acá neutralizamos TODO lo que deja el pin, con !important, corra o no su
+     teardown de matchMedia. */
+  @media (max-width: 767px), (pointer: coarse) {
+    .horizontal-section {
+      position: static !important;
+      inset: auto !important;
+      margin-top: 0 !important;
+      width: auto !important;
+      max-width: none !important;
+      height: auto !important;
+      max-height: none !important;
+      min-height: 0 !important;
+      transform: none !important;
+    }
+    /* El pin-spacer (PADRE de la sección) puede quedar con altura fija en px →
+       lo disolvemos (display:contents) y, como respaldo, reseteamos dimensiones. */
+    .pin-spacer {
+      display: contents !important;
+      height: auto !important;
+      max-height: none !important;
+      min-height: 0 !important;
+      width: auto !important;
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      transform: none !important;
+      inset: auto !important;
+    }
+    .horizontal-wrapper {
+      overflow: visible !important;
+      transform: none !important;
+      width: 100% !important;
+      height: auto !important;
+      max-height: none !important;
+    }
+    .track {
+      flex-direction: column !important;
+      width: auto !important;
+      height: auto !important;
+      transform: none !important;
+    }
+    .h-slide {
+      flex: none !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 70svh;
+      padding: 10vw 6vw 8vw;
+    }
     .h-slide.side { min-height: 40svh; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .horizontal-section { height: auto; margin-top: 0; position: static; }
-    .horizontal-wrapper { overflow: visible; transform: none !important; height: auto !important; }
-    .track { flex-direction: column; height: auto; transform: none !important; }
-    .h-slide { flex: none; width: 100%; height: auto; min-height: 60svh; }
+    .horizontal-section {
+      position: static !important;
+      inset: auto !important;
+      margin-top: 0 !important;
+      width: auto !important;
+      max-width: none !important;
+      height: auto !important;
+      max-height: none !important;
+      min-height: 0 !important;
+      transform: none !important;
+    }
+    .pin-spacer { display: contents !important; height: auto !important; max-height: none !important; padding: 0 !important; transform: none !important; }
+    .horizontal-wrapper { overflow: visible !important; transform: none !important; width: 100% !important; height: auto !important; max-height: none !important; }
+    .track { flex-direction: column !important; height: auto !important; transform: none !important; }
+    .h-slide { flex: none !important; width: 100% !important; height: auto !important; min-height: 60svh; }
     .h-slide.side { min-height: 30svh; }
   }
 

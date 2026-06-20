@@ -3,22 +3,16 @@
      horizontal pinneado (z-index alto + solape grande con margin negativo) →
      lo cubre como una hoja que sube, no un simple empalme. Arranca bastante
      más abajo para darle más aire de lectura a la última card. */
+  /* BASE = mobile/touch seguro: el Marquee es una sección ivory normal, sin el
+     wipe de solape (margin negativo / z-index alto / lámina ::before) que es
+     pura coreografía del pin horizontal de desktop. */
   .mq {
     position: relative;
-    isolation: isolate;
-    z-index: 5;
-    background: transparent;
-    color: var(--c-navy-deep);
-    margin-top: -95svh;
-    padding: 96svh 0 clamp(3rem, 6vw, 6rem);
-    overflow: hidden;
-  }
-  .mq::before {
-    content: "";
-    position: absolute;
-    inset: 50svh 0 0;
     background: var(--c-ivory);
-    z-index: -1;
+    color: var(--c-navy-deep);
+    margin-top: 0;
+    padding: clamp(8svh, 12svh, 14svh) 0 clamp(2.5rem, 8vw, 4rem);
+    overflow: hidden;
   }
   .mq-row { overflow: hidden; white-space: nowrap; }
   .mq-row--outline { margin-top: clamp(0.2rem, 0.6vw, 0.6rem); }
@@ -54,15 +48,24 @@
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
-  /* ≤479 la sección horizontal es ESTÁTICA (sin pin) → el marquee fluye normal,
-     sin solaparse con la última card. El wipe grande corre solo en ≥480 (pin). */
-  @media (max-width: 479px) {
+  /* El wipe de solape (la lámina ivory que sube POR ENCIMA del escenario
+     pinneado) corre SOLO cuando el viaje horizontal está activo: desktop con
+     puntero fino. Mismo gate que setupDesktop → nunca se filtra a touch/narrow. */
+  @media (min-width: 768px) and (pointer: fine) {
     .mq {
-      background: var(--c-ivory);
-      margin-top: 0;
-      padding: clamp(8svh, 12svh, 14svh) 0 clamp(2.5rem, 8vw, 4rem);
+      isolation: isolate;
+      z-index: 5;
+      background: transparent;
+      margin-top: -95svh;
+      padding: 96svh 0 clamp(3rem, 6vw, 6rem);
     }
-    .mq::before { content: none; }
+    .mq::before {
+      content: "";
+      position: absolute;
+      inset: 50svh 0 0;
+      background: var(--c-ivory);
+      z-index: -1;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     .mq-track { animation: none; }
