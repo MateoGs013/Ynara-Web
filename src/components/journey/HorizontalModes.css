@@ -1,0 +1,180 @@
+
+  .hm-text-pin {
+    padding: 10svh 6vw 6svh;
+  }
+  .hm-pin-label {
+    margin: 0 0 1rem;
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--c-acc);
+  }
+  .hm-pin-text {
+    margin: 0;
+    max-width: 760px;
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 1rem + 3.5vw, 3.8rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    color: var(--c-text-bright);
+  }
+
+  .horizontal-section {
+    width: 100vw;
+    height: 100svh;
+    margin-top: -50vh;
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .horizontal-wrapper {
+    transform-origin: 100% 100%;
+    width: 100vw;
+    height: 100svh;
+    position: relative;
+    overflow: hidden;
+  }
+  .track {
+    display: flex;
+    flex: none;
+    justify-content: flex-start;
+    align-items: stretch;
+    height: 100%;
+    position: relative;
+  }
+
+  .h-slide {
+    flex: 0 0 50vw;
+    height: 100%;
+    background-color: var(--c-ivory);
+    color: var(--c-navy);
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    padding: 4.167vw 4.167vw 3.167vw;
+    overflow: hidden;
+  }
+  .h-slide.side {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .h-slide__top {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 5.5rem;
+  }
+  .h-slide__claim {
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: clamp(0.9rem, 0.5rem + 1vw, 1.1rem);
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--c-ink-soft);
+    max-width: 360px;
+    margin: 0;
+  }
+  .h-slide__features {
+    list-style: none;
+    margin: 1.8rem 0 0;
+    padding: 0;
+    max-width: 380px;
+  }
+  .h-slide__features li {
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--c-ink-hair-2);
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--c-ink-soft);
+  }
+  .h-slide__bot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .h-slide__accent {
+    display: block;
+    width: 2.6rem;
+    height: 3px;
+    margin-bottom: 0.9rem;
+    background: var(--card-acc, var(--c-blue));
+  }
+  .h-slide__label {
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+  }
+  .h-slide__word {
+    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(3.2rem, 1rem + 6.4vw, 7rem);
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    color: var(--c-navy-deep);
+    margin: 0;
+  }
+
+  .slide-side__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  /* fondo transparente: se ve el campo OSCURO detrás → ivory legible, no ink */
+  .slide-side__label {
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--c-text);
+  }
+  .slide-side__svg {
+    width: clamp(80px, 8vw, 130px);
+    height: clamp(80px, 8vw, 130px);
+    overflow: visible;
+  }
+  .slide-side__svg path,
+  .slide-side__svg circle,
+  .slide-side__svg line,
+  .slide-side__svg polyline {
+    fill: none;
+    stroke: var(--c-blue-violet);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (max-width: 767px) {
+    .horizontal-section { height: auto; margin-top: 0; position: static; }
+    .horizontal-wrapper { overflow: visible; }
+    .track { flex-direction: column; height: auto; }
+    .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; padding: 10vw 6vw 8vw; }
+    .h-slide.side { min-height: 40svh; }
+  }
+  /* respaldo: cualquier dispositivo touch neutraliza el pin horizontal aunque el
+     JS no haya corrido (el viaje horizontal solo aplica a punteros finos) */
+  @media (pointer: coarse) {
+    .horizontal-section { height: auto !important; margin-top: 0 !important; position: static !important; }
+    .horizontal-wrapper { overflow: visible !important; transform: none !important; }
+    .track { flex-direction: column; height: auto; transform: none !important; }
+    .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; }
+    .h-slide.side { min-height: 40svh; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .horizontal-section { height: auto; margin-top: 0; position: static; }
+    .horizontal-wrapper { overflow: visible; transform: none !important; }
+    .track { flex-direction: column; height: auto; transform: none !important; }
+    .h-slide { flex: none; width: 100%; height: auto; min-height: 60svh; }
+    .h-slide.side { min-height: 30svh; }
+  }

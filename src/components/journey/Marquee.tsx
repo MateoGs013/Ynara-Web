@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { reducedMotion, useGSAP } from "@/lib/motion";
+import "./Marquee.css";
 
 /**
  * Banda MARQUEE — la entrada al MUNDO CLARO (wipe ivory que se desliza por
@@ -69,79 +70,6 @@ export function Marquee() {
       <p className="sr-only">{WORDS.join(", ")}</p>
       <Row />
       <Row outline />
-      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: CSS estático local */}
-      <style dangerouslySetInnerHTML={{ __html: MQ_CSS }} />
     </section>
   );
 }
-
-const MQ_CSS = `
-  /* WIPE de entrada al mundo claro: el ivory se desliza POR ENCIMA del escenario
-     horizontal pinneado (z-index alto + solape grande con margin negativo) →
-     lo cubre como una hoja que sube, no un simple empalme. Arranca bastante
-     más abajo para darle más aire de lectura a la última card. */
-  .mq {
-    position: relative;
-    isolation: isolate;
-    z-index: 5;
-    background: transparent;
-    color: var(--c-navy-deep);
-    margin-top: -95svh;
-    padding: 96svh 0 clamp(3rem, 6vw, 6rem);
-    overflow: hidden;
-  }
-  .mq::before {
-    content: "";
-    position: absolute;
-    inset: 50svh 0 0;
-    background: var(--c-ivory);
-    z-index: -1;
-  }
-  .mq-row { overflow: hidden; white-space: nowrap; }
-  .mq-row--outline { margin-top: clamp(0.2rem, 0.6vw, 0.6rem); }
-  .mq-track {
-    display: inline-flex;
-    align-items: center;
-    will-change: transform;
-    animation: mq-scroll 28s linear infinite;
-  }
-  .mq-row--outline .mq-track { animation-duration: 34s; animation-direction: reverse; }
-  .mq-word {
-    display: inline-flex;
-    align-items: center;
-    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
-    font-weight: 700;
-    font-size: clamp(3rem, 8vw, 8.5rem);
-    line-height: 1;
-    letter-spacing: -0.04em;
-    padding-right: clamp(1rem, 2vw, 2rem);
-  }
-  .mq-row--outline .mq-word {
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--c-ink-hair-strong);
-  }
-  .mq-dot {
-    color: var(--c-blue);
-    font-size: 0.32em;
-    margin: 0 clamp(0.6rem, 1.4vw, 1.4rem) 0 clamp(1rem, 2vw, 2rem);
-    transform: translateY(-0.15em);
-  }
-  .mq-row--outline .mq-dot { color: var(--c-blue-bright); -webkit-text-stroke: 0; }
-  @keyframes mq-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  /* ≤479 la sección horizontal es ESTÁTICA (sin pin) → el marquee fluye normal,
-     sin solaparse con la última card. El wipe grande corre solo en ≥480 (pin). */
-  @media (max-width: 479px) {
-    .mq {
-      background: var(--c-ivory);
-      margin-top: 0;
-      padding: clamp(8svh, 12svh, 14svh) 0 clamp(2.5rem, 8vw, 4rem);
-    }
-    .mq::before { content: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .mq-track { animation: none; }
-  }
-`;
