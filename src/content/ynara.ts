@@ -55,7 +55,7 @@ export const problem = {
   ],
   // Intro de la sección horizontal (lleva a las cards).
   pillarsEyebrow: "Lo que hace por vos",
-  pillarsIntro: "Una sola app. Tres cosas que ninguna otra junta.",
+  pillarsIntro: "Una sola app. Cuatro cosas que ninguna otra junta.",
   layers: [
     {
       key: "productividad",
@@ -85,6 +85,16 @@ export const problem = {
         "Lee tu energía y tus patrones de descanso",
         "Te frena antes del burnout, no después",
         "Está cuando la necesitás; se corre cuando no",
+      ],
+    },
+    {
+      key: "consejo",
+      title: "Aconseja",
+      note: "Sugiere, no impone.",
+      features: [
+        "Te sugiere qué priorizar según tu energía y tus plazos",
+        "Propone el próximo paso; la decisión la tomás vos",
+        "Cada consejo sale de tu contexto, no de un manual genérico",
       ],
     },
   ],

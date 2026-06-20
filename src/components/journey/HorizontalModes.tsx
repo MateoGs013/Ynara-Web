@@ -17,12 +17,13 @@ import "./HorizontalModes.css";
  * completa (p=1). El tablero ES la antesala de las cards.
  */
 
-// Acentos planos de la identidad: azul · violeta (señal=memoria) · azul violáceo.
-const ACCENTS = ["#2f5aa6", "#8165a3", "#5c6fb3"] as const;
+// Acentos planos de la identidad: azul · violeta (señal=memoria) · azul violáceo · índigo.
+const ACCENTS = ["#2f5aa6", "#8165a3", "#5c6fb3", "#434a82"] as const;
 const CLAIMS = [
   "Agendar, recordar, cerrar tareas. Ynara aprende cómo trabajás y se adelanta — lista antes de que preguntes.",
   "Nombres, charlas, decisiones. Todo se conecta en silencio y se cita textual: no reescribe tus recuerdos.",
   "Registra tu energía y tus patrones. Está cuando la necesitás y se corre cuando no.",
+  "Conecta lo que sabe de vos para sugerir el próximo paso — qué priorizar, cuándo frenar, a quién escribir. Ella propone; vos decidís.",
 ] as const;
 const CARDS = problem.layers.map((l, i) => ({
   word: l.title,
@@ -59,11 +60,21 @@ function SvgPulse({ className }: { className?: string }) {
     </svg>
   );
 }
+function SvgCompass({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 100 100" className={className} aria-hidden role="presentation">
+      <circle cx="50" cy="50" r="38" />
+      <path d="M50 26 L60 50 L50 74 L40 50 Z" />
+      <circle cx="50" cy="50" r="3" />
+    </svg>
+  );
+}
 
 const SPACERS = [
   { label: "01 · Organiza", Svg: SvgOrbit },
   { label: "02 · Recuerda", Svg: SvgNet },
   { label: "03 · Acompaña", Svg: SvgPulse },
+  { label: "04 · Aconseja", Svg: SvgCompass },
 ] as const;
 
 export function HorizontalModes() {
