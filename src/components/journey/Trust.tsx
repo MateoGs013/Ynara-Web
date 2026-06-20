@@ -36,7 +36,8 @@ export function Trust() {
         });
       }
       if (statement) lineReveal(statement, { y: "150%", rot: 2.5, dur: 1.2, stagger: 0.14 });
-      if (support) lineReveal(support, { y: "140%", rot: 2, dur: 1, stagger: 0.08, start: "clamp(top 74%)" });
+      if (support)
+        lineReveal(support, { y: "140%", rot: 2, dur: 1, stagger: 0.08, start: "clamp(top 74%)" });
 
       for (const row of rows) {
         const line = row.querySelector<HTMLElement>(".tr-row-line");
@@ -76,7 +77,13 @@ export function Trust() {
   );
 
   return (
-    <section ref={ref} id="privacidad" className="tr relative" aria-label="Privacidad" data-wipe-tone="ivory">
+    <section
+      ref={ref}
+      id="privacidad"
+      className="tr relative"
+      aria-label="Privacidad"
+      data-wipe-tone="ivory"
+    >
       <div className="tr-inner">
         <div className="tr-head">
           <p className="tr-eyebrow">{memory.eyebrow}</p>
@@ -123,7 +130,7 @@ const TR_CSS = `
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(0.62rem, 0.72vw, 0.76rem);
     font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase;
-    color: var(--c-navy); opacity: 0.55;
+    color: var(--c-ink-muted);
   }
   .tr-statement {
     margin: 0;
@@ -140,7 +147,7 @@ const TR_CSS = `
     max-width: 52ch;
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(0.98rem, 1.15vw, 1.2rem);
-    line-height: 1.6; color: var(--c-navy); opacity: 0.74;
+    line-height: 1.6; color: var(--c-ink-soft);
   }
 
   /* LEDGER numerado — filas full-width que se dibujan */
@@ -155,7 +162,7 @@ const TR_CSS = `
   }
   .tr-row-line {
     position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: rgba(36, 44, 63, 0.22);
+    background: var(--c-ink-hair-strong);
   }
   .tr-num {
     font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
@@ -178,16 +185,16 @@ const TR_CSS = `
     max-width: 44ch;
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(0.95rem, 1.05vw, 1.1rem);
-    line-height: 1.55; color: var(--c-navy); opacity: 0.72;
+    line-height: 1.55; color: var(--c-ink-soft);
   }
   .tr-chips {
     margin: clamp(2.6rem, 4vw, 3.5rem) 0 0;
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(0.62rem, 0.72vw, 0.76rem);
     font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--c-blue); opacity: 0.9;
+    color: var(--c-ink-muted);
   }
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .tr-statement { font-size: clamp(2.4rem, 10vw, 3.2rem); max-width: 100%; }
     .tr-row {
       grid-template-columns: clamp(2.6rem, 14vw, 4rem) 1fr;

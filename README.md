@@ -20,21 +20,25 @@ GSAP 3.15 (ScrollTrigger + SplitText) · Lenis · Biome.
 
 ```
 src/
-  app/                  layout (Field + MasterScroll persistentes) · page (8 escenas) · SEO
+  app/                  layout (Field persistente) · page · SEO (robots, sitemap, OG)
   components/
     field/              LA FORMA y su motor
-      LightForm.tsx     terreno de luz WebGL (simplex-noise Ashima, morfeo, mouse)
-      fieldState.ts     estado compartido (single source of truth del morfeo)
-      MasterScroll.tsx  UN ScrollTrigger scrubbeado que tweenea fieldTarget por capítulo
+      CascadeField.tsx  terreno de luz WebGL (PlaneGeometry muy subdividido + shaders
+                        simplex-noise Ashima, morfeo por scroll, mouse reactivo)
       Field.tsx         canvas fija detrás de todo + base void + grano
-    scenes/             los 8 capítulos tejidos sobre la forma (Scene + SplitReveal)
-    motion/ ui/ site/   primitivos (RevealText, Magnetic, Button, YnaraMark, nav, footer)
+    journey/            los capítulos tejidos sobre la forma
+    lib/
+      motion/           utilidades GSAP / ScrollTrigger
+      reveal/           RevealText y primitivos de animación
+      cn/               classname helper
+    ui/ site/           primitivos (YnaraMark, SiteNav, SiteFooter, Button…)
   content/ynara.ts      banco de copy (voz rioplatense)
 ```
 
-El scroll no mueve cajas: **transforma la forma y el tipo**. `MasterScroll` conduce
-los uniforms (amplitud, estado wave↔dots↔plano, brillo, tint de modo, cámara);
-`LightForm` los lee y lerpea cada frame.
+El scroll no mueve cajas: **transforma la forma y el tipo**. `CascadeField` es el
+corazón WebGL — `PlaneGeometry` muy subdividido con `RawShaderMaterial` (simplex-noise
+Ashima), conducido por el scroll de la página vía ScrollTrigger y montado por `Field`
+detrás de todo. Los capítulos viven en `components/journey/*`.
 
 ## Desarrollo
 

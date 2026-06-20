@@ -52,10 +52,7 @@ export default function SmoothScroll() {
       lenis.resize();
       ScrollTrigger.refresh();
     };
-    const settleTimers = [
-      window.setTimeout(refresh, 350),
-      window.setTimeout(refresh, 1200),
-    ];
+    const settleTimers = [window.setTimeout(refresh, 350), window.setTimeout(refresh, 1200)];
     document.fonts?.ready?.then(refresh).catch(() => {});
     window.addEventListener("load", refresh);
 

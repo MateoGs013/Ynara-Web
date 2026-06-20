@@ -52,7 +52,8 @@ export function VoiceChapter() {
         });
       }
       if (title) lineReveal(title, { y: "150%", rot: 2.5, dur: 1.2, stagger: 0.15 });
-      if (lead) lineReveal(lead, { y: "140%", rot: 2, dur: 1, stagger: 0.1, start: "clamp(top 72%)" });
+      if (lead)
+        lineReveal(lead, { y: "140%", rot: 2, dur: 1, stagger: 0.1, start: "clamp(top 72%)" });
 
       // El panel: la conversación "se escribe sola" — cada mensaje sube en cascada.
       const msgs = gsap.utils.toArray<HTMLElement>(root.querySelectorAll(".vc-msg"));
@@ -141,10 +142,9 @@ const VC_CSS = `
     font-weight: 600;
     letter-spacing: 0.26em;
     text-transform: uppercase;
-    color: var(--c-navy);
-    opacity: 0.55;
+    color: var(--c-ink-muted);
   }
-  .vc-hairline { display: block; width: 0%; height: 1px; margin-bottom: 2.4rem; max-width: 18rem; background: var(--c-navy); opacity: 0.2; }
+  .vc-hairline { display: block; width: 0%; height: 1px; margin-bottom: 2.4rem; max-width: 18rem; background: var(--c-ink-hair-strong); }
   .vc-title {
     margin: 0;
     font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
@@ -160,16 +160,15 @@ const VC_CSS = `
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(0.98rem, 1.15vw, 1.2rem);
     line-height: 1.6;
-    color: var(--c-navy);
-    opacity: 0.74;
+    color: var(--c-ink-soft);
   }
 
   /* PANEL — mockup del producto */
   .vc-panel {
     background: #fff;
-    border: 1px solid rgba(36, 44, 63, 0.1);
+    border: 1px solid var(--c-ink-hair-2);
     border-radius: 22px;
-    box-shadow: 0 30px 80px -40px rgba(20, 23, 35, 0.5);
+    box-shadow: var(--shadow-ink-card);
     overflow: hidden;
   }
   .vc-panel-head {
@@ -177,7 +176,7 @@ const VC_CSS = `
     align-items: center;
     gap: 0.6rem;
     padding: 1rem 1.4rem;
-    border-bottom: 1px solid rgba(36, 44, 63, 0.08);
+    border-bottom: 1px solid var(--c-ink-hair);
     background: var(--c-paper);
   }
   .vc-dot-mark { width: 10px; height: 10px; border-radius: 999px; background: var(--c-blue); box-shadow: 0 0 0 4px rgba(47,90,166,0.15); }
@@ -189,7 +188,7 @@ const VC_CSS = `
     margin-left: auto;
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--c-blue); opacity: 0.8;
+    color: var(--c-ink-muted);
   }
   .vc-thread { display: flex; flex-direction: column; gap: 1.6rem; padding: clamp(1.4rem, 2vw, 2rem); }
   .vc-ex { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -210,8 +209,8 @@ const VC_CSS = `
   }
   .vc-ynara {
     align-self: flex-start; border-bottom-left-radius: 5px;
-    background: var(--c-paper); border: 1px solid rgba(36,44,63,0.1);
-    border-left: 2px solid var(--mode-acc); color: var(--c-navy);
+    background: var(--c-paper); border: 1px solid var(--c-ink-hair-2);
+    border-left: 2px solid var(--mode-acc); color: var(--c-ink-soft);
   }
   @media (max-width: 880px) {
     .vc-inner { grid-template-columns: 1fr; gap: clamp(2rem, 6vw, 3rem); }

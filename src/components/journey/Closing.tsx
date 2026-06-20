@@ -48,7 +48,9 @@ export function Closing() {
             scrollTrigger: { trigger: plan, start: "clamp(top 88%)" },
           });
         }
-        const bits = plan.querySelectorAll<HTMLElement>(".cl-plan-name, .cl-plan-price, .cl-plan-feat");
+        const bits = plan.querySelectorAll<HTMLElement>(
+          ".cl-plan-name, .cl-plan-price, .cl-plan-feat",
+        );
         gsap.set(bits, { opacity: 0, y: 18 });
         gsap.to(bits, {
           opacity: 1,
@@ -77,7 +79,13 @@ export function Closing() {
   );
 
   return (
-    <section ref={ref} id="precio" className="cl relative" aria-label="Precio y cierre" data-wipe-tone="ivory">
+    <section
+      ref={ref}
+      id="precio"
+      className="cl relative"
+      aria-label="Precio y cierre"
+      data-wipe-tone="ivory"
+    >
       <div className="cl-inner">
         {/* PRECIO — franja editorial */}
         <p className="cl-eyebrow">{pricing.eyebrow}</p>
@@ -142,7 +150,7 @@ const CL_CSS = `
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(0.62rem, 0.72vw, 0.76rem);
     font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase;
-    color: var(--c-navy); opacity: 0.55;
+    color: var(--c-ink-muted);
   }
   .cl-price-head {
     margin: 0 0 clamp(2.4rem, 4vw, 3.5rem);
@@ -162,7 +170,7 @@ const CL_CSS = `
   .cl-plan { position: relative; padding-top: 1.4rem; }
   .cl-plan-rule {
     position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: rgba(36, 44, 63, 0.25);
+    background: var(--c-ink-hair-strong);
   }
   .cl-plan.is-featured .cl-plan-rule { background: var(--c-violet); height: 3px; }
   .cl-plan-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; }
@@ -181,28 +189,28 @@ const CL_CSS = `
   .cl-plan.is-featured .cl-plan-price { color: var(--c-violet); }
   .cl-plan-period {
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-    font-weight: 400; font-size: 0.82rem; opacity: 0.55;
+    font-weight: 400; font-size: 0.82rem; color: var(--c-ink-muted);
   }
   .cl-plan-feats { list-style: none; margin: 0; padding: 0; }
   .cl-plan-feat {
     padding: 0.5rem 0;
-    border-top: 1px solid rgba(36, 44, 63, 0.1);
+    border-top: 1px solid var(--c-ink-hair);
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-    font-size: 0.95rem; color: var(--c-navy); opacity: 0.82;
+    font-size: 0.95rem; color: var(--c-ink-soft);
   }
   .cl-note {
     margin: clamp(2rem, 3.4vw, 3rem) 0 0;
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(0.62rem, 0.72vw, 0.76rem);
     font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--c-blue); opacity: 0.9;
+    color: var(--c-ink-muted);
   }
 
   /* FINALE */
   .cl-finale {
     margin-top: clamp(8svh, 14svh, 18svh);
     padding-top: clamp(3rem, 6vw, 6rem);
-    border-top: 1px solid rgba(36, 44, 63, 0.14);
+    border-top: 1px solid var(--c-ink-hair-2);
   }
   .cl-heading {
     margin: 0;
@@ -217,7 +225,7 @@ const CL_CSS = `
     max-width: 54ch;
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(1rem, 1.2vw, 1.2rem);
-    line-height: 1.6; color: var(--c-navy); opacity: 0.75;
+    line-height: 1.6; color: var(--c-ink-soft);
   }
   .cl-cta-row { display: flex; align-items: center; gap: 1.6rem; flex-wrap: wrap; margin-top: clamp(2rem, 3.4vw, 3rem); }
   .cl-cta {
@@ -232,9 +240,9 @@ const CL_CSS = `
   .cl-stores {
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--c-navy); opacity: 0.5;
+    color: var(--c-ink-muted);
   }
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .cl-plans { grid-template-columns: 1fr; gap: 2.4rem; }
     .cl-heading { font-size: clamp(2.6rem, 12vw, 4rem); }
   }

@@ -58,7 +58,7 @@ export function YnaraMark({
               gradientTransform="translate(-11.4 425.21) rotate(-45)"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0" stopColor="#8265a3" />
+              <stop offset="0" stopColor="#8165a3" />
               <stop offset=".33" stopColor="#7b559b" />
               <stop offset=".98" stopColor="#692e87" />
               <stop offset="1" stopColor="#692d87" />
@@ -71,7 +71,7 @@ export function YnaraMark({
               y2="575.07"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset=".5" stopColor="#305ba6" />
+              <stop offset=".5" stopColor="#2f5aa6" />
               <stop offset=".85" stopColor="#242552" />
             </linearGradient>
             <linearGradient
@@ -82,9 +82,9 @@ export function YnaraMark({
               y2="561.11"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset=".18" stopColor="#305ba6" />
+              <stop offset=".18" stopColor="#2f5aa6" />
               <stop offset=".76" stopColor="#fff" />
-              <stop offset=".94" stopColor="#305ba6" />
+              <stop offset=".94" stopColor="#2f5aa6" />
             </linearGradient>
           </defs>
           <rect

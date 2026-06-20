@@ -79,14 +79,18 @@ export function HorizontalModes() {
       registerGsap();
       if (reducedMotion()) return; // CSS deja el stack vertical legible
 
-      // matchMedia: re-corre el setup correcto al cruzar 479px (antes se leía
-      // una sola vez al montar → rotar/redimensionar dejaba el modo equivocado)
-      // y revierte todo (triggers, pin, splits) al cambiar de query o desmontar.
+      // Cualquier dispositivo touch (pointer: coarse) usa el stack vertical sin
+      // importar el ancho: en tablets touch el pin horizontal secuestraba el
+      // scroll vertical. Solo punteros finos (mouse/trackpad) ≥768px obtienen el
+      // viaje horizontal. matchMedia re-corre el setup correcto al cruzar el
+      // breakpoint (antes se leía una sola vez al montar → rotar/redimensionar
+      // dejaba el modo equivocado) y revierte todo (triggers, pin, splits) al
+      // cambiar de query o desmontar.
       const mm = gsap.matchMedia();
-      mm.add("(max-width: 479px)", () => {
+      mm.add("(max-width: 767px), (pointer: coarse)", () => {
         setupMobileFallback();
       });
-      mm.add("(min-width: 480px)", () => setupDesktop());
+      mm.add("(min-width: 768px) and (pointer: fine)", () => setupDesktop());
       return () => mm.revert();
     },
     { scope: rootRef },
@@ -95,7 +99,9 @@ export function HorizontalModes() {
   function setupMobileFallback() {
     slideRefs.current.forEach((el) => {
       if (!el) return;
-      const texts = el.querySelectorAll<HTMLElement>(".h-slide__claim, .h-slide__word, .h-slide__label");
+      const texts = el.querySelectorAll<HTMLElement>(
+        ".h-slide__claim, .h-slide__word, .h-slide__label",
+      );
       texts.forEach((t) => {
         lineReveal(t, { y: "140%", rot: 2.5, dur: 0.7, stagger: 0.05, start: "top 80%" });
       });
@@ -144,11 +150,24 @@ export function HorizontalModes() {
             const word = first.querySelector<HTMLElement>(".h-slide__word");
             const feats = first.querySelectorAll<HTMLElement>(".h-slide__features li");
             if (label)
-              gsap.to(label, { opacity: 0.55, duration: 0.5, ease: "power3.out", delay: 0.1 });
+              gsap.to(label, { opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.1 });
             if (word)
-              gsap.to(word, { y: "0%", opacity: 1, duration: 0.9, ease: "power3.out", delay: 0.15 });
+              gsap.to(word, {
+                y: "0%",
+                opacity: 1,
+                duration: 0.9,
+                ease: "power3.out",
+                delay: 0.15,
+              });
             if (feats.length)
-              gsap.to(feats, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.07, delay: 0.2 });
+              gsap.to(feats, {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                ease: "power3.out",
+                stagger: 0.07,
+                delay: 0.2,
+              });
           }
         },
         undefined,
@@ -277,11 +296,20 @@ export function HorizontalModes() {
       const word = el.querySelector<HTMLElement>(".h-slide__word");
       const feats = el.querySelectorAll<HTMLElement>(".h-slide__features li");
       const split = claimSplitsRef.current.get(idx);
-      if (split) gsap.to(split.lines, { y: "0%", duration: 0.7, ease: "power3.out", stagger: 0.05 });
-      if (label) gsap.to(label, { opacity: 0.55, duration: 0.5, ease: "power3.out", delay: 0.1 });
-      if (word) gsap.to(word, { y: "0%", opacity: 1, duration: 0.9, ease: "power3.out", delay: 0.15 });
+      if (split)
+        gsap.to(split.lines, { y: "0%", duration: 0.7, ease: "power3.out", stagger: 0.05 });
+      if (label) gsap.to(label, { opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.1 });
+      if (word)
+        gsap.to(word, { y: "0%", opacity: 1, duration: 0.9, ease: "power3.out", delay: 0.15 });
       if (feats.length)
-        gsap.to(feats, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.07, delay: 0.2 });
+        gsap.to(feats, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.07,
+          delay: 0.2,
+        });
     } else {
       const paths = el.querySelectorAll<SVGGeometryElement>(
         ".slide-side__svg path, .slide-side__svg circle, .slide-side__svg line, .slide-side__svg polyline",
@@ -290,7 +318,8 @@ export function HorizontalModes() {
         gsap.to(p, { strokeDashoffset: 0, duration: 1.5, ease: "power3.inOut", delay: pi * 0.1 });
       });
       const label = el.querySelector<HTMLElement>(".slide-side__label");
-      if (label) gsap.to(label, { opacity: 0.65, y: "0px", duration: 0.7, ease: "power3.out", delay: 0.3 });
+      if (label)
+        gsap.to(label, { opacity: 1, y: "0px", duration: 0.7, ease: "power3.out", delay: 0.3 });
     }
   }
 
@@ -433,8 +462,7 @@ const HM_CSS = `
     font-size: clamp(0.9rem, 0.5rem + 1vw, 1.1rem);
     font-weight: 400;
     line-height: 1.55;
-    color: var(--c-navy);
-    opacity: 0.78;
+    color: var(--c-ink-soft);
     max-width: 360px;
     margin: 0;
   }
@@ -446,12 +474,11 @@ const HM_CSS = `
   }
   .h-slide__features li {
     padding: 0.6rem 0;
-    border-top: 1px solid rgba(36, 44, 63, 0.14);
+    border-top: 1px solid var(--c-ink-hair-2);
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: 0.85rem;
     line-height: 1.45;
-    color: var(--c-navy);
-    opacity: 0.8;
+    color: var(--c-ink-soft);
   }
   .h-slide__bot {
     display: flex;
@@ -471,8 +498,7 @@ const HM_CSS = `
     font-weight: 600;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: var(--c-navy);
-    opacity: 0.55;
+    color: var(--c-ink-muted);
   }
   .h-slide__word {
     font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
@@ -490,14 +516,14 @@ const HM_CSS = `
     align-items: center;
     gap: 2rem;
   }
+  /* fondo transparente: se ve el campo OSCURO detrás → ivory legible, no ink */
   .slide-side__label {
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: var(--c-ivory);
-    opacity: 0.65;
+    color: var(--c-text);
   }
   .slide-side__svg {
     width: clamp(80px, 8vw, 130px);
@@ -515,11 +541,20 @@ const HM_CSS = `
     stroke-linejoin: round;
   }
 
-  @media (max-width: 479px) {
+  @media (max-width: 767px) {
     .horizontal-section { height: auto; margin-top: 0; position: static; }
     .horizontal-wrapper { overflow: visible; }
     .track { flex-direction: column; height: auto; }
     .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; padding: 10vw 6vw 8vw; }
+    .h-slide.side { min-height: 40svh; }
+  }
+  /* respaldo: cualquier dispositivo touch neutraliza el pin horizontal aunque el
+     JS no haya corrido (el viaje horizontal solo aplica a punteros finos) */
+  @media (pointer: coarse) {
+    .horizontal-section { height: auto !important; margin-top: 0 !important; position: static !important; }
+    .horizontal-wrapper { overflow: visible !important; transform: none !important; }
+    .track { flex-direction: column; height: auto; transform: none !important; }
+    .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; }
     .h-slide.side { min-height: 40svh; }
   }
   @media (prefers-reduced-motion: reduce) {

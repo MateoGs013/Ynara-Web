@@ -100,6 +100,20 @@
   --dur-base: 0.5s;
   --dur-slow: 0.9s;
 
+  /* ── Tinta sobre superficie clara (ivory/paper) ── */
+  --c-ink: var(--c-navy-deep);            /* texto principal */
+  --c-ink-soft: rgb(27 34 51 / 0.82);     /* secundario, ~6:1 sobre ivory */
+  --c-ink-muted: rgb(27 34 51 / 0.72);    /* terciario/eyebrow, ~5:1 sobre ivory */
+  /* ── Hairlines sobre superficie clara (navy con alpha) ── */
+  --c-ink-hair: rgb(36 44 63 / 0.08);
+  --c-ink-hair-2: rgb(36 44 63 / 0.14);
+  --c-ink-hair-strong: rgb(36 44 63 / 0.25);
+  /* ── Sombra de card sobre superficie clara (dentro de paleta) ── */
+  --shadow-ink-card: 0 30px 80px -40px rgb(10 12 18 / 0.5);
+
+  /* ---- Z-index scale (jerarquía documentada; los archivos pueden usar sus valores actuales) ---- */
+  --z-field: -10; --z-content: 3; --z-marquee: 5; --z-footer: 10; --z-nav: 50; --z-overlay: 100; --z-skip: 110; --z-lab: 120;
+
   /* ---- Layout ---- */
   --maxw: 1280px;
   --gutter: clamp(1.25rem, 5vw, 6rem);
@@ -145,6 +159,10 @@
   --radius-xl: var(--r-xl);
   --radius-2xl: var(--r-2xl);
 
+  /* `@theme inline` INLINEA este valor en cada utility (.font-display/.font-body) en
+     vez de emitir una custom property → no hay self-reference recursiva. `var(--font-display)`
+     resuelve contra la variable que next/font inyecta en el <html>; la cadena
+     "Space Grotesk"/system-ui queda como red de seguridad si next/font no cargara. */
   --font-display: var(--font-display), "Space Grotesk", system-ui, sans-serif;
   --font-body: var(--font-body), "DM Sans", system-ui, sans-serif;
 
@@ -444,11 +462,6 @@ html.intro-lock body {
     mix-blend-mode: overlay;
   }
 
-  /* ---- Reveal hooks (estado inicial; el motion los anima) ---- */
-  .will-reveal {
-    will-change: transform, opacity;
-  }
-
   /* ============================================================================
    * V2 — TIPOGRAFÍA MASIVA (alma tiwis): el tipo es protagonista, llena el ancho.
    * ========================================================================== */
@@ -629,4 +642,27 @@ html.intro-lock body {
   outline: 2px solid var(--c-blue-bright);
   outline-offset: 3px;
   border-radius: 3px;
+}
+
+/* ============================================================================
+ * Menú mobile (SiteNav) — keyframes del sheet. Globales y cacheables; el
+ * componente los omite en reduced-motion vía inline style.
+ * ========================================================================== */
+@keyframes ynara-nav-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ynara-nav-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

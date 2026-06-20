@@ -65,6 +65,8 @@ export function Marquee() {
       data-wipe-tone="ivory"
       data-field-cover
     >
+      {/* Copia accesible para lectores de pantalla: los tracks visuales son aria-hidden */}
+      <p className="sr-only">{WORDS.join(", ")}</p>
       <Row />
       <Row outline />
       {/* biome-ignore lint/security/noDangerouslySetInnerHtml: CSS estático local */}
@@ -116,7 +118,7 @@ const MQ_CSS = `
   }
   .mq-row--outline .mq-word {
     color: transparent;
-    -webkit-text-stroke: 1.5px rgba(36, 44, 63, 0.45);
+    -webkit-text-stroke: 1.5px var(--c-ink-hair-strong);
   }
   .mq-dot {
     color: var(--c-blue);

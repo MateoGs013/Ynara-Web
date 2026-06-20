@@ -2,17 +2,15 @@
 
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { Draggable } from "gsap/Draggable";
-import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
 let registered = false;
 
-/** Registra ScrollTrigger + SplitText + Draggable/Inertia una sola vez, client-side. */
+/** Registra ScrollTrigger + SplitText una sola vez, client-side. */
 export function registerGsap() {
   if (registered || typeof window === "undefined") return;
-  gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
   registered = true;
 }
 
@@ -28,4 +26,4 @@ export const EASE = "power3.out";
 export const EASE_EXPO = "expo.out";
 export const EASE_INOUT = "power2.inOut";
 
-export { Draggable, gsap, ScrollTrigger, SplitText, useGSAP };
+export { gsap, ScrollTrigger, SplitText, useGSAP };
