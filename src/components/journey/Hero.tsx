@@ -38,7 +38,10 @@ export function Hero() {
       registerGsap();
 
       const eyebrow = root.querySelector(".hero-eyebrow");
-      const word = root.querySelector(".hero-wordmark");
+      // Split sólo sobre el wordmark VISIBLE (.hero-wordmark-text), no sobre el
+      // <h1> entero: así el <span class="sr-only"> con la propuesta de valor
+      // (SEO/a11y) no entra en el SplitText ni rompe el mask de líneas.
+      const word = root.querySelector(".hero-wordmark-text");
       const value = root.querySelector<HTMLElement>(".hero-value");
       const aux = gsap.utils.toArray<HTMLElement>(root.querySelectorAll(".hero-aux"));
 
@@ -69,7 +72,8 @@ export function Hero() {
 
       let introSeen = false;
       try {
-        introSeen = window.__ynaraIntroDone === true || sessionStorage.getItem("ynara-intro") === "1";
+        introSeen =
+          window.__ynaraIntroDone === true || sessionStorage.getItem("ynara-intro") === "1";
       } catch {
         introSeen = window.__ynaraIntroDone === true;
       }
@@ -92,7 +96,7 @@ export function Hero() {
             <p className="hero-value">
               <Accented text={hero.value} />
             </p>
-            
+
             <div className="hero-aux hero-ctas">
               <a className="hero-cta-primary" href={hero.ctaPrimary.href}>
                 {hero.ctaPrimary.label}
@@ -102,7 +106,12 @@ export function Hero() {
               </a>
             </div>
           </div>
-          <h1 className="hero-wordmark">{site.name}</h1>
+          {/* El <h1> incluye la propuesta de valor para SEO/a11y sin alterar el
+              look: "Ynara" sigue siendo lo único visible; el valor va en sr-only. */}
+          <h1 className="hero-wordmark">
+            <span className="hero-wordmark-text">{site.name}</span>
+            <span className="sr-only"> — tu asistente personal con memoria</span>
+          </h1>
         </div>
       </div>
       {/* biome-ignore lint/security/noDangerouslySetInnerHtml: CSS estático local */}
@@ -181,6 +190,9 @@ const HERO_CSS = `
     letter-spacing: -0.05em;
     color: var(--c-text-bright);
   }
+  /* span visible del wordmark — caja de bloque para que SplitText mida líneas
+     igual que el <h1> previo (el sr-only hermano queda fuera del split). */
+  .hero-wordmark-text { display: block; }
   @media (max-width: 767px) {
     .hero-grid { padding-top: 14svh; }
     .hero-value { font-size: clamp(1.5rem, 6.5vw, 2.2rem); max-width: 100%; }

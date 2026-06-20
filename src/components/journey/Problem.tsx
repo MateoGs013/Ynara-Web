@@ -67,11 +67,14 @@ export function Problem() {
               ))}
             </ul>
           </div>
-          <h2 className="pb-answer" aria-hidden>
+          {/* Capa visual del morph (no es heading): la versión accesible va en el
+              sr-only de abajo para que el remate llegue a lectores de pantalla. */}
+          <div className="pb-answer" aria-hidden>
             <span className="pb-answer-text">
               Ynara es <em className="pb-em">una.</em>
             </span>
-          </h2>
+          </div>
+          <p className="sr-only">{problem.answerLine}</p>
         </div>
       </div>
       {/* biome-ignore lint/security/noDangerouslySetInnerHtml: CSS estático local */}
@@ -124,8 +127,8 @@ const PB_CSS = `
   .pb-chip {
     padding: 0.6rem 1.15rem;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: var(--c-glass-2);
+    border: 1px solid var(--c-hair-strong);
     backdrop-filter: blur(8px);
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-size: clamp(0.85rem, 1vw, 1.05rem);

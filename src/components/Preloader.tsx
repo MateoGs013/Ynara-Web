@@ -73,32 +73,38 @@ export function Preloader() {
       gsap.set(q(".pl-word"), { opacity: 0, y: 14 });
       gsap.set(q(".pl-bar i"), { scaleX: 0, transformOrigin: "left" });
 
+      // LCP: el telón se acorta para que `signalDone` (label "lift", que dispara
+      // `ynara:intro-done`) ocurra ~0.9s en vez de ~3s. Así el reveal del hero
+      // arranca temprano y SOLAPA con el slide-up (0.9s) del telón por encima:
+      // el texto del hero se pinta mientras el overlay todavía está deslizándose.
+      // Telón total ≈ lift(~0.9) + 0.12 + 0.9 ≈ 1.9s. Mismas curvas/etapas, sólo
+      // duraciones recortadas (sin CLS: el layout del hero no cambia).
       const tl = gsap.timeline();
       tlRef.current = tl;
 
-      tl.to(q(".pl-core"), { scale: 1, opacity: 1, duration: 0.4, ease: "expo.out" })
+      tl.to(q(".pl-core"), { scale: 1, opacity: 1, duration: 0.25, ease: "expo.out" })
         .to(
           q(".pl-node"),
-          { scale: 1, opacity: 1, duration: 0.4, stagger: 0.04, ease: "back.out(1.7)" },
-          "-=0.2",
+          { scale: 1, opacity: 1, duration: 0.3, stagger: 0.03, ease: "back.out(1.7)" },
+          "-=0.15",
         )
         .to(
           q(".pl-line"),
-          { strokeDashoffset: 0, duration: 0.5, stagger: 0.025, ease: "power2.out" },
-          "-=0.3",
+          { strokeDashoffset: 0, duration: 0.35, stagger: 0.018, ease: "power2.out" },
+          "-=0.25",
         )
-        .to(q(".pl-glow"), { opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" }, ">-0.1")
-        .to(q(".pl-mark"), { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, "<")
+        .to(q(".pl-glow"), { opacity: 1, scale: 1, duration: 0.45, ease: "expo.out" }, ">-0.1")
+        .to(q(".pl-mark"), { opacity: 1, scale: 1, duration: 0.4, ease: "expo.out" }, "<")
         .to(
           [q(".pl-node"), q(".pl-line"), q(".pl-core")],
-          { opacity: 0, duration: 0.4, ease: "power2.in" },
+          { opacity: 0, duration: 0.3, ease: "power2.in" },
           "<+0.05",
         )
-        .to(q(".pl-word"), { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.25")
-        .to(q(".pl-bar i"), { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, "-=0.35")
-        .addLabel("lift", "+=0.15")
+        .to(q(".pl-word"), { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, "-=0.2")
+        .to(q(".pl-bar i"), { scaleX: 1, duration: 0.35, ease: "power2.inOut" }, "-=0.25")
+        .addLabel("lift", "+=0.08")
         .call(signalDone, undefined, "lift")
-        .to(q(".pl-content"), { y: -24, opacity: 0, duration: 0.6, ease: "power3.in" }, "lift")
+        .to(q(".pl-content"), { y: -24, opacity: 0, duration: 0.5, ease: "power3.in" }, "lift")
         .to(
           root,
           {
@@ -180,7 +186,7 @@ export function Preloader() {
         ref={skipRef}
         type="button"
         onClick={skip}
-        className="absolute bottom-5 right-5 rounded-[var(--r-md)] px-3 py-2 text-xs uppercase tracking-[0.2em] text-text-soft transition-colors hover:text-text"
+        className="absolute bottom-5 right-5 rounded-[var(--r-md)] px-4 py-3 text-sm uppercase tracking-[0.2em] text-text-soft transition-colors hover:text-text"
       >
         Saltar intro
       </button>

@@ -11,13 +11,15 @@ export function SiteFooter() {
         <p className="text-caption">
           © 2026 {site.name} · {site.signoff}
         </p>
-        <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+        {/* -my-2 compensa el alto extra del py-2 (área táctil ≥44px) para no
+            descuadrar la alineación del flex row con los dos <p> meta. */}
+        <nav className="-my-2 flex flex-wrap items-center justify-center gap-x-5">
           {footer.columns.map((col) =>
             col.links.map((l) => (
               <a
                 key={`${col.title}-${l.label}`}
                 href={l.href}
-                className="text-caption transition-colors hover:text-text"
+                className="inline-flex items-center py-2 text-caption transition-colors hover:text-text"
               >
                 {l.label}
               </a>

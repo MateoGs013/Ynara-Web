@@ -6,6 +6,14 @@
 > Escrito por Eros (director creativo) tras analizar el código fuente de las
 > referencias y varias rondas de feedback con Mateo.
 
+> **Nota de implementación (estado actual):** el motor WebGL implementado es
+> **CascadeField.tsx** — técnica infinitefield completa: `PlaneGeometry` muy
+> subdividido + `RawShaderMaterial` con simplex-noise Ashima, morfeo por scroll
+> vía ScrollTrigger, mouse reactivo. Montado por `Field.tsx` detrás de todo.
+> Los capítulos viven en `components/journey/*`.
+> LightForm.tsx, fieldState.ts, RibbonField.tsx y Constellation.tsx fueron
+> descartados durante el desarrollo y ya no existen en el repositorio.
+
 ---
 
 ## 0. El veredicto en una frase

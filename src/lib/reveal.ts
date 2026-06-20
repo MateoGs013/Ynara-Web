@@ -1,6 +1,6 @@
 "use client";
 
-import { gsap, registerGsap, type ScrollTrigger, SplitText } from "@/lib/motion";
+import { gsap, reducedMotion, registerGsap, type ScrollTrigger, SplitText } from "@/lib/motion";
 
 export interface LineRevealOpts {
   /** Starting vertical offset — defaults to tiwis "manifesto" value */
@@ -46,6 +46,17 @@ export function lineReveal(el: Element, opts: LineRevealOpts = {}) {
   } = opts;
 
   registerGsap();
+
+  // Reduced-motion (defensa en profundidad): split sólo si hace falta para no
+  // romper el layout, dejá las líneas en su estado FINAL visible y devolvé un
+  // tween ya completado (compatible con callers que hacen .play()).
+  if (reducedMotion()) {
+    const split = SplitText.create(el, { type: "lines", mask: "lines" });
+    gsap.set(split.lines, { y: "0%", rotation: 0, opacity: 1 });
+    const tween = gsap.to(split.lines, { y: "0%", rotation: 0, duration: 0 });
+    tween.progress(1).pause();
+    return tween;
+  }
 
   // Immediate (caller-driven, on-load): split una vez, tween pausado.
   if (immediate) {
@@ -93,6 +104,11 @@ export function lineReveal(el: Element, opts: LineRevealOpts = {}) {
  */
 export function hairlineReveal(el: HTMLElement, start = "clamp(top 85%)"): gsap.core.Tween {
   registerGsap();
+  // Reduced-motion: hairline en su estado final (100%), tween no-op.
+  if (reducedMotion()) {
+    gsap.set(el, { width: "100%" });
+    return gsap.to(el, { width: "100%", duration: 0 });
+  }
   gsap.set(el, { width: "0%" });
   return gsap.to(el, {
     width: "100%",
@@ -113,6 +129,11 @@ export function svgDrawReveal(
   registerGsap();
   const { dur = 1.5, ease = "power3.inOut", delay = 0 } = opts;
   const len = path.getTotalLength();
+  // Reduced-motion: trazo completo (dashoffset 0), tween no-op.
+  if (reducedMotion()) {
+    gsap.set(path, { strokeDasharray: len, strokeDashoffset: 0 });
+    return gsap.to(path, { strokeDashoffset: 0, duration: 0 });
+  }
   gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
   return gsap.to(path, {
     strokeDashoffset: 0,

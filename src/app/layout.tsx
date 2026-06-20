@@ -15,9 +15,9 @@ const jsonLd = {
       "@type": "Organization",
       name: "Ynara",
       url: `https://${site.domain}`,
-      logo: `https://${site.domain}/opengraph-image`,
+      logo: `https://${site.domain}/logo.svg`,
       description: site.description,
-      foundingDate: "2026",
+      foundingDate: "2026-01-01",
       areaServed: "AR",
     },
     {
@@ -51,6 +51,7 @@ export const metadata: Metadata = {
   description: site.description,
   applicationName: "Ynara",
   alternates: { canonical: "/" },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   keywords: [
     "Ynara",
     "asistente personal",
@@ -69,6 +70,14 @@ export const metadata: Metadata = {
     siteName: "Ynara",
     title: "Ynara · Tu asistente personal con memoria",
     description: site.description,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Ynara — Tu asistente personal con memoria",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

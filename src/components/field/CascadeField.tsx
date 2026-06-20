@@ -1,7 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import * as THREE from "three";
+import {
+  AdditiveBlending,
+  Clock,
+  Color,
+  DoubleSide,
+  Mesh,
+  PerspectiveCamera,
+  PlaneGeometry,
+  Scene,
+  ShaderMaterial,
+  WebGLRenderer,
+} from "three";
 import { gsap, reducedMotion, registerGsap, ScrollTrigger } from "@/lib/motion";
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -242,13 +253,16 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
     registerGsap();
     const reduced = reducedMotion();
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    const renderer = new WebGLRenderer({
+      canvas,
+      antialias: (window.devicePixelRatio || 1) < 1.5,
+    });
     renderer.setClearColor(BG, 1);
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(BG);
+    const scene = new Scene();
+    scene.background = new Color(BG);
 
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
+    const camera = new PerspectiveCamera(45, 1, 0.01, 100);
     camera.position.set(0, 0, 5);
 
     const W = 70;
@@ -257,7 +271,7 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
     const coarse = window.innerWidth < 768;
     const RES = coarse ? 4 : 6;
     const MAX_DPR = coarse ? 1.5 : 1.75;
-    const geometry = new THREE.PlaneGeometry(W, H, W * RES, H * RES);
+    const geometry = new PlaneGeometry(W, H, W * RES, H * RES);
 
     const u = {
       uTime: { value: 0 },
@@ -270,23 +284,23 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
       uDotsRadiusGrow: { value: 0 },
       uChecksNormalizeByNoise: { value: 0 },
       uWaveOpacity: { value: 1 },
-      uFlat: { value: new THREE.Color(0.184, 0.353, 0.651) }, // azul #2f5aa6
-      uViolet: { value: new THREE.Color(0.506, 0.396, 0.639) }, // violeta #8165a3
-      uIvory: { value: new THREE.Color(0.953, 0.941, 0.918) }, // marfil #f3f0ea
+      uFlat: { value: new Color(0.184, 0.353, 0.651) }, // azul #2f5aa6
+      uViolet: { value: new Color(0.506, 0.396, 0.639) }, // violeta #8165a3
+      uIvory: { value: new Color(0.953, 0.941, 0.918) }, // marfil #f3f0ea
     };
 
-    const material = new THREE.ShaderMaterial({
+    const material = new ShaderMaterial({
       vertexShader: VERT,
       fragmentShader: FRAG,
       uniforms: u,
       transparent: true,
-      blending: THREE.AdditiveBlending,
+      blending: AdditiveBlending,
       depthWrite: false,
       depthTest: true,
-      side: THREE.DoubleSide,
+      side: DoubleSide,
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new Mesh(geometry, material);
     mesh.rotation.x = -0.5 * Math.PI; // arranca como piso → olas edge-on
     scene.add(mesh);
 
@@ -361,7 +375,7 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
       return max > 0 ? clamp01(window.scrollY / max) : 0;
     };
 
-    const resize = () => {
+    const applyResize = () => {
       const w = canvas.clientWidth || window.innerWidth;
       const h = canvas.clientHeight || window.innerHeight;
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_DPR));
@@ -369,10 +383,45 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       measureAnchors();
+      // En reduced-motion no hay RAF continuo → re-renderizá el frame estático.
+      if (reduced) renderer.render(scene, camera);
     };
-    resize();
 
-    const clock = new THREE.Clock();
+    // Resize con debounce (~150ms): evita una ráfaga de setSize/measureAnchors
+    // durante el arrastre del borde. El mount llama applyResize() directo.
+    let resizeTimer: ReturnType<typeof setTimeout> | undefined;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(applyResize, 150);
+    };
+
+    applyResize();
+
+    // ── REDUCED-MOTION: frame estático ──────────────────────────────────────
+    // Fijá el timeline a la fase de olas inicial (progress 0) con un uTime
+    // "lindo" congelado, renderizá UNA vez y NO agendes RAF continuo. El campo
+    // se ve (no negro) y el resize re-renderiza ese mismo frame (arriba).
+    if (reduced) {
+      tl.progress(0);
+      u.uTime.value = 12; // momento representativo del oleaje satinado
+      renderer.render(scene, camera);
+
+      window.addEventListener("resize", debouncedResize);
+      return () => {
+        clearTimeout(resizeTimer);
+        cancelAnimationFrame(measureRaf);
+        window.removeEventListener("resize", debouncedResize);
+        ScrollTrigger.removeEventListener("refresh", measureAnchors);
+        window.__setFieldProgress = undefined;
+        window.__resetFieldProgress = undefined;
+        tl.kill();
+        geometry.dispose();
+        material.dispose();
+        renderer.dispose();
+      };
+    }
+
+    const clock = new Clock();
     let raf = 0;
     const render = () => {
       raf = requestAnimationFrame(render);
@@ -386,7 +435,6 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
 
       delta *= 0.62; // las olas respiran lento — calma, no apuro
       delta *= 1 - animParams.noiseTimeIncr;
-      if (reduced) delta *= 0.35; // deriva mínima, sin scrub
       u.uTime.value += delta;
 
       tl.progress(readProgress());
@@ -402,12 +450,13 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
     };
     document.addEventListener("visibilitychange", onVisibility);
 
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", debouncedResize);
     return () => {
       cancelAnimationFrame(raf);
       cancelAnimationFrame(measureRaf);
+      clearTimeout(resizeTimer);
       document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", debouncedResize);
       ScrollTrigger.removeEventListener("refresh", measureAnchors);
       window.__setFieldProgress = undefined;
       window.__resetFieldProgress = undefined;
