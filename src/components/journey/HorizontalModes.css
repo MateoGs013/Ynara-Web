@@ -156,10 +156,15 @@
   }
 
   @media (max-width: 767px) {
-    .horizontal-section { height: auto; margin-top: 0; position: static; }
-    .horizontal-wrapper { overflow: visible; }
-    .track { flex-direction: column; height: auto; }
-    .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; padding: 10vw 6vw 8vw; }
+    /* !important para ganarle a los estilos inline que deja el viaje horizontal
+       (sobre todo el scale(0) del wrapper de setupDesktop): sin esto, al achicar
+       una ventana de desktop con mouse (pointer: fine), el wrapper quedaba en
+       scale(0) y colapsaba TODAS las cards a tamaño cero — solo se veía la
+       primera y el scroll pasaba de largo. */
+    .horizontal-section { height: auto !important; margin-top: 0 !important; position: static !important; }
+    .horizontal-wrapper { overflow: visible !important; transform: none !important; }
+    .track { flex-direction: column !important; height: auto !important; transform: none !important; }
+    .h-slide { flex: none !important; width: 100% !important; height: auto !important; min-height: 70svh; padding: 10vw 6vw 8vw; }
     .h-slide.side { min-height: 40svh; }
   }
   /* respaldo: cualquier dispositivo touch neutraliza el pin horizontal aunque el
