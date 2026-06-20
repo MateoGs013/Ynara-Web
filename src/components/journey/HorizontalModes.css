@@ -162,7 +162,7 @@
        scale(0) y colapsaba TODAS las cards a tamaño cero — solo se veía la
        primera y el scroll pasaba de largo. */
     .horizontal-section { height: auto !important; margin-top: 0 !important; position: static !important; }
-    .horizontal-wrapper { overflow: visible !important; transform: none !important; }
+    .horizontal-wrapper { overflow: visible !important; transform: none !important; height: auto !important; }
     .track { flex-direction: column !important; height: auto !important; transform: none !important; }
     .h-slide { flex: none !important; width: 100% !important; height: auto !important; min-height: 70svh; padding: 10vw 6vw 8vw; }
     .h-slide.side { min-height: 40svh; }
@@ -171,14 +171,14 @@
      JS no haya corrido (el viaje horizontal solo aplica a punteros finos) */
   @media (pointer: coarse) {
     .horizontal-section { height: auto !important; margin-top: 0 !important; position: static !important; }
-    .horizontal-wrapper { overflow: visible !important; transform: none !important; }
+    .horizontal-wrapper { overflow: visible !important; transform: none !important; height: auto !important; }
     .track { flex-direction: column; height: auto; transform: none !important; }
     .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; }
     .h-slide.side { min-height: 40svh; }
   }
   @media (prefers-reduced-motion: reduce) {
     .horizontal-section { height: auto; margin-top: 0; position: static; }
-    .horizontal-wrapper { overflow: visible; transform: none !important; }
+    .horizontal-wrapper { overflow: visible; transform: none !important; height: auto !important; }
     .track { flex-direction: column; height: auto; transform: none !important; }
     .h-slide { flex: none; width: 100%; height: auto; min-height: 60svh; }
     .h-slide.side { min-height: 30svh; }
