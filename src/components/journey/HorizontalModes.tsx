@@ -98,15 +98,13 @@ export function HorizontalModes() {
   );
 
   function setupMobileFallback() {
-    slideRefs.current.forEach((el) => {
-      if (!el) return;
-      const texts = el.querySelectorAll<HTMLElement>(
-        ".h-slide__claim, .h-slide__word, .h-slide__label",
-      );
-      texts.forEach((t) => {
-        lineReveal(t, { y: "140%", rot: 2.5, dur: 0.7, stagger: 0.05, start: "top 80%" });
-      });
-    });
+    // Mobile / touch: stack vertical con el contenido SIEMPRE visible.
+    // Antes se enmascaraba cada card con SplitText y se revelaba en "top 80%";
+    // si ese ScrollTrigger no disparaba (Lenis + layout tardío del stack), las
+    // cards de abajo quedaban ocultas para siempre — solo se veía la primera.
+    // En mobile la legibilidad manda: no escondemos nada. El reveal con máscaras
+    // es exclusivo del viaje horizontal (desktop, puntero fino). El CSS ya deja
+    // el stack legible, así que acá no hace falta tocar el DOM.
   }
 
   function setupDesktop() {
