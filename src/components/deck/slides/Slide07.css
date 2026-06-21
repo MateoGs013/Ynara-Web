@@ -1,0 +1,108 @@
+/* L07 · La landing — texto a la izquierda, ventana de browser con la captura
+   principal + fila de miniaturas a la derecha. Mundo oscuro, registro CALMA.
+   Las capturas reales de la landing son las protagonistas. */
+.s07 {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+@media (max-width: 820px) {
+  .s07 {
+    grid-template-columns: 1fr;
+    gap: clamp(1.25rem, 4vh, 2.25rem);
+  }
+}
+
+.s07__text {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.9rem, 2vh, 1.5rem);
+}
+
+/* Columna derecha: marco principal + fila de miniaturas. */
+.s07__gallery {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.55rem, 1.3vh, 1rem);
+  min-width: 0;
+}
+
+/* ── Marco tipo ventana / browser ─────────────────────────────────────────── */
+.s07__window {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--c-hair-2);
+  border-radius: var(--r-xl);
+  background: var(--c-glass);
+  box-shadow: 0 24px 60px -32px rgb(0 0 0 / 0.7);
+}
+
+.s07__chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.7rem, 1.5vw, 1.1rem);
+  border-bottom: 1px solid var(--c-hair);
+  background: var(--c-glass-2);
+}
+.s07__dot {
+  width: clamp(8px, 0.9vw, 11px);
+  height: clamp(8px, 0.9vw, 11px);
+  flex: none;
+  border-radius: var(--r-pill);
+  background: var(--c-hair-strong);
+}
+/* punto activo: el azul de marca (señal de calma) firma la ventana */
+.s07__dot:first-child {
+  background: var(--register-accent, var(--c-blue-bright));
+}
+.s07__addr {
+  flex: 1;
+  height: clamp(1rem, 2vw, 1.4rem);
+  margin-left: clamp(0.5rem, 1.4vw, 1rem);
+  max-width: 20rem;
+  border-radius: var(--r-pill);
+  background: var(--c-glass-3);
+  border: 1px solid var(--c-hair);
+}
+
+/* Pantalla: captura principal apaisada, anclada arriba. */
+.s07__screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--c-void);
+}
+.s07__shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* ── Fila de dos miniaturas ──────────────────────────────────────────────── */
+.s07__thumbs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(0.5rem, 1.2vw, 0.9rem);
+}
+.s07__thumb {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-lg);
+  background: var(--c-void);
+}
+.s07__thumb-shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}

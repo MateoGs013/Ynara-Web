@@ -3,6 +3,7 @@
 import Lenis from "lenis";
 import { useEffect } from "react";
 import { gsap, reducedMotion, registerGsap, ScrollTrigger } from "@/lib/motion";
+import { useIsDeckRoute } from "@/lib/useDeckRoute";
 
 declare global {
   interface Window {
@@ -17,7 +18,9 @@ declare global {
  * en estado detenido — el preloader lo libera al levantar el telón.
  */
 export default function SmoothScroll() {
+  const isDeck = useIsDeckRoute();
   useEffect(() => {
+    if (isDeck) return; // el deck navega por teclado: nada de smooth-scroll
     if (reducedMotion()) return;
     registerGsap();
 
@@ -82,7 +85,7 @@ export default function SmoothScroll() {
       window.__lenis = undefined;
       document.documentElement.classList.remove("lenis");
     };
-  }, []);
+  }, [isDeck]);
 
   return null;
 }

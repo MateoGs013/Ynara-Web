@@ -1,0 +1,108 @@
+/* L17 · Lo que viene — roadmap como línea de tiempo de 3 etapas (marfil). */
+.s17 {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.6rem, 4vh, 3rem);
+}
+.s17__head {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.9rem, 2vh, 1.4rem);
+}
+.s17__statement {
+  font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem);
+  max-width: 18ch;
+}
+
+/* Timeline: 3 columnas con un hilo horizontal que las une. */
+.s17__timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.4vw, 2.2rem);
+}
+@media (max-width: 820px) {
+  .s17__timeline {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+}
+
+.s17__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: clamp(1.4rem, 2.4vh, 2rem);
+  border-top: 1px solid var(--deck-surface-border);
+  transition: opacity 0.4s var(--ease-soft);
+}
+/* Etapas futuras: presentes pero atenuadas (reduced-motion las ve igual). */
+.s17__stage.is-future {
+  opacity: 0.62;
+}
+
+/* Marcador sobre el hilo: diamante para el presente, punto para el futuro. */
+.s17__marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--deck-fg-muted);
+  transform: translateY(-50%);
+}
+.s17__stage.is-present .s17__marker {
+  border-radius: 1px;
+  background: var(--register-accent, var(--c-blue));
+  transform: translateY(-50%) rotate(45deg);
+  box-shadow: 0 0 16px -2px var(--register-accent, var(--c-blue));
+}
+.s17__stage.is-present {
+  border-top-color: var(--register-accent, var(--c-blue));
+}
+
+.s17__phase {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.82rem, 0.7rem + 0.4vw, 1rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--register-accent, var(--c-blue));
+}
+.s17__now {
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--register-accent, var(--c-blue));
+  padding: 0.18rem 0.5rem;
+  border-radius: var(--r-pill);
+}
+.s17__when {
+  margin: 0;
+  font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.3rem, 1rem + 1.2vw, 2rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--deck-fg);
+  text-wrap: balance;
+}
+.s17__body {
+  margin: 0;
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-size: clamp(0.92rem, 0.88rem + 0.3vw, 1.08rem);
+  line-height: 1.5;
+  color: var(--deck-fg-soft);
+  max-width: 32ch;
+}

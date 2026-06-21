@@ -1,0 +1,174 @@
+/* L06 · Desarrollo de la marca — lockup + etimología + sistema visual (logo,
+   color, tipografía). */
+.s06 {
+  gap: clamp(0.9rem, 2.2vh, 1.6rem);
+}
+
+/* Lockup: isotipo dimensionado en `em` relativo al wordmark → misma proporción
+   que la portada (isotipo ≈ alto de la palabra). Tamaño moderado: esta lámina
+   también muestra el sistema visual, así que el lockup no es colosal. */
+.s06__lockup {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.18em;
+  font-size: clamp(3rem, 1rem + 7vw, 6.5rem);
+}
+.s06__mark {
+  width: 0.82em;
+  height: auto;
+  margin-bottom: 0.04em;
+}
+.s06__wordmark {
+  font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1em;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  color: var(--deck-fg);
+}
+
+.s06__etymology {
+  max-width: 44ch;
+}
+
+/* Sistema visual: tres bloques en fila (significado · color · tipografía),
+   separados del lockup por una hairline. Apila bajo 860px. */
+.s06__system {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 0.9fr;
+  gap: clamp(1.2rem, 3vw, 3rem);
+  margin-top: clamp(0.3rem, 1.2vh, 0.9rem);
+  padding-top: clamp(0.9rem, 2vh, 1.5rem);
+  border-top: 1px solid var(--deck-hair);
+}
+@media (max-width: 860px) {
+  .s06__system {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+}
+
+/* Significado del logo (figura / diamante) */
+.s06__defs {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.7rem, 1.6vh, 1.1rem);
+}
+.s06__def {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-left: clamp(0.8rem, 1.2vw, 1.1rem);
+  border-left: 2px solid var(--register-accent, var(--c-violet));
+}
+.s06__key {
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.88rem, 0.82rem + 0.25vw, 1rem);
+  letter-spacing: 0.02em;
+  color: var(--register-accent, var(--c-violet));
+}
+.s06__val {
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-size: clamp(0.85rem, 0.8rem + 0.22vw, 0.98rem);
+  line-height: 1.4;
+  color: var(--deck-fg-soft);
+  max-width: 32ch;
+}
+
+/* Etiqueta de bloque (Color / Tipografía) */
+.s06__block-label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--deck-fg-muted);
+}
+
+/* Muestras de color */
+.s06__swatches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.5rem, 1vw, 0.85rem);
+}
+.s06__swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.s06__chip {
+  display: block;
+  width: 100%;
+  height: clamp(2.2rem, 5vh, 3.2rem);
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-hair-2);
+}
+.s06__chip-name {
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--deck-fg);
+}
+.s06__chip-hex {
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--deck-fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Muestras tipográficas */
+.s06__fonts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.7rem, 1.6vh, 1.1rem);
+}
+.s06__font {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.s06__font-sample {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(2.6rem, 6vh, 3.4rem);
+  height: clamp(2.6rem, 6vh, 3.4rem);
+  border: 1px solid var(--deck-hair);
+  border-radius: var(--r-md);
+  font-size: clamp(1.3rem, 3vh, 1.8rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--deck-fg);
+}
+.s06__font-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.s06__font-name {
+  font-size: clamp(0.92rem, 0.85rem + 0.3vw, 1.08rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--deck-fg);
+}
+.s06__font-role {
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--deck-fg-muted);
+}
