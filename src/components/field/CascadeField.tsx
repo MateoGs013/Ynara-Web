@@ -206,7 +206,7 @@ const FRAG = /* glsl */ `
     color = mix(color, uIvory, pow(uChecksNormalizeByNoise, 4.0));
     color = mix(vec3(0.0), color, cells_mask);
 
-    // ── opacidad: bandas que viajan + media cinta (corte en vUv.y) ──
+    // ── opacidad: bandas que viajan + cinta casi completa (corte suave en vUv.y) ──
     float stripe = fract(0.2 * uTime + 0.12 * vPos.y - 0.04 * sin(0.8 * vPos.x));
     stripe = smoothstep(0.0, 0.5, stripe) * (1.0 - smoothstep(0.5, 1.0, stripe));
     stripe += (1.0 + vWaveNoise) * (1.0 - uWaveColored);
@@ -216,7 +216,9 @@ const FRAG = /* glsl */ `
     // Aditivo MÁS suave (6.5 vs 12) y cap bajo (0.95) → seda oscura que no
     // estalla a blanco; el texto gana siempre.
     opacity = 6.5 * pow(opacity, 1.0 + uWaveColored);
-    opacity *= smoothstep(0.3 + 0.2 * uWaveColored, 0.31 + 0.2 * uWaveColored, vUv.y);
+    // La seda llena el alto: sólo se desvanece el borde inferior (antes cortaba a
+    // media cinta en vUv.y ~0.3–0.5 y dejaba una banda oscura arriba).
+    opacity *= smoothstep(0.02, 0.16, vUv.y);
     opacity = min(opacity, 0.95);
     opacity *= uWaveOpacity;
 

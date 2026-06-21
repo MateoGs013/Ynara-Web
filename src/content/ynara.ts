@@ -1,6 +1,6 @@
 /**
  * Banco de copy de Ynara — fuente única de texto para todas las secciones.
- * Voz: rioplatense (voseo), directa, sin tics de chatbot, sin emojis, editorial.
+ * Voz: voseo, directa, sin tics de chatbot, sin emojis, editorial.
  * Basado en Brief, Elección del Nombre, Business Model Canvas y TONE-OF-VOICE.
  */
 
@@ -10,7 +10,7 @@ export const site = {
   tagline: "Tu asistente personal con memoria.",
   signoff: "Pensar mejor, recordar siempre.",
   description:
-    "Ynara es tu asistente personal con memoria: una sola app que organiza tu vida, recuerda todo y te acompaña. Privada y on-prem, en rioplatense.",
+    "Ynara es tu asistente personal con memoria: una sola app que organiza tu vida, recuerda todo y te acompaña. Privada y on-prem.",
   verbs: ["Organiza", "Recuerda", "Acompaña"],
 } as const;
 
@@ -127,7 +127,7 @@ export const feel = {
   wordmark: "Voz",
   title: "Habla como una persona.",
   support:
-    "Rioplatense, directa, sin sermones. Le escribís en una línea y resuelve. Cuando no sabe algo, te lo dice.",
+    "Directa, sin sermones. Le escribís en una línea y resuelve. Cuando no sabe algo, te lo dice.",
   chats: [
     {
       mode: "Productividad",

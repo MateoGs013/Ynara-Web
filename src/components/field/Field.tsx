@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useIsDeckRoute } from "@/lib/useDeckRoute";
 
 // El campo es client-only (WebGL). Sin SSR para el canvas.
 const CascadeField = dynamic(() => import("./CascadeField"), { ssr: false });
@@ -13,6 +14,9 @@ const CascadeField = dynamic(() => import("./CascadeField"), { ssr: false });
  * Viñeta y grano dan la textura nocturna sobre el carbón azulado.
  */
 export function Field() {
+  // En /presentacion el deck monta y conduce su propio campo → no dupliques WebGL.
+  if (useIsDeckRoute()) return null;
+
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10">
       <div className="absolute inset-0">

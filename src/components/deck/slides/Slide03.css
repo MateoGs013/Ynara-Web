@@ -1,0 +1,87 @@
+/* L03 · El problema (humano) — oscuro, caos. Texto anclado a la izquierda con
+ * aire amplio a la derecha para que respire el campo turbulento. Baja densidad,
+ * jerarquía clara: la pregunta interpela, la carga se desgrana, el cierre golpea. */
+.s03 {
+  height: 100%;
+  justify-content: center;
+  gap: clamp(1.6rem, 4.5vh, 3.2rem);
+  max-width: min(64ch, var(--maxw));
+  margin-inline: 0;
+}
+
+.s03__head {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.9rem, 2.2vh, 1.6rem);
+}
+
+.s03__statement {
+  /* algo más contenida que el default mega para dejar aire; sigue dominando. */
+  font-size: clamp(2.3rem, 1.1rem + 5.2vw, 4.9rem);
+  max-width: 16ch;
+}
+
+.s03__load {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.1rem, 2.6vh, 1.9rem);
+}
+
+/* La carga, desgranada: cada ítem es una cosa más en la cabeza. */
+.s03__burdens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.55rem, 1.4vh, 1rem) clamp(1.4rem, 3vw, 2.6rem);
+  max-width: 52ch;
+}
+@media (max-width: 560px) {
+  .s03__burdens {
+    grid-template-columns: 1fr;
+  }
+}
+
+.s03__burden {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+
+.s03__count {
+  flex: none;
+  font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  /* el ordinal lleva el acento de señal del registro (violeta en caos). */
+  color: var(--register-accent, var(--c-blue-bright));
+  opacity: 0.85;
+  padding-top: 0.15em;
+}
+
+.s03__item {
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-size: clamp(0.98rem, 0.9rem + 0.45vw, 1.22rem);
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  color: var(--deck-fg-soft);
+}
+
+/* El cierre que vuelve todo personal: "Lo cargás vos, en tu cabeza." */
+.s03__closing {
+  max-width: 30ch;
+  color: var(--deck-fg);
+  font-weight: 500;
+}
+.s03__closing::before {
+  content: "";
+  display: block;
+  width: clamp(2.2rem, 6vw, 3.4rem);
+  height: 2px;
+  margin-bottom: clamp(0.7rem, 1.8vh, 1.1rem);
+  background: var(--register-accent, var(--c-blue-bright));
+  opacity: 0.8;
+}

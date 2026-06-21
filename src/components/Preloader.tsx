@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { YnaraMark } from "@/components/ui/YnaraMark";
 import { gsap, reducedMotion, ScrollTrigger, useGSAP } from "@/lib/motion";
+import { useIsDeckRoute } from "@/lib/useDeckRoute";
 
 const N = 8;
 const R = 118;
@@ -33,6 +34,7 @@ export function Preloader() {
   const skipRef = useRef<HTMLButtonElement>(null);
   const [gone, setGone] = useState(false);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const isDeck = useIsDeckRoute();
 
   const skip = () => {
     tlRef.current?.kill();
@@ -44,6 +46,7 @@ export function Preloader() {
     () => {
       const root = overlay.current;
       if (!root) return;
+      if (isDeck) return; // sin telón de apertura en el deck
 
       let seen = false;
       try {
@@ -121,7 +124,7 @@ export function Preloader() {
     { scope: overlay },
   );
 
-  if (gone) return null;
+  if (gone || isDeck) return null;
 
   return (
     <div

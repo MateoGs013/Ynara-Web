@@ -59,7 +59,6 @@ export const metadata: Metadata = {
     "memoria",
     "productividad",
     "bienestar",
-    "rioplatense",
     "self-hosted",
   ],
   authors: [{ name: "Ynara" }],

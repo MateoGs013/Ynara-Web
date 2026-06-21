@@ -1,0 +1,96 @@
+/* L16 · Objetos — statement marfil + grilla 3×2 de renders reales de producto.
+   La imagen es protagonista: cada tarjeta encuadra una toma con aspect-ratio
+   fijo (object-fit cover) y el nombre del objeto como rótulo debajo. */
+.s16 {
+  gap: clamp(1rem, 2.6vh, 2rem);
+}
+.s16__head {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.7rem, 1.8vh, 1.2rem);
+}
+.s16__statement {
+  max-width: 14ch;
+}
+
+/* Grilla 3×2 en desktop · 2 en tablet · 1 en mobile. */
+.s16__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.7rem, 1.4vw, 1.25rem);
+}
+@media (max-width: 820px) {
+  .s16__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+}
+@media (max-width: 520px) {
+  .s16__grid {
+    grid-template-columns: 1fr;
+  }
+}
+.s16__cell {
+  display: flex;
+}
+
+/* Tarjeta de producto: marco de imagen + rótulo, columna completa. */
+.s16__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 0.9vh, 0.65rem);
+  width: 100%;
+  margin: 0;
+}
+
+/* Marco de aspect-ratio uniforme. El fondo (var(--deck-surface)) cubre por si
+   algún render trae transparencia; la imagen va a object-fit cover.
+   Alto acotado: en 16:9 la grilla 3×2 no debe desbordar la lámina. */
+.s16__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: clamp(6rem, 22vh, 11rem);
+  overflow: hidden;
+  border: 1px solid var(--deck-surface-border);
+  border-radius: var(--r-lg);
+  background: var(--deck-surface);
+}
+.s16__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Numeral discreto sobre la esquina del marco. */
+.s16__num {
+  position: absolute;
+  top: clamp(0.4rem, 1vw, 0.7rem);
+  left: clamp(0.5rem, 1.2vw, 0.85rem);
+  z-index: 2;
+  font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--deck-fg);
+  mix-blend-mode: difference;
+  opacity: 0.85;
+}
+
+/* Rótulo del objeto, debajo del marco. */
+.s16__label {
+  font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+  font-size: clamp(0.8rem, 0.72rem + 0.32vw, 0.95rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--deck-fg);
+}

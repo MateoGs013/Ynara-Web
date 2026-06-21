@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { YnaraMark } from "@/components/ui/YnaraMark";
 import { nav } from "@/content/ynara";
 import { reducedMotion } from "@/lib/motion";
+import { useIsDeckRoute } from "@/lib/useDeckRoute";
 
 const HEADER_BAND = 88; // franja superior (px) donde un wipe marfil "tapa" el header
 
@@ -22,6 +23,7 @@ const HEADER_BAND = 88; // franja superior (px) donde un wipe marfil "tapa" el h
  * getBoundingClientRect en loop). En móvil (≤767px) se suma un menú accesible.
  */
 export function SiteNav() {
+  const isDeck = useIsDeckRoute();
   const brandRef = useRef<HTMLAnchorElement>(null);
   const [onLight, setOnLight] = useState(false);
 
@@ -34,6 +36,7 @@ export function SiteNav() {
 
   // --- marca (opacidad por scroll, escrita al DOM) + fondo marfil (IO) ---
   useEffect(() => {
+    if (isDeck) return; // el nav no existe en el deck
     const el = brandRef.current;
 
     // Reduced-motion: la marca queda visible y quieta (sin rAF ni IO).
@@ -109,7 +112,7 @@ export function SiteNav() {
       if (resizeRaf) cancelAnimationFrame(resizeRaf);
       io?.disconnect();
     };
-  }, []);
+  }, [isDeck]);
 
   // Menú mobile: Escape para cerrar + foco al abrir / devolución al cerrar.
   useEffect(() => {
@@ -133,6 +136,8 @@ export function SiteNav() {
   }, [menuOpen]);
 
   const reduce = typeof window !== "undefined" && reducedMotion();
+
+  if (isDeck) return null;
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
