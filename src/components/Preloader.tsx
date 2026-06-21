@@ -170,7 +170,7 @@ export function Preloader() {
             <circle className="pl-core" cx={C} cy={C} r="4" fill="#ffffff" opacity="0" />
           </svg>
           <div className="pl-mark -translate-x-1/2 -translate-y-1/2 absolute left-1/2 top-1/2">
-            <YnaraMark size={76} variant="gradient" />
+            <YnaraMark size={61} variant="gradient" />
           </div>
         </div>
 

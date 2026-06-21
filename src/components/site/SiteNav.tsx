@@ -140,11 +140,11 @@ export function SiteNav() {
         <a
           ref={brandRef}
           href="#top"
-          className="flex items-center gap-2.5 transition-opacity duration-200"
+          className="flex items-baseline gap-2.5 transition-opacity duration-200"
           aria-label="Ynara — inicio"
           style={{ opacity: 0, pointerEvents: "none" }}
         >
-          <YnaraMark size={26} variant={onLight ? "blue" : "ivory"} />
+          <YnaraMark size={21} variant={onLight ? "blue" : "ivory"} />
           <span
             className="font-display text-base font-semibold tracking-tight transition-colors duration-200"
             style={{ color: onLight ? "var(--c-navy)" : "var(--c-text-bright)" }}
@@ -233,8 +233,8 @@ export function SiteNav() {
           >
             {/* fila superior: marca + botón de cierre alineados al header */}
             <div className="mb-6 flex items-center justify-between">
-              <span className="flex items-center gap-2.5">
-                <YnaraMark size={26} variant="ivory" />
+              <span className="flex items-baseline gap-2.5">
+                <YnaraMark size={21} variant="ivory" />
                 <span className="font-display text-base font-semibold tracking-tight text-text-bright">
                   Ynara
                 </span>
