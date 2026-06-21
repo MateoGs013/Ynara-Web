@@ -186,7 +186,10 @@ const FRAG = /* glsl */ `
     color = mix(color, uViolet, uDotsMaskVisibility * 0.55);
 
     // ── disolución en puntos: círculo por celda × checkerboard ──
-    float cells_mask = circle(tile_uv, 0.1 + 2.0 * pow(uDotsRadiusGrow, 2.0 + 2.0 * clamp(vWaveNoise, 0.0, 1.0)));
+    // Radio CAPEADO (~0.45 máx): los nodos crecen pero se quedan REDONDOS y nunca
+    // llenan la celda. Antes el coef 2.0 los llevaba a r≈2.1 → los círculos
+    // llenaban el damero y se veían como CUADRADOS sólidos. Ahora: nodos siempre.
+    float cells_mask = circle(tile_uv, 0.1 + 0.35 * pow(uDotsRadiusGrow, 2.0 + 2.0 * clamp(vWaveNoise, 0.0, 1.0)));
     float checks = get_checks(p, tile_scale);
     cells_mask *= checks;
     cells_mask = mix(1.0, cells_mask, pow(uDotsMaskVisibility, 3.0 - 2.0 * clamp(vWaveNoise, 0.0, 1.0)));
@@ -319,23 +322,20 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
       .to(u.uWaveColored, { duration: 0.8, value: 0 }, 0.65)
       .to(u.uWavesDeform, { duration: 0.45, value: 0 }, 0.85)
       .to(u.uWaveToPlane, { duration: 0.4, value: 1 }, 0.9)
-      .to(u.uDotsMaskVisibility, { duration: 0.35, value: 1 }, 1.5)
-      .to(u.uDotsRadiusGrow, { duration: 0.3, value: 1, ease: "none" }, 1.72)
-      .to(animParams, { duration: 0.3, noiseTimeIncr: 1 }, 1.75)
-      .to(u.uChecksNormalizeByNoise, { duration: 0.35, value: 1, ease: "power1.inOut" }, 1.7)
-      .to(u.uGridScale, { duration: 0.16, value: 6, ease: "power2.out" }, 1.82)
-      // El remate no colapsa a cuadros grandes: limpia el tablero, reanima un
-      // poco la seda y deja un handoff más orgánico antes de atenuarse.
-      .to(animParams, { duration: 0.18, noiseTimeIncr: 0, ease: "power1.out" }, 1.98)
-      .to(u.uChecksNormalizeByNoise, { duration: 0.22, value: 0, ease: "power1.inOut" }, 1.98)
-      .to(u.uDotsMaskVisibility, { duration: 0.2, value: 0, ease: "power1.inOut" }, 2.0)
-      .to(u.uDotsRadiusGrow, { duration: 0.18, value: 0, ease: "power1.inOut" }, 2.02)
-      .to(u.uWaveColored, { duration: 0.26, value: 0.32, ease: "power1.out" }, 2.0)
-      .to(u.uWavesDeform, { duration: 0.26, value: 0.24, ease: "power1.out" }, 2.0)
-      .to(u.uWaveToPlane, { duration: 0.26, value: 0.72, ease: "power1.out" }, 2.0)
-      .to(u.uGridScale, { duration: 0.2, value: 9, ease: "power1.inOut" }, 2.0)
+      // plano → PUNTOS (Memoria = red de nodos). Entran antes y se sostienen más:
+      // ya NO hay fase de "tablero de cuadrados" que los interrumpa. Sin tweens de
+      // uChecksNormalizeByNoise / uGridScale / noiseTimeIncr → el noise sigue
+      // fluyendo y los nodos respiran (vivos) durante todo su tramo.
+      .to(u.uDotsMaskVisibility, { duration: 0.4, value: 1 }, 1.3)
+      .to(u.uDotsRadiusGrow, { duration: 0.35, value: 1, ease: "none" }, 1.45)
+      // Cierre: los nodos se disuelven y vuelve la seda tenue para ceder a las cards.
+      .to(u.uDotsMaskVisibility, { duration: 0.26, value: 0, ease: "power1.inOut" }, 2.15)
+      .to(u.uDotsRadiusGrow, { duration: 0.22, value: 0, ease: "power1.inOut" }, 2.18)
+      .to(u.uWaveColored, { duration: 0.28, value: 0.32, ease: "power1.out" }, 2.15)
+      .to(u.uWavesDeform, { duration: 0.28, value: 0.24, ease: "power1.out" }, 2.15)
+      .to(u.uWaveToPlane, { duration: 0.28, value: 0.72, ease: "power1.out" }, 2.15)
       // Atenuación final: la onda baja la luz para cederla a las cards.
-      .to(u.uWaveOpacity, { duration: 0.15, value: 0.38 }, 2.12);
+      .to(u.uWaveOpacity, { duration: 0.16, value: 0.38 }, 2.3);
 
     let manual: number | null = null;
     window.__setFieldProgress = (p) => {

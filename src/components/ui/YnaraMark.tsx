@@ -40,7 +40,7 @@ export function YnaraMark({
     <svg
       width={size}
       height={size}
-      viewBox="0 0 1012.54 1009.81"
+      viewBox="117 107 779 807"
       fill="none"
       role="img"
       aria-label={title}

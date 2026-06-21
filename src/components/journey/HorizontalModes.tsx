@@ -2,8 +2,8 @@
 
 import { useRef } from "react";
 import { problem } from "@/content/ynara";
-import { gsap, reducedMotion, registerGsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/motion";
-import { lineReveal } from "@/lib/reveal";
+import { gsap, reducedMotion, registerGsap, ScrollTrigger, useGSAP } from "@/lib/motion";
+import "./HorizontalModes.css";
 
 /**
  * Capítulo 03 — EL HANDOFF. El campo llega aquí convertido en tablero de
@@ -17,12 +17,13 @@ import { lineReveal } from "@/lib/reveal";
  * completa (p=1). El tablero ES la antesala de las cards.
  */
 
-// Acentos planos de la identidad: azul · violeta (señal=memoria) · azul violáceo.
-const ACCENTS = ["#2f5aa6", "#8165a3", "#5c6fb3"] as const;
+// Acentos planos de la identidad: azul · violeta (señal=memoria) · azul violáceo · índigo.
+const ACCENTS = ["#2f5aa6", "#8165a3", "#5c6fb3", "#434a82"] as const;
 const CLAIMS = [
   "Agendar, recordar, cerrar tareas. Ynara aprende cómo trabajás y se adelanta — lista antes de que preguntes.",
   "Nombres, charlas, decisiones. Todo se conecta en silencio y se cita textual: no reescribe tus recuerdos.",
   "Registra tu energía y tus patrones. Está cuando la necesitás y se corre cuando no.",
+  "Conecta lo que sabe de vos para sugerir el próximo paso — qué priorizar, cuándo frenar, a quién escribir. Ella propone; vos decidís.",
 ] as const;
 const CARDS = problem.layers.map((l, i) => ({
   word: l.title,
@@ -59,18 +60,27 @@ function SvgPulse({ className }: { className?: string }) {
     </svg>
   );
 }
+function SvgCompass({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 100 100" className={className} aria-hidden role="presentation">
+      <circle cx="50" cy="50" r="38" />
+      <path d="M50 26 L60 50 L50 74 L40 50 Z" />
+      <circle cx="50" cy="50" r="3" />
+    </svg>
+  );
+}
 
 const SPACERS = [
   { label: "01 · Organiza", Svg: SvgOrbit },
   { label: "02 · Recuerda", Svg: SvgNet },
   { label: "03 · Acompaña", Svg: SvgPulse },
+  { label: "04 · Aconseja", Svg: SvgCompass },
 ] as const;
 
 export function HorizontalModes() {
   const rootRef = useRef<HTMLElement>(null);
   const textPinRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const claimSplitsRef = useRef<Map<number, SplitText>>(new Map());
   const revealedRef = useRef<Set<number>>(new Set());
   const firstCardTweenRef = useRef<gsap.core.Tween | null>(null);
 
@@ -97,15 +107,23 @@ export function HorizontalModes() {
   );
 
   function setupMobileFallback() {
-    slideRefs.current.forEach((el) => {
-      if (!el) return;
-      const texts = el.querySelectorAll<HTMLElement>(
-        ".h-slide__claim, .h-slide__word, .h-slide__label",
+    // Mobile / touch: stack vertical con el contenido SIEMPRE visible. El reveal
+    // por scroll es exclusivo del viaje horizontal (desktop). Acá NO escondemos
+    // nada y, además, limpiamos ACTIVAMENTE cualquier estilo inline que el viaje
+    // horizontal pudiera haber dejado al redimensionar desktop->mobile (los
+    // gsap.set(opacity:0)/transform no siempre los revierte matchMedia). clearProps
+    // los borra y el contenido vuelve a su estado natural; el CSS !important del
+    // breakpoint mobile es la garantía final de visibilidad.
+    for (const el of slideRefs.current) {
+      if (!el) continue;
+      const targets = el.querySelectorAll<HTMLElement>(
+        ".h-slide__claim, .h-slide__word, .h-slide__label, .h-slide__features li, .slide-side__label",
       );
-      texts.forEach((t) => {
-        lineReveal(t, { y: "140%", rot: 2.5, dur: 0.7, stagger: 0.05, start: "top 80%" });
-      });
-    });
+      const strokes = el.querySelectorAll<SVGGeometryElement>(
+        ".slide-side__svg path, .slide-side__svg circle, .slide-side__svg line, .slide-side__svg polyline",
+      );
+      gsap.set([...targets, ...strokes], { clearProps: "all" });
+    }
   }
 
   function setupDesktop() {
@@ -214,7 +232,16 @@ export function HorizontalModes() {
         scrollTrigger: { trigger: textPin, start: "clamp(top 80%)" },
       });
     }
-    if (pinText) lineReveal(pinText, { y: "150%", rot: 2.5, dur: 1.2, stagger: 0.15 });
+    if (pinText) {
+      gsap.set(pinText, { opacity: 0, y: 20 });
+      gsap.to(pinText, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: textPin, start: "clamp(top 80%)" },
+      });
+    }
 
     // cleanup: matchMedia revierte triggers/pin/splits; el IO se desconecta acá.
     return () => observer?.disconnect();
@@ -230,21 +257,19 @@ export function HorizontalModes() {
         const word = el.querySelector<HTMLElement>(".h-slide__word");
         const feats = el.querySelectorAll<HTMLElement>(".h-slide__features li");
         if (feats.length) gsap.set(feats, { opacity: 0, y: 14 });
-        if (i === 0) {
-          if (claim) {
-            firstCardTweenRef.current = lineReveal(claim, {
-              y: "140%",
-              rot: 0,
-              dur: 0.7,
-              stagger: 0.05,
-              immediate: true,
-            });
-          }
-        } else if (claim) {
-          // partir YA y esconder las LÍNEAS dentro de sus máscaras
-          const split = SplitText.create(claim, { type: "lines", mask: "lines" });
-          gsap.set(split.lines, { y: "140%" });
-          claimSplitsRef.current.set(i, split);
+        // Claims: fade simple (opacity + y), sin SplitText. El reveal por
+        // líneas enmascaradas dejaba estructuras que no se limpiaban al pasar a
+        // mobile (claim con height:0). Un fade es revertible con clearProps/CSS.
+        if (claim) gsap.set(claim, { opacity: 0, y: 24 });
+        if (i === 0 && claim) {
+          // card 0: reveal gateado por el timeline (al terminar la escala).
+          firstCardTweenRef.current = gsap.to(claim, {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            paused: true,
+          });
         }
         if (label) gsap.set(label, { opacity: 0 });
         if (word) gsap.set(word, { y: "140%", opacity: 0 });
@@ -292,12 +317,11 @@ export function HorizontalModes() {
     const isCard = idx % 2 === 0;
 
     if (isCard) {
+      const claim = el.querySelector<HTMLElement>(".h-slide__claim");
       const label = el.querySelector<HTMLElement>(".h-slide__label");
       const word = el.querySelector<HTMLElement>(".h-slide__word");
       const feats = el.querySelectorAll<HTMLElement>(".h-slide__features li");
-      const split = claimSplitsRef.current.get(idx);
-      if (split)
-        gsap.to(split.lines, { y: "0%", duration: 0.7, ease: "power3.out", stagger: 0.05 });
+      if (claim) gsap.to(claim, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" });
       if (label) gsap.to(label, { opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.1 });
       if (word)
         gsap.to(word, { y: "0%", opacity: 1, duration: 0.9, ease: "power3.out", delay: 0.15 });
@@ -378,190 +402,6 @@ export function HorizontalModes() {
           </div>
         </div>
       </div>
-      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: CSS estático local */}
-      <style dangerouslySetInnerHTML={{ __html: HM_CSS }} />
     </section>
   );
 }
-
-const HM_CSS = `
-  .hm-text-pin {
-    padding: 10svh 6vw 6svh;
-  }
-  .hm-pin-label {
-    margin: 0 0 1rem;
-    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--c-acc);
-  }
-  .hm-pin-text {
-    margin: 0;
-    max-width: 760px;
-    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
-    font-weight: 700;
-    font-size: clamp(1.8rem, 1rem + 3.5vw, 3.8rem);
-    line-height: 1.08;
-    letter-spacing: -0.035em;
-    color: var(--c-text-bright);
-  }
-
-  .horizontal-section {
-    width: 100vw;
-    height: 100svh;
-    margin-top: -50vh;
-    display: flex;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-  }
-  .horizontal-wrapper {
-    transform-origin: 100% 100%;
-    width: 100vw;
-    height: 100svh;
-    position: relative;
-    overflow: hidden;
-  }
-  .track {
-    display: flex;
-    flex: none;
-    justify-content: flex-start;
-    align-items: stretch;
-    height: 100%;
-    position: relative;
-  }
-
-  .h-slide {
-    flex: 0 0 50vw;
-    height: 100%;
-    background-color: var(--c-ivory);
-    color: var(--c-navy);
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-    padding: 4.167vw 4.167vw 3.167vw;
-    overflow: hidden;
-  }
-  .h-slide.side {
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .h-slide__top {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 5.5rem;
-  }
-  .h-slide__claim {
-    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-    font-size: clamp(0.9rem, 0.5rem + 1vw, 1.1rem);
-    font-weight: 400;
-    line-height: 1.55;
-    color: var(--c-ink-soft);
-    max-width: 360px;
-    margin: 0;
-  }
-  .h-slide__features {
-    list-style: none;
-    margin: 1.8rem 0 0;
-    padding: 0;
-    max-width: 380px;
-  }
-  .h-slide__features li {
-    padding: 0.6rem 0;
-    border-top: 1px solid var(--c-ink-hair-2);
-    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-    font-size: 0.85rem;
-    line-height: 1.45;
-    color: var(--c-ink-soft);
-  }
-  .h-slide__bot {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  .h-slide__accent {
-    display: block;
-    width: 2.6rem;
-    height: 3px;
-    margin-bottom: 0.9rem;
-    background: var(--card-acc, var(--c-blue));
-  }
-  .h-slide__label {
-    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--c-ink-muted);
-  }
-  .h-slide__word {
-    font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
-    font-weight: 700;
-    font-size: clamp(3.2rem, 1rem + 6.4vw, 7rem);
-    line-height: 0.88;
-    letter-spacing: -0.05em;
-    color: var(--c-navy-deep);
-    margin: 0;
-  }
-
-  .slide-side__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-  /* fondo transparente: se ve el campo OSCURO detrás → ivory legible, no ink */
-  .slide-side__label {
-    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--c-text);
-  }
-  .slide-side__svg {
-    width: clamp(80px, 8vw, 130px);
-    height: clamp(80px, 8vw, 130px);
-    overflow: visible;
-  }
-  .slide-side__svg path,
-  .slide-side__svg circle,
-  .slide-side__svg line,
-  .slide-side__svg polyline {
-    fill: none;
-    stroke: var(--c-blue-violet);
-    stroke-width: 1.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  @media (max-width: 767px) {
-    .horizontal-section { height: auto; margin-top: 0; position: static; }
-    .horizontal-wrapper { overflow: visible; }
-    .track { flex-direction: column; height: auto; }
-    .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; padding: 10vw 6vw 8vw; }
-    .h-slide.side { min-height: 40svh; }
-  }
-  /* respaldo: cualquier dispositivo touch neutraliza el pin horizontal aunque el
-     JS no haya corrido (el viaje horizontal solo aplica a punteros finos) */
-  @media (pointer: coarse) {
-    .horizontal-section { height: auto !important; margin-top: 0 !important; position: static !important; }
-    .horizontal-wrapper { overflow: visible !important; transform: none !important; }
-    .track { flex-direction: column; height: auto; transform: none !important; }
-    .h-slide { flex: none; width: 100%; height: auto; min-height: 70svh; }
-    .h-slide.side { min-height: 40svh; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .horizontal-section { height: auto; margin-top: 0; position: static; }
-    .horizontal-wrapper { overflow: visible; transform: none !important; }
-    .track { flex-direction: column; height: auto; transform: none !important; }
-    .h-slide { flex: none; width: 100%; height: auto; min-height: 60svh; }
-    .h-slide.side { min-height: 30svh; }
-  }
-`;
