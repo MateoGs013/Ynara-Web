@@ -186,7 +186,10 @@ const FRAG = /* glsl */ `
     color = mix(color, uViolet, uDotsMaskVisibility * 0.55);
 
     // ── disolución en puntos: círculo por celda × checkerboard ──
-    float cells_mask = circle(tile_uv, 0.1 + 2.0 * pow(uDotsRadiusGrow, 2.0 + 2.0 * clamp(vWaveNoise, 0.0, 1.0)));
+    // Radio CAPEADO (~0.45 máx): los nodos crecen pero se quedan REDONDOS y nunca
+    // llenan la celda. Antes el coef 2.0 los llevaba a r≈2.1 → los círculos
+    // llenaban el damero y se veían como CUADRADOS sólidos. Ahora: nodos siempre.
+    float cells_mask = circle(tile_uv, 0.1 + 0.35 * pow(uDotsRadiusGrow, 2.0 + 2.0 * clamp(vWaveNoise, 0.0, 1.0)));
     float checks = get_checks(p, tile_scale);
     cells_mask *= checks;
     cells_mask = mix(1.0, cells_mask, pow(uDotsMaskVisibility, 3.0 - 2.0 * clamp(vWaveNoise, 0.0, 1.0)));
