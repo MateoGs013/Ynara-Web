@@ -8,6 +8,15 @@
   gap: clamp(0.9rem, 2.4vh, 1.6rem);
 }
 
+/* Las láminas de galería usan CASI todo el ancho de la proyección (no la columna
+   de texto acotada del resto del deck) para que las imágenes sean GRANDES y
+   llenen un buen espacio. Override de la max-width/gutter del inner. */
+.deck-slide__inner.deck-gallery {
+  max-width: min(96vw, 1760px);
+  padding-inline: clamp(1.25rem, 3vw, 2.75rem);
+  padding-block: clamp(1.75rem, 5vh, 3.25rem);
+}
+
 /* La grilla TOMA el alto entre el eyebrow y el caption → imágenes lo más grandes
    posible. El número de columnas lo fija data-count. */
 .deck-gallery__grid {

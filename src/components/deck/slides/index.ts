@@ -24,9 +24,13 @@ import { SlideLanzEscenario } from "./SlideLanzEscenario";
 import { SlideLanzFolleteria } from "./SlideLanzFolleteria";
 import { SlideLanzPiezas } from "./SlideLanzPiezas";
 import { SlideLanzStand } from "./SlideLanzStand";
+import { SlideObjetos2 } from "./SlideObjetos2";
+import { SlideObjetos3 } from "./SlideObjetos3";
+import { SlideRedes2 } from "./SlideRedes2";
+import { SlideVia2 } from "./SlideVia2";
 
 /**
- * Las 26 láminas EN ORDEN (la posición acá ES el índice de cada lámina:
+ * Las 30 láminas EN ORDEN (la posición acá ES el índice de cada lámina:
  * la página pasa `index={i}` y cada lámina lee su meta de DECK_SLIDES[i]).
  * Para reordenar/insertar, tocá solo este array y DECK_SLIDES — nada más.
  */
@@ -51,10 +55,14 @@ export const SLIDES = [
   Slide13, // 18 · Lanzamiento — la demo
   SlideLanzEquipo, // 19 · Lanzamiento — el equipo acreditado
   SlideLanzFolleteria, // 20 · Lanzamiento — folletería
-  Slide14, // 21 · Promoción — redes
-  Slide15, // 22 · Promoción — la calle
-  Slide16, // 23 · Promoción — objetos
-  Slide17, // 24 · Próximas funcionalidades — roadmap
-  Slide18, // 25 · Cierre
-  SlideGracias, // 26 · Cierre — gracias (logo grande + nombres)
+  Slide14, // 21 · Promoción — redes (1/2)
+  SlideRedes2, // 22 · Promoción — redes (2/2)
+  Slide15, // 23 · Promoción — vía pública (1/2)
+  SlideVia2, // 24 · Promoción — vía pública (2/2)
+  Slide16, // 25 · Promoción — objetos (1/3)
+  SlideObjetos2, // 26 · Promoción — objetos (2/3)
+  SlideObjetos3, // 27 · Promoción — objetos (3/3)
+  Slide17, // 28 · Próximas funcionalidades — roadmap
+  Slide18, // 29 · Cierre
+  SlideGracias, // 30 · Cierre — gracias (logo grande + nombres)
 ] as const;
