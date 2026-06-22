@@ -39,6 +39,33 @@
     rgba(8, 10, 16, 0) 58%
   );
 }
+/* Mundo oscuro: el scrim base protege la izquierda y se apaga al 58%, dejando
+   expuestos los bloques de la derecha y del centro-bajo (chips, beats, listas).
+   Acá sumamos dos capas suaves —una que sostiene la derecha hasta el borde y otra
+   que asienta el pie— para que el texto respire sin apagar el campo. La izquierda
+   no se refuerza de más: el grueso del contraste ya lo da la capa base. */
+.deck[data-world="dark"] .deck-field__scrim {
+  background:
+    linear-gradient(
+      280deg,
+      rgba(8, 10, 16, 0.34) 0%,
+      rgba(8, 10, 16, 0.12) 30%,
+      rgba(8, 10, 16, 0) 62%
+    ),
+    linear-gradient(
+      to top,
+      rgba(8, 10, 16, 0.46) 0%,
+      rgba(8, 10, 16, 0.16) 26%,
+      rgba(8, 10, 16, 0) 52%
+    ),
+    linear-gradient(
+      100deg,
+      rgba(8, 10, 16, 0.72) 0%,
+      rgba(8, 10, 16, 0.4) 34%,
+      rgba(8, 10, 16, 0.1) 64%,
+      rgba(8, 10, 16, 0) 82%
+    );
+}
 .deck-field__vignette {
   position: absolute;
   inset: 0;
@@ -82,11 +109,19 @@
 /* Paleta por mundo (las clases .deck-* leen estas vars). */
 .deck-slide[data-world="dark"] {
   --deck-fg: var(--c-text-bright);
-  --deck-fg-soft: var(--c-text-soft);
-  --deck-fg-muted: var(--c-text-muted);
+  /* Piso de opacidad: el secundario/terciario del oscuro caía bajo AA sobre las
+     crestas claras del campo. Subido a 0.90 / 0.80 para que el cuerpo y los
+     captions sostengan contraste sin endurecer el tono. */
+  --deck-fg-soft: rgb(243 240 234 / 0.9);
+  --deck-fg-muted: rgb(243 240 234 / 0.8);
   --deck-hair: var(--c-hair-2);
   --deck-surface: var(--c-glass);
   --deck-surface-border: var(--c-hair);
+  /* Halo de legibilidad reutilizable (tomado del patrón de Slide04): radial suave
+     que despega el texto de las ondas brillantes del campo sin caja visible. Las
+     clases compartidas del mundo oscuro lo heredan; cada peso lo dosifica. */
+  --deck-halo: 0 0 22px rgb(10 12 18 / 0.5);
+  --deck-halo-strong: 0 0 28px rgb(10 12 18 / 0.55);
 }
 .deck-slide[data-world="ivory"] {
   --deck-fg: var(--c-navy-deep);
@@ -121,11 +156,11 @@
   gap: 0.7rem;
   margin: 0;
   font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-  font-size: clamp(0.7rem, 0.68vw, 0.8rem);
+  font-size: clamp(0.78rem, 0.72vw, 0.92rem);
   font-weight: 600;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--deck-fg-muted);
+  color: var(--deck-fg-soft);
 }
 .deck-eyebrow__diamond {
   width: 9px;
@@ -185,10 +220,42 @@
 }
 .deck-meta {
   font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-  font-size: 0.82rem;
+  font-size: clamp(0.86rem, 0.8vw, 0.98rem);
   letter-spacing: 0.04em;
   color: var(--deck-fg-muted);
   margin: 0;
+}
+
+/* Mención textual de "Ynara" dentro de un párrafo: SIEMPRE en negrita, igual en
+   todo el deck. No aplica al wordmark del logo (que va aparte como isotipo). */
+.deck-ynara {
+  font-weight: 700;
+}
+
+/* ── Acabado del mundo oscuro ─────────────────────────────────────────────────
+ * El oscuro es el corazón narrativo, pero leía más flojo que el marfil: el
+ * titular pesaba menos y el campo se comía el texto. Acá el oscuro toma autoridad
+ * (peso + tamaño del titular a la par del marfil) y todo lo tipográfico hereda el
+ * halo de legibilidad. No se toca el marfil. */
+.deck-slide[data-world="dark"] .deck-title {
+  font-weight: 800;
+  font-size: clamp(2.7rem, 1.2rem + 6.6vw, 6.4rem);
+  text-shadow: var(--deck-halo-strong);
+}
+.deck-slide[data-world="dark"] .deck-mega {
+  text-shadow: var(--deck-halo-strong);
+}
+.deck-slide[data-world="dark"] .deck-h2 {
+  font-weight: 800;
+  font-size: clamp(1.75rem, 1.1rem + 2.5vw, 2.85rem);
+  text-shadow: var(--deck-halo-strong);
+}
+.deck-slide[data-world="dark"] .deck-eyebrow,
+.deck-slide[data-world="dark"] .deck-lead,
+.deck-slide[data-world="dark"] .deck-body,
+.deck-slide[data-world="dark"] .deck-meta,
+.deck-slide[data-world="dark"] .deck-list li {
+  text-shadow: var(--deck-halo);
 }
 
 /* Marcador de lista con el diamante de presencia. */
@@ -284,7 +351,9 @@
 }
 .deck-chrome.is-dark {
   --chrome-fg: var(--c-text-bright);
-  --chrome-fg-dim: var(--c-text-muted);
+  /* Contador/sección secundarios subidos de 0.72 a 0.82: en oscuro caían al ras
+     de AA sobre las crestas claras del campo. */
+  --chrome-fg-dim: rgb(243 240 234 / 0.82);
   --chrome-hair: var(--c-hair-2);
 }
 .deck-chrome.is-ivory {
@@ -292,10 +361,13 @@
   --chrome-fg-dim: var(--c-ink-muted);
   --chrome-hair: var(--c-ink-hair-2);
 }
+/* Firma de marca persistente abajo-izquierda de TODA lámina: el lockup canónico
+   (<YnaraLockup>), idéntico al logo de la landing. Color world-aware vía el prop
+   `tone`. Este wrapper sólo posiciona + atenúa apenas. */
 .deck-chrome__brand {
   display: flex;
   align-items: center;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 .deck-chrome__nav {
   display: flex;
@@ -330,7 +402,7 @@
   align-items: baseline;
   gap: 0.15rem;
   font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.86rem;
   letter-spacing: 0.06em;
   color: var(--chrome-fg-dim);
   white-space: nowrap;
@@ -349,7 +421,7 @@
   border-left: 1px solid var(--chrome-hair);
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
 }
 @media (max-width: 600px) {
   .deck-counter__section {

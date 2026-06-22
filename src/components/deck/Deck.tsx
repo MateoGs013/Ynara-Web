@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { YnaraMark } from "@/components/ui/YnaraMark";
+import { YnaraLockup } from "@/components/ui/YnaraLockup";
 import { DECK_SLIDES, TOTAL_SLIDES } from "@/content/deck";
 import { gsap, reducedMotion } from "@/lib/motion";
 import { DeckContext } from "./deck-context";
@@ -171,7 +171,7 @@ export function Deck({ children }: { children: React.ReactNode }) {
         {/* Chrome de navegación, discreto, adaptado al mundo de la lámina. */}
         <div className={`deck-chrome is-${world}`} data-no-advance>
           <div className="deck-chrome__brand">
-            <YnaraMark size={18} variant={world === "ivory" ? "blue" : "ivory"} />
+            <YnaraLockup size={16} tone={world === "ivory" ? "light" : "dark"} />
           </div>
           <div className="deck-chrome__nav">
             <button

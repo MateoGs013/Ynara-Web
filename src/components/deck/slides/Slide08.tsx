@@ -1,6 +1,8 @@
 "use client";
 
 import { DeckEyebrow } from "@/components/deck/DeckEyebrow";
+import { useSlideActive } from "@/components/deck/deck-context";
+import { DeckLivingField } from "@/components/deck/living-field/DeckLivingField";
 import { Slide } from "@/components/deck/Slide";
 import { d08 } from "@/content/deck";
 import "./Slide08.css";
@@ -10,9 +12,10 @@ import "./Slide08.css";
  * Bienestar como cards (mecánica de HorizontalModes traída a una grilla quieta).
  * Cierra con la intersección: "Y de cruzar las tres, aconseja".
  */
-export function Slide08() {
+export function Slide08({ index }: { index: number }) {
+  const active = useSlideActive(index);
   return (
-    <Slide index={7} contentClassName="s08">
+    <Slide index={index} contentClassName="s08" backdrop={<DeckLivingField active={active} />}>
       <DeckEyebrow>{d08.eyebrow}</DeckEyebrow>
       <h2 className="deck-h2 s08__intro" data-reveal>
         {d08.intro}

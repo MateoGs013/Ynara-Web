@@ -17,7 +17,7 @@
 /* PANEL — superficie clara, esquina suave, sombra de tinta. */
 .s09__panel {
   width: 100%;
-  max-width: 46rem;
+  max-width: 58rem;
   text-align: left;
   /* superficie más brillante que el marfil de la lámina (token, no literal). */
   background: var(--c-text-bright);
@@ -47,7 +47,8 @@
 }
 .s09__name {
   font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif;
-  font-weight: 600;
+  /* "Ynara" como nombre del chat: en negrita, igual que sus menciones en texto. */
+  font-weight: 700;
   font-size: clamp(0.9rem, 1vw, 1rem);
   letter-spacing: -0.01em;
   color: var(--c-navy-deep);
@@ -62,6 +63,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  font-size: 0.78rem;
   color: var(--c-ink-muted);
 }
 .s09__status::before {
@@ -73,23 +75,32 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-blue-bright) 22%, transparent);
 }
 
+/* Dos columnas (2x2): entra todo sin desbordar el 16:9 y llena el canal vertical
+   que antes quedaba vacío. Cada celda es un intercambio (modo + usuario + Ynara). */
 .s09__thread {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.7rem, 1.5vh, 1.1rem);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.8rem, 1.6vw, 1.3rem) clamp(1rem, 2.2vw, 1.8rem);
   padding: clamp(1rem, 2.2vw, 1.5rem);
 }
+/* Cada modo en su PROPIO recuadro → dejan de mezclarse visualmente. Tarjeta clara
+   enmarcada, con una barra de acento del modo arriba (mismo color que el rótulo). */
 .s09__ex {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: clamp(0.8rem, 1.5vw, 1.15rem) clamp(0.85rem, 1.6vw, 1.2rem);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-ink-hair-2);
+  border-top: 2px solid var(--mode-acc);
+  background: var(--c-paper);
 }
 .s09__mode {
   align-self: flex-start;
   font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--mode-acc);
 }
@@ -97,7 +108,7 @@
 .s09__bubble {
   margin: 0;
   padding: 0.72rem 1rem;
-  max-width: 84%;
+  max-width: 94%;
   font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
   font-size: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
   line-height: 1.5;
@@ -112,19 +123,28 @@
 .s09__ynara {
   align-self: flex-start;
   border-bottom-left-radius: 5px;
-  background: var(--c-paper);
+  /* burbuja en blanco para que resalte sobre el papel de la tarjeta del modo. */
+  background: var(--c-text-bright);
   border: 1px solid var(--c-ink-hair-2);
   border-left: 2px solid var(--mode-acc);
   color: var(--c-ink-soft);
 }
 
+/* "UI real de la app" es el sello de credibilidad: un punto más grande y con
+   algo más de cuerpo que el meta base, para que se lea como firma del mockup. */
 .s09__ph {
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
+  font-size: clamp(0.95rem, 0.88vw, 1.05rem);
+  font-weight: 500;
+  color: var(--deck-fg-soft);
 }
 
 @media (max-width: 820px) {
   .s09__panel {
     max-width: 100%;
+  }
+  .s09__thread {
+    grid-template-columns: 1fr;
   }
   .s09__bubble {
     max-width: 92%;

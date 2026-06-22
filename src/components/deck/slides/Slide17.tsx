@@ -6,14 +6,14 @@ import { d17 } from "@/content/deck";
 import "./Slide17.css";
 
 /**
- * L17 · Lo que viene — roadmap. Mundo marfil, registro CALMA. "Subirte ahora es
- * entrar antes que nadie." Línea de tiempo de 3 etapas (MVP·Hoy / V2 / V3): la
- * primera es el presente (resaltada), las siguientes son futuras (atenuadas).
- * Cada etapa entra en cascada (data-reveal).
+ * L17 · Próximas funcionalidades — LISTA SIMPLE DE PROMESAS (mock editable). Mundo
+ * oscuro, registro CALMA. "Subirte ahora es entrar antes que nadie." Cada promesa
+ * es una tarjeta { título + descripción } con un marcador "+", lista para que el
+ * equipo sume las suyas (editan `d17.promises` en deck.ts). Entran en cascada.
  */
-export function Slide17() {
+export function Slide17({ index }: { index: number }) {
   return (
-    <Slide index={16} contentClassName="s17">
+    <Slide index={index} contentClassName="s17">
       <div className="s17__head">
         <DeckEyebrow>{d17.eyebrow}</DeckEyebrow>
         <h2 className="deck-title s17__statement" data-reveal>
@@ -21,26 +21,15 @@ export function Slide17() {
         </h2>
       </div>
 
-      <ol className="s17__timeline">
-        {d17.roadmap.map((stage, i) => {
-          const present = i === 0;
-          return (
-            <li
-              className={`s17__stage${present ? " is-present" : " is-future"}`}
-              data-reveal
-              key={stage.phase}
-            >
-              <span className="s17__marker" aria-hidden />
-              <p className="s17__phase">
-                {stage.phase}
-                {present && <span className="s17__now">Ahora</span>}
-              </p>
-              <h3 className="s17__when">{stage.when}</h3>
-              <p className="s17__body">{stage.body}</p>
-            </li>
-          );
-        })}
-      </ol>
+      <ul className="s17__list">
+        {d17.promises.map((p) => (
+          <li className="s17__promise" data-reveal key={p.title}>
+            <span className="s17__plus" aria-hidden />
+            <h3 className="s17__promise-title">{p.title}</h3>
+            <p className="s17__promise-body">{p.body}</p>
+          </li>
+        ))}
+      </ul>
     </Slide>
   );
 }

@@ -35,11 +35,14 @@ export function Slide({
   children,
   className,
   contentClassName,
+  backdrop,
 }: {
   index: number;
   children: ReactNode;
   className?: string;
   contentClassName?: string;
+  /** Capa de fondo a sangre completa, detrás del inner (p.ej. el campo vivo). */
+  backdrop?: ReactNode;
 }) {
   const ref = useRef<HTMLElement>(null);
   const isActive = useSlideActive(index);
@@ -75,6 +78,7 @@ export function Slide({
       aria-hidden={!isActive}
       inert={!isActive}
     >
+      {backdrop}
       <div className={cn("deck-slide__inner", contentClassName)}>{children}</div>
     </section>
   );

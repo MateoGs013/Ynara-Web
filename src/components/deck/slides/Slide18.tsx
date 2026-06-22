@@ -15,9 +15,9 @@ import "./Slide18.css";
  * El CTA es un <a> con clase `.deck-cta`: el guard de click del Deck no
  * intercepta anclas, así que navega sin disparar el avance de lámina.
  */
-export function Slide18() {
+export function Slide18({ index }: { index: number }) {
   return (
-    <Slide index={17} contentClassName="s18">
+    <Slide index={index} contentClassName="s18">
       <NodeField className="s18__field" />
 
       <div className="s18__content">

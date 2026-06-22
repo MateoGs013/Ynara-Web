@@ -13,9 +13,9 @@ import "./Slide15.css";
  * object-fit cover, cada uno rotulado y con tilde de acento del registro. Cae
  * a 1 columna en mobile. Cascada de reveals tile por tile.
  */
-export function Slide15() {
+export function Slide15({ index }: { index: number }) {
   return (
-    <Slide index={14} contentClassName="s15">
+    <Slide index={index} contentClassName="s15">
       <header className="s15__head">
         <DeckEyebrow>{d15.eyebrow}</DeckEyebrow>
         <h2 className="deck-h2 s15__statement" data-reveal>
@@ -27,8 +27,12 @@ export function Slide15() {
       </header>
 
       <ul className="s15__grid">
-        {d15.ooh.map((o) => (
-          <li className="s15__cell" data-reveal key={o.img}>
+        {d15.ooh.map((o, i) => (
+          <li
+            className={i === 0 ? "s15__cell s15__cell--hero" : "s15__cell"}
+            data-reveal
+            key={o.img}
+          >
             <figure className="s15__figure">
               <div className="s15__frame">
                 <img

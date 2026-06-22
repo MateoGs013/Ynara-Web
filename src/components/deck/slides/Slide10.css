@@ -43,16 +43,18 @@
   color: var(--deck-fg);
   margin: 0;
 }
+/* Pill invertido: fondo azul de marca + texto blanco. Es el realce del plan
+   recomendado, así que debe ganar contraste, no diluirse en un wash tenue. */
 .s10__tag {
   font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--c-blue);
-  padding: 0.25rem 0.6rem;
+  color: #fff;
+  padding: 0.28rem 0.66rem;
   border-radius: var(--r-pill);
-  background: color-mix(in srgb, var(--c-blue) 12%, transparent);
+  background: var(--c-blue);
 }
 
 .s10__price-row {
@@ -77,15 +79,28 @@
   font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1.05rem);
   color: var(--deck-fg-muted);
 }
+/* Altura nominal de la línea de precio en ARS (≈ 0.95rem de cuerpo · 1.4 de
+   interlínea). Se reserva idéntica en el plan que no la tiene. */
 .s10__price-alt {
   font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
   font-size: clamp(0.82rem, 0.78rem + 0.2vw, 0.95rem);
+  line-height: 1.4;
   color: var(--deck-fg-soft);
   margin: -0.2rem 0 0;
+  min-height: 1.33rem;
+}
+/* El plan sin precio en ARS reserva esa misma franja (alto de la línea + el gap
+   de columna que esa línea introduce en Premium), así el listado de features
+   arranca a la misma línea base en ambas columnas. */
+.s10__plan:not(:has(.s10__price-alt)) .s10__price-row {
+  margin-bottom: calc(1.33rem - 0.2rem + clamp(0.65rem, 1.4vh, 1rem));
 }
 
+/* El bloque de precio reserva la misma altura en ambos planes (ver price-alt),
+   así la primera fila de features arranca a la misma línea base en las dos
+   columnas. Sin margin-top: auto, que descuadraría ese inicio. */
 .s10__feats {
-  margin-top: clamp(0.3rem, 0.8vh, 0.6rem);
+  padding-top: clamp(0.5rem, 1.2vh, 0.9rem);
 }
 .s10__feats li {
   font-size: clamp(0.9rem, 0.86rem + 0.25vw, 1.05rem);

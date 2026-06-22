@@ -1,6 +1,8 @@
 "use client";
 
 import { DeckEyebrow } from "@/components/deck/DeckEyebrow";
+import { useSlideActive } from "@/components/deck/deck-context";
+import { DeckLivingField } from "@/components/deck/living-field/DeckLivingField";
 import { Slide } from "@/components/deck/Slide";
 import { d10 } from "@/content/deck";
 import "./Slide10.css";
@@ -10,9 +12,10 @@ import "./Slide10.css";
  * EDITORIAL en franjas (regla horizontal + nombre + precio grande + features),
  * no cards en caja. Gratuito $0 · Premium (featured) con leve realce azul.
  */
-export function Slide10() {
+export function Slide10({ index }: { index: number }) {
+  const active = useSlideActive(index);
   return (
-    <Slide index={9} contentClassName="s10">
+    <Slide index={index} contentClassName="s10" backdrop={<DeckLivingField active={active} />}>
       <DeckEyebrow>{d10.eyebrow}</DeckEyebrow>
       <h2 className="deck-h2 s10__title" data-reveal>
         {d10.title}
