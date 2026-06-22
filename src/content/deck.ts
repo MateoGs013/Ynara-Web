@@ -1,5 +1,5 @@
 /**
- * Banco de copy del DECK institucional (/presentacion) — 26 láminas en 11
+ * Banco de copy del DECK institucional (/presentacion) — 30 láminas en 11
  * secciones. Mismo canon de voz que `ynara.ts` (voseo, editorial, sin
  * tics de chatbot, sin emojis). Reusa la copy canónica de la landing donde
  * aplica y agrega lo que la landing no tiene (marca, evento, promoción, roadmap).
@@ -27,7 +27,7 @@ export type DeckWorld = "dark" | "ivory";
 export type DeckRegister = "chaos" | "calma" | "nodes";
 
 export interface DeckSlideMeta {
-  id: number; // 1..26
+  id: number; // 1..30
   section: string; // sección institucional (§5), para aria/nav
   title: string; // etiqueta corta para el índice
   world: DeckWorld;
@@ -191,17 +191,28 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     register: "calma",
     field: 0.3,
   },
+  // ── Promoción: cada lámina muestra MÁXIMO 3 imágenes grandes (Redes 2+2,
+  //    Vía pública 2+2, Objetos 3+2+2). Las imágenes mandan; el rótulo dice qué es.
   { id: 21, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
+  { id: 22, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
   {
-    id: 22,
+    id: 23,
     section: "Promoción",
-    title: "La calle",
+    title: "Vía pública",
     world: "dark",
     register: "chaos",
     field: 0.06,
   },
   {
-    id: 23,
+    id: 24,
+    section: "Promoción",
+    title: "Vía pública",
+    world: "dark",
+    register: "chaos",
+    field: 0.06,
+  },
+  {
+    id: 25,
     section: "Promoción",
     title: "Objetos",
     world: "dark",
@@ -209,15 +220,31 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.45,
   },
   {
-    id: 24,
+    id: 26,
+    section: "Promoción",
+    title: "Objetos",
+    world: "dark",
+    register: "calma",
+    field: 0.45,
+  },
+  {
+    id: 27,
+    section: "Promoción",
+    title: "Objetos",
+    world: "dark",
+    register: "calma",
+    field: 0.45,
+  },
+  {
+    id: 28,
     section: "Próximas funcionalidades",
     title: "Roadmap",
     world: "dark",
     register: "calma",
     field: 0.45,
   },
-  { id: 25, section: "Cierre", title: "Cierre", world: "dark", register: "calma", field: 0.32 },
-  { id: 26, section: "Cierre", title: "Gracias", world: "dark", register: "calma", field: 0.9 },
+  { id: 29, section: "Cierre", title: "Cierre", world: "dark", register: "calma", field: 0.32 },
+  { id: 30, section: "Cierre", title: "Gracias", world: "dark", register: "calma", field: 0.9 },
 ] as const;
 
 export const TOTAL_SLIDES = DECK_SLIDES.length;
@@ -472,47 +499,61 @@ export const d13 = {
   fallback: "Plan B: captura fija si no responde en 5 s",
 } as const;
 
-// L14 · Promoción — redes. Publicaciones reales de Instagram (del deck TP2).
+// Promoción · Redes — publicaciones reales de Instagram (TP2), en DOS láminas de
+// 2 imágenes grandes. La cuenta no publicita la solución: documenta el problema.
 export const d14 = {
   eyebrow: "Promoción · Redes",
-  handle: "@ynara.app",
-  statement: "No publicita la solución. Documenta el problema.",
-  support: "La cuenta es un museo del desorden cotidiano. Te reís, te reconocés, la necesitás.",
-  posts: [
-    { img: "/promo/tp2-08.jpg", alt: "Publicación de Instagram de Ynara — 1" },
-    { img: "/promo/tp2-09.jpg", alt: "Publicación de Instagram de Ynara — 2" },
-    { img: "/promo/tp2-10.jpg", alt: "Publicación de Instagram de Ynara — 3" },
-    { img: "/promo/tp2-11.jpg", alt: "Publicación de Instagram de Ynara — 4" },
+  caption: "@ynara.app — no publicita la solución, documenta el problema.",
+  a: [
+    { img: "/promo/tp2-08.jpg", alt: "Publicación de Instagram de Ynara — «Menos apps»" },
+    { img: "/promo/tp2-09.jpg", alt: "Publicación de Instagram de Ynara — «Tu agenda en contexto»" },
+  ],
+  b: [
+    { img: "/promo/tp2-10.jpg", alt: "Publicación de Instagram de Ynara — «Recordá mejor»" },
+    { img: "/promo/tp2-11.jpg", alt: "Publicación de Instagram de Ynara — «Dos meses gratis»" },
   ],
 } as const;
 
-// L15 · Promoción — la calle. Renders reales de vía pública (del deck TP2).
-// Nota: el mapeo imagen↔formato es el mejor esfuerzo (no pude verlas); ajustar si hace falta.
+// Promoción · Vía pública — renders reales de OOH (TP2), en DOS láminas de 2
+// imágenes grandes rotuladas. Mismo gesto: te muestran tu propio caos en la calle.
 export const d15 = {
   eyebrow: "Promoción · Vía pública",
-  statement: "Tu propio caos, en la calle.",
-  support:
-    "Mismo gesto: te muestran tu desorden hasta que parás y decís «esto soy yo». Más un QR para sumarte.",
-  ooh: [
-    { img: "/promo/tp2-12.jpg", label: "Cartel de autopista" },
-    { img: "/promo/tp2-13.jpg", label: "Andén de subte" },
-    { img: "/promo/tp2-14.jpg", label: "Parada de colectivo" },
-    { img: "/promo/tp2-15.jpg", label: "Tótem digital" },
+  caption: "Tu propio caos, en la calle.",
+  a: [
+    { img: "/promo/tp2-12.jpg", label: "Cartel de autopista", alt: "Cartel de Ynara en una autopista" },
+    { img: "/promo/tp2-13.jpg", label: "Andén de subte", alt: "Gráfica de Ynara en un andén de subte" },
+  ],
+  b: [
+    {
+      img: "/promo/tp2-14.jpg",
+      label: "Parada de colectivo",
+      alt: "Gráfica de Ynara en una parada de colectivo",
+    },
+    { img: "/promo/tp2-15.jpg", label: "Tótem digital", alt: "Tótem digital de Ynara en interior" },
   ],
 } as const;
 
-// L16 · Promoción — objetos. Renders reales de producto (del deck TP2).
+// Promoción · Objetos — renders reales de producto (TP2), en TRES láminas de
+// hasta 3 imágenes grandes rotuladas (3 + 2 + 2). La marca hecha objeto.
 export const d16 = {
   eyebrow: "Promoción · Objetos",
-  statement: "La marca que se toca.",
-  objects: [
-    { name: "Funda negra", img: "/promo/tp2-01.jpg" },
-    { name: "Funda marfil", img: "/promo/tp2-02.jpg" },
-    { name: "Soporte-cargador", img: "/promo/tp2-03.jpg" },
-    { name: "Lapicera que graba reuniones", img: "/promo/tp2-04.jpg" },
-    { name: "Remera", img: "/promo/tp2-05.jpg" },
-    { name: "Buzo", img: "/promo/tp2-06.jpg" },
-    { name: "Tote", img: "/promo/tp2-07.jpg" },
+  caption: "La marca que se toca.",
+  a: [
+    { img: "/promo/tp2-01.jpg", label: "Funda negra", alt: "Funda de teléfono negra de Ynara" },
+    { img: "/promo/tp2-02.jpg", label: "Funda marfil", alt: "Funda de teléfono marfil de Ynara" },
+    { img: "/promo/tp2-03.jpg", label: "Soporte-cargador", alt: "Soporte-cargador MagSafe de Ynara" },
+  ],
+  b: [
+    {
+      img: "/promo/tp2-04.jpg",
+      label: "Lapicera que graba reuniones",
+      alt: "Lapicera que graba reuniones, de Ynara",
+    },
+    { img: "/promo/tp2-05.jpg", label: "Remera", alt: "Remera azul de Ynara" },
+  ],
+  c: [
+    { img: "/promo/tp2-06.jpg", label: "Buzo", alt: "Buzo azul de Ynara" },
+    { img: "/promo/tp2-07.jpg", label: "Tote", alt: "Tote crudo de Ynara" },
   ],
 } as const;
 
