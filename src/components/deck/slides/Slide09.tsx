@@ -1,6 +1,8 @@
 "use client";
 
 import { DeckEyebrow } from "@/components/deck/DeckEyebrow";
+import { useSlideActive } from "@/components/deck/deck-context";
+import { DeckLivingField } from "@/components/deck/living-field/DeckLivingField";
 import { Slide } from "@/components/deck/Slide";
 import { YnaraMark } from "@/components/ui/YnaraMark";
 import { d09 } from "@/content/deck";
@@ -22,9 +24,10 @@ const MODE_ACC: Record<string, string> = {
   Aconseja: "var(--c-indigo)",
 };
 
-export function Slide09() {
+export function Slide09({ index }: { index: number }) {
+  const active = useSlideActive(index);
   return (
-    <Slide index={8} contentClassName="s09">
+    <Slide index={index} contentClassName="s09" backdrop={<DeckLivingField active={active} />}>
       <div className="s09__head">
         <DeckEyebrow>{d09.eyebrow}</DeckEyebrow>
         <h2 className="deck-h2 s09__statement" data-reveal>

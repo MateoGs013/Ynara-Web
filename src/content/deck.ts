@@ -1,5 +1,5 @@
 /**
- * Banco de copy del DECK institucional (/presentacion) — 18 láminas en 11
+ * Banco de copy del DECK institucional (/presentacion) — 26 láminas en 11
  * secciones. Mismo canon de voz que `ynara.ts` (voseo, editorial, sin
  * tics de chatbot, sin emojis). Reusa la copy canónica de la landing donde
  * aplica y agrega lo que la landing no tiene (marca, evento, promoción, roadmap).
@@ -27,7 +27,7 @@ export type DeckWorld = "dark" | "ivory";
 export type DeckRegister = "chaos" | "calma" | "nodes";
 
 export interface DeckSlideMeta {
-  id: number; // 1..18
+  id: number; // 1..26
   section: string; // sección institucional (§5), para aria/nav
   title: string; // etiqueta corta para el índice
   world: DeckWorld;
@@ -39,46 +39,70 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
   { id: 1, section: "Presentarnos", title: "Ynara", world: "dark", register: "calma", field: 0.12 },
   {
     id: 2,
-    section: "Presentar la marca",
-    title: "Cuatro verbos",
+    section: "Presentarnos",
+    title: "Qué es Ynara",
     world: "dark",
     register: "calma",
     field: 0.3,
   },
   {
     id: 3,
-    section: "Storytelling de la marca",
-    title: "El problema",
-    world: "dark",
-    register: "chaos",
-    field: 0.04,
-  },
-  {
-    id: 4,
-    section: "Storytelling de la marca",
+    section: "El problema",
     title: "Ocho apps",
     world: "dark",
     register: "chaos",
     field: 0.05,
   },
   {
+    id: 4,
+    section: "Storytelling",
+    title: "Un día",
+    world: "dark",
+    register: "chaos",
+    field: 0.04,
+  },
+  {
     id: 5,
+    section: "Storytelling",
+    title: "Un día · imagen",
+    world: "dark",
+    register: "chaos",
+    field: 0.05,
+  },
+  {
+    id: 6,
+    section: "Storytelling",
+    title: "Un día · imagen",
+    world: "dark",
+    register: "chaos",
+    field: 0.06,
+  },
+  {
+    id: 7,
     section: "Desarrollo de la marca",
-    title: "La corriente",
+    title: "Calma en el caos",
     world: "dark",
     register: "nodes",
     field: 0.55,
   },
   {
-    id: 6,
+    id: 8,
     section: "Desarrollo de la marca",
-    title: "Nombre + logo",
-    world: "dark",
-    register: "nodes",
-    field: 0.62,
+    title: "Nombre e isotipo",
+    world: "ivory",
+    register: "calma",
+    field: 0.45,
   },
   {
-    id: 7,
+    id: 9,
+    section: "Desarrollo de la marca",
+    title: "Tipografía y color",
+    world: "ivory",
+    register: "calma",
+    field: 0.45,
+  },
+  {
+    id: 10,
     section: "Landing page",
     title: "La página",
     world: "dark",
@@ -86,7 +110,7 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.4,
   },
   {
-    id: 8,
+    id: 11,
     section: "Funcionalidades principales",
     title: "Tres pilares",
     world: "ivory",
@@ -94,7 +118,7 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.45,
   },
   {
-    id: 9,
+    id: 12,
     section: "Funcionalidades principales",
     title: "La app",
     world: "ivory",
@@ -102,7 +126,7 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.45,
   },
   {
-    id: 10,
+    id: 13,
     section: "Monetización",
     title: "Planes",
     world: "ivory",
@@ -110,32 +134,66 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.45,
   },
   {
-    id: 11,
+    id: 14,
     section: "Monetización",
     title: "Viabilidad",
     world: "ivory",
     register: "calma",
     field: 0.45,
   },
+  // ── Lanzamiento (Nerdearla 2026): piezas físicas → stand → escenario → demo →
+  //    equipo → folletería. Cada imagen en su propia lámina, grande y clara. ──
   {
-    id: 12,
+    id: 15,
     section: "Lanzamiento",
-    title: "En vivo",
+    title: "Piezas",
     world: "dark",
     register: "calma",
-    field: 0.22,
+    field: 0.24,
   },
   {
-    id: 13,
+    id: 16,
+    section: "Lanzamiento",
+    title: "El stand",
+    world: "dark",
+    register: "calma",
+    field: 0.26,
+  },
+  {
+    id: 17,
+    section: "Lanzamiento",
+    title: "El escenario",
+    world: "dark",
+    register: "calma",
+    field: 0.28,
+  },
+  {
+    id: 18,
     section: "Lanzamiento",
     title: "La demo",
     world: "dark",
     register: "calma",
     field: 0.3,
   },
-  { id: 14, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
   {
-    id: 15,
+    id: 19,
+    section: "Lanzamiento",
+    title: "El equipo",
+    world: "dark",
+    register: "calma",
+    field: 0.28,
+  },
+  {
+    id: 20,
+    section: "Lanzamiento",
+    title: "Folletería",
+    world: "dark",
+    register: "calma",
+    field: 0.3,
+  },
+  { id: 21, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
+  {
+    id: 22,
     section: "Promoción",
     title: "La calle",
     world: "dark",
@@ -143,22 +201,23 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.06,
   },
   {
-    id: 16,
+    id: 23,
     section: "Promoción",
     title: "Objetos",
-    world: "ivory",
+    world: "dark",
     register: "calma",
     field: 0.45,
   },
   {
-    id: 17,
+    id: 24,
     section: "Próximas funcionalidades",
     title: "Roadmap",
-    world: "ivory",
+    world: "dark",
     register: "calma",
     field: 0.45,
   },
-  { id: 18, section: "Cierre", title: "Cierre", world: "dark", register: "calma", field: 0.32 },
+  { id: 25, section: "Cierre", title: "Cierre", world: "dark", register: "calma", field: 0.32 },
+  { id: 26, section: "Cierre", title: "Gracias", world: "dark", register: "calma", field: 0.9 },
 ] as const;
 
 export const TOTAL_SLIDES = DECK_SLIDES.length;
@@ -176,30 +235,47 @@ export const REGISTER_ACCENT: Record<DeckRegister, string> = {
 
 // L01 · Presentarnos
 export const d01 = {
-  eyebrow: "Tesis Da Vinci · 2026",
   wordmark: site.name,
   tagline: site.tagline, // "Tu asistente personal con memoria."
-  authors: ["Álvarez", "García", "Sonzogni"],
-  meta: "Escuela Da Vinci · 2026",
+  authors: ["Facundo Álvarez", "Mateo García", "Mateo Sonzogni"],
 } as const;
 
-// L02 · El proyecto
+// L02 · Presentarnos — qué es Ynara (los tres pilares)
 export const d02 = {
-  eyebrow: "Presentar la marca",
-  // Los cuatro ejes de Ynara.
-  verbs: ["Productividad", "Memoria", "Compañía", "Adaptación"],
-  sub: "Una sola presencia que reemplaza el desorden.",
+  eyebrow: "Qué es Ynara",
+  lead: "Tu asistente personal con memoria: una sola app para tres cosas que hoy andan sueltas.",
+  pillars: [
+    { title: "Productividad", line: "Organiza tu día y cierra tareas." },
+    { title: "Memoria", line: "Recuerda todo por vos." },
+    { title: "Bienestar", line: "Cuida tu energía y tus pausas." },
+  ],
+  intersection: "Y cuando las tres se cruzan, te aconseja qué hacer.",
 } as const;
 
-// L03 · Storytelling — el problema (humano)
+// L03 · Storytelling — un día (humano)
 export const d03 = {
-  eyebrow: "El problema",
+  eyebrow: "Un día",
   statement: "¿Vivís solo, trabajás y estudiás?",
   support:
-    "La entrega del martes, el turno del médico, pagar la luz, contestarle a tu vieja, acordarte de comer. Lo cargás vos, en tu cabeza.",
+    "la entrega del martes, el turno con el médico, pagar la luz, responderle a tu familia, acordarte de comer. Lo cargás vos, en tu cabeza.",
 } as const;
 
-// L04 · Storytelling — el caos con humor
+// Storytelling · Un día — DOS láminas de imagen (las fotos las pega el equipo).
+// Mientras `img` esté vacío, la lámina muestra un placeholder pero queda armada.
+export const dDia1 = {
+  eyebrow: "Un día",
+  caption: "La mañana arranca y ya hay diez cosas en la cabeza.",
+  img: "/promo/un-dia-manana.png",
+  alt: "De día, frente a una pared cubierta de notas con pendientes, abrumada.",
+} as const;
+export const dDia2 = {
+  eyebrow: "Un día",
+  caption: "Llega la noche y seguís corriendo atrás de todo.",
+  img: "/promo/un-dia-noche.png",
+  alt: "De noche, llegando a casa con las compras y el teléfono en la mano, todavía corriendo.",
+} as const;
+
+// L04 · El problema — el caos (8 apps → 1)
 export const d04 = {
   eyebrow: "El problema",
   problemLine: problem.problemLine, // "Vivís entre ocho apps."
@@ -208,23 +284,39 @@ export const d04 = {
   beats: ["Un audio a las 2:47.", "47 pestañas abiertas.", "El pegamento sos vos."],
 } as const;
 
-// L05 · Desarrollo de marca — la corriente
+// L05 · Desarrollo de la marca — calma en el caos (díptico de DOS FOTOS)
 export const d05 = {
-  eyebrow: "Desarrollo de la marca",
-  statement: "Tecnología que se siente como pensar.",
-  support: "El desorden es esa misma luz, enredada. La calma es la luz, en orden.",
+  eyebrow: "La identidad",
+  statement: "Calma en el caos.",
+  support: "Tu día es la misma información, enredada. Ynara la pone en orden.",
+  // Díptico caos→calma con dos fotos (las pega el equipo). Mientras `img` esté
+  // vacío, cada panel muestra un placeholder rotulado y la lámina queda armada.
+  chaos: {
+    tag: "Tu día",
+    img: "/promo/caos-escritorio.png",
+    alt: "Un escritorio desbordado de notas y papeles — el día, enredado.",
+  },
+  calm: {
+    tag: "Con Ynara",
+    img: "/promo/calma-escritorio.png",
+    alt: "El mismo escritorio en orden y la persona en calma — el día, resuelto.",
+  },
 } as const;
 
-// L06 · Desarrollo de marca — nombre + logo
-export const d06 = {
-  eyebrow: "La marca",
+// L06a · Desarrollo de marca — NOMBRE E ISOTIPO (lockup + etimología + significado).
+export const d06a = {
+  eyebrow: "Nombre e isotipo",
   wordmark: site.name,
   etymology: "De una raíz celta: uno, único. La única presencia que necesitás.",
   notes: [
     { k: "La figura", v: "Una Y que es un brote abriéndose. Memoria que crece." },
     { k: "El diamante", v: "La presencia: Ynara, ahí, atenta." },
   ],
-  // Sistema visual: se MUESTRA, no se describe. Colores desde los tokens de marca.
+} as const;
+
+// L06b · Desarrollo de marca — TIPOGRAFÍA Y COLOR (el sistema visual, claro).
+export const d06b = {
+  eyebrow: "Tipografía y color",
   palette: [
     { name: "Azul", role: "Marca", token: "var(--c-blue)", hex: "#2F5AA6" },
     { name: "Violeta", role: "Señal", token: "var(--c-violet)", hex: "#8165A3" },
@@ -240,13 +332,13 @@ export const d06 = {
 // L07 · Landing — capturas reales de la landing (del deck TP3).
 export const d07 = {
   eyebrow: "La página",
-  statement: "De curioso a usuario fiel.",
+  statement: "Que entre con dudas y salga con ganas de conocernos.",
   support:
-    "Lo primero que ve alguien interesado no es la app: es la landing. Que entre con dudas y salga queriendo la beta.",
+    "Lo primero que ve alguien interesado no es la app: es la landing. La primera impresión de la marca, antes de descargar nada.",
   shots: [
-    { img: "/promo/tp3-13.png", alt: "Landing de Ynara — hero" },
-    { img: "/promo/tp3-16.png", alt: "Landing de Ynara — sección de funcionalidades" },
-    { img: "/promo/tp3-19.png", alt: "Landing de Ynara — precio y cierre" },
+    { img: "/promo/tp3-12.png", alt: "Landing de Ynara — inicio" },
+    { img: "/promo/tp3-22.png", alt: "Landing de Ynara — precio" },
+    { img: "/promo/tp3-23.png", alt: "Landing de Ynara — cierre y CTA" },
   ],
 } as const;
 
@@ -261,7 +353,7 @@ export const d08 = {
     note: l.note,
     features: l.features,
   })),
-  intersection: "Y de cruzar las tres, aconseja.",
+  intersection: "Y cuando las tres se cruzan, te aconseja qué hacer.",
 } as const;
 
 // L09 · Funcionalidades — la app. Los 4 verbos funcionando: los 3 chats canónicos
@@ -320,26 +412,55 @@ export const d11 = {
   ],
 } as const;
 
-// L12 · Lanzamiento — en vivo (Nerdearla). Imagen real del escenario/stand.
-export const d12 = {
-  eyebrow: "Lanzamiento",
-  statement: "Menos apps. Más continuidad.",
-  venue: "Nerdearla 2026",
-  stage: "Escenario principal · charla formato TED",
-  image: "/promo/tp3-02.jpg",
-  imageAlt: "Ynara en el escenario principal de Nerdearla 2026",
+// ── Lanzamiento · Nerdearla 2026 — cada pieza en su propia lámina de imagen
+//    (DeckGallery), grande y clara. Orden de oratoria: piezas → stand → escenario
+//    → demo → equipo → folletería. Las imágenes mandan; el rótulo dice "qué es". ──
+
+// Piezas físicas que ABREN la oratoria: señalética · afiche en Konex · roll-up.
+export const dLanzPiezas = {
+  eyebrow: "Nerdearla 2026",
+  pieces: [
+    { img: "/promo/tp3-08.jpg", label: "Señalética", alt: "Señalética de Ynara en Nerdearla" },
+    {
+      img: "/promo/tp3-07.jpg",
+      label: "Afiche en Konex",
+      alt: "Afiche de Ynara en una columna del Konex",
+    },
+    { img: "/promo/tp3-09.jpg", label: "Roll-up", alt: "Roll-up de Ynara en Nerdearla" },
+  ],
 } as const;
 
-// Evento (Nerdearla) — galería de piezas del lanzamiento (del deck TP3).
-export const dEvent = {
-  eyebrow: "Lanzamiento · El evento",
-  statement: "Ynara, en Nerdearla.",
-  support: "Un stand para ver, tocar y probar la app en vivo — con su señalética y folletería.",
+// El stand — una sola imagen grande.
+export const dLanzStand = {
+  eyebrow: "El stand",
+  pieces: [{ img: "/promo/tp3-03.jpg", alt: "El stand de Ynara en Nerdearla 2026" }],
+  caption: "El stand de Ynara, donde la gente se acercó a probarla.",
+} as const;
+
+// El escenario — imagen real del escenario principal, grande y al frente (antes
+// era un fondo fantasma a opacidad 0.13 y sólo se veía el título).
+export const dLanzEscenario = {
+  eyebrow: "El escenario",
+  pieces: [{ img: "/promo/tp3-02.jpg", alt: "Ynara en el escenario principal de Nerdearla 2026" }],
+  caption: "Escenario principal de Nerdearla · charla en formato TED.",
+} as const;
+
+// El equipo acreditado — las tres credenciales del equipo fundador.
+export const dLanzEquipo = {
+  eyebrow: "El equipo, acreditado",
   pieces: [
-    { img: "/promo/tp3-03.jpg", label: "El stand" },
-    { img: "/promo/tp3-07.jpg", label: "Señalética" },
-    { img: "/promo/tp3-10.jpg", label: "Folletería + QR" },
-    { img: "/promo/tp3-01.jpg", label: "El público" },
+    { img: "/promo/tp3-04.png", label: "Facundo Álvarez", alt: "Credencial de Facundo Álvarez" },
+    { img: "/promo/tp3-05.png", label: "Mateo García", alt: "Credencial de Mateo García" },
+    { img: "/promo/tp3-06.png", label: "Mateo Sonzogni", alt: "Credencial de Mateo Sonzogni" },
+  ],
+} as const;
+
+// La folletería — folleto + flyers, lado a lado. Cierra el recap del evento.
+export const dLanzFolleteria = {
+  eyebrow: "Folletería",
+  pieces: [
+    { img: "/promo/tp3-10.jpg", label: "Folleto", alt: "Folleto tríptico de Ynara" },
+    { img: "/promo/tp3-11.jpg", label: "Flyers", alt: "Flyers de Ynara" },
   ],
 } as const;
 
@@ -347,7 +468,7 @@ export const dEvent = {
 export const d13 = {
   eyebrow: "La demo",
   statement: "Ynara, en treinta segundos.",
-  chats: feel.chats,
+  chats: feel.chats.slice(0, 2),
   fallback: "Plan B: captura fija si no responde en 5 s",
 } as const;
 
@@ -375,8 +496,8 @@ export const d15 = {
   ooh: [
     { img: "/promo/tp2-12.jpg", label: "Cartel de autopista" },
     { img: "/promo/tp2-13.jpg", label: "Andén de subte" },
-    { img: "/promo/tp2-14.jpg", label: "Tótem digital" },
-    { img: "/promo/tp2-15.jpg", label: "Parada de colectivo" },
+    { img: "/promo/tp2-14.jpg", label: "Parada de colectivo" },
+    { img: "/promo/tp2-15.jpg", label: "Tótem digital" },
   ],
 } as const;
 
@@ -385,7 +506,8 @@ export const d16 = {
   eyebrow: "Promoción · Objetos",
   statement: "La marca que se toca.",
   objects: [
-    { name: "Funda", img: "/promo/tp2-01.jpg" },
+    { name: "Funda negra", img: "/promo/tp2-01.jpg" },
+    { name: "Funda marfil", img: "/promo/tp2-02.jpg" },
     { name: "Soporte-cargador", img: "/promo/tp2-03.jpg" },
     { name: "Lapicera que graba reuniones", img: "/promo/tp2-04.jpg" },
     { name: "Remera", img: "/promo/tp2-05.jpg" },
@@ -394,25 +516,37 @@ export const d16 = {
   ],
 } as const;
 
-// L17 · Próximas funcionalidades (promesas)
+// L17 · Próximas funcionalidades — LISTA SIMPLE DE PROMESAS (mock editable).
+// El equipo carga las suyas: cada item es { title, body }. Sumá o quitá items de
+// `promises` y la lámina se rearma sola. Copy claro y concreto, sin jerga.
 export const d17 = {
   eyebrow: "Próximas funcionalidades",
   statement: "Subirte ahora es entrar antes que nadie.",
-  roadmap: [
-    { phase: "MVP", when: "Hoy", body: "El asistente con memoria, en tus manos." },
+  promises: [
+    { title: "Voz propia", body: "Le hablás y te responde con una voz natural, no robótica." },
     {
-      phase: "V2",
-      when: "Infraestructura propia",
-      body: "Postgres self-hosted. Soberanía del dato.",
+      title: "Multidispositivo",
+      body: "La misma memoria, sincronizada en el teléfono y la computadora.",
     },
-    { phase: "V3", when: "Voz propia", body: "Una voz que suena como vos, no como un manual." },
+    {
+      title: "Integraciones",
+      body: "Conectás tu calendario, tu mail y tus notas en un solo lugar.",
+    },
+    // ← agregá acá las próximas promesas: { title: "…", body: "…" }
   ],
 } as const;
 
 // L18 · Cierre
 export const d18 = {
-  eyebrow: "Beta cerrada · 2026",
-  synthesis: "El humor existe porque la memoria falla. Ynara existe por lo mismo.",
+  eyebrow: "Acceso anticipado · 2026",
+  synthesis: "No tenés que acordarte de todo. Para eso está Ynara.",
   signoff: site.signoff, // "Pensar mejor, recordar siempre."
-  cta: { label: "Quiero la beta", href: "/#descargar" },
+  cta: { label: "Quiero sumarme", href: "/#descargar" },
+} as const;
+
+// L19 · Gracias — cierre humano. Mundo oscuro. Logo grande + nombres del equipo.
+export const dGracias = {
+  word: "Gracias",
+  wordmark: site.name,
+  authors: ["Facundo Álvarez", "Mateo García", "Mateo Sonzogni"],
 } as const;

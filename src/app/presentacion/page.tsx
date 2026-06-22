@@ -12,7 +12,7 @@ export default function PresentacionPage() {
     <Deck>
       {SLIDES.map((SlideComponent, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: orden fijo de 18 láminas
-        <SlideComponent key={i} />
+        <SlideComponent key={i} index={i} />
       ))}
     </Deck>
   );

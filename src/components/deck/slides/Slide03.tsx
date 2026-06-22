@@ -6,7 +6,7 @@ import { d03 } from "@/content/deck";
 import "./Slide03.css";
 
 /**
- * L03 · Storytelling — el problema (humano). Mundo oscuro, registro CAOS
+ * Storytelling — un día (humano). Mundo oscuro, registro CAOS
  * (acento violeta). Empatía pura: "ese soy yo". El statement interpela grande
  * (deck-title); el support se desgrana en las cargas de la vida común y cierra
  * en el golpe "Lo cargás vos, en tu cabeza." Composición sobria, baja densidad:
@@ -26,11 +26,11 @@ const [enumPart, closingPart] = (() => {
 // fragmento conserva el punto final del original; reunidos = enumPart exacto.
 const burdens = enumPart.split(", ");
 
-export function Slide03() {
+export function Slide03({ index }: { index: number }) {
   return (
-    <Slide index={2} contentClassName="s03">
+    <Slide index={index} contentClassName="s03">
       <header className="s03__head">
-        <DeckEyebrow>{d03.eyebrow}</DeckEyebrow>
+        <DeckEyebrow className="s03__rotulo">{d03.eyebrow}</DeckEyebrow>
         <h1 className="deck-title s03__statement" data-reveal>
           {d03.statement}
         </h1>
@@ -38,17 +38,19 @@ export function Slide03() {
 
       <div className="s03__load">
         <ul className="s03__burdens" aria-label="La carga mental de una vida común">
-          {burdens.map((b, i) => (
+          {burdens.map((b) => (
             <li className="s03__burden" data-reveal key={b}>
-              <span className="s03__count" aria-hidden>
-                {String(i + 1).padStart(2, "0")}
-              </span>
+              {/* Marcador NO secuencial: estas cargas son simultáneas, no un
+                  ranking. Diamante de señal en vez de ordinal 01..05. */}
+              <span className="s03__bullet" aria-hidden />
               <span className="s03__item">{b}</span>
             </li>
           ))}
         </ul>
 
-        <p className="deck-lead s03__closing" data-reveal>
+        {/* Cierre: la conclusión que vuelve todo personal. Sube a intermedio
+            (h2 contenido) para que lea como remate, no como un ítem más. */}
+        <p className="deck-h2 s03__closing" data-reveal>
           {closingPart}
         </p>
       </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Presentación",
-  description: "Presentación institucional de lanzamiento de Ynara — Tesis Da Vinci 2026.",
+  description: "Presentación institucional de lanzamiento de Ynara.",
   // Pitch interno: no indexar.
   robots: { index: false, follow: false },
   alternates: { canonical: "/presentacion" },

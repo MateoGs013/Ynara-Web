@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { YnaraMark } from "@/components/ui/YnaraMark";
+import { YnaraLockup } from "@/components/ui/YnaraLockup";
 import { nav } from "@/content/ynara";
 import { reducedMotion } from "@/lib/motion";
 import { useIsDeckRoute } from "@/lib/useDeckRoute";
@@ -145,17 +145,11 @@ export function SiteNav() {
         <a
           ref={brandRef}
           href="#top"
-          className="flex items-baseline gap-2.5 transition-opacity duration-200"
+          className="inline-flex transition-opacity duration-200"
           aria-label="Ynara — inicio"
           style={{ opacity: 0, pointerEvents: "none" }}
         >
-          <YnaraMark size={21} variant={onLight ? "blue" : "ivory"} />
-          <span
-            className="font-display text-base font-semibold tracking-tight transition-colors duration-200"
-            style={{ color: onLight ? "var(--c-navy)" : "var(--c-text-bright)" }}
-          >
-            Ynara
-          </span>
+          <YnaraLockup size={16} tone={onLight ? "light" : "dark"} />
         </a>
 
         <div className="flex items-center gap-2">
@@ -238,12 +232,7 @@ export function SiteNav() {
           >
             {/* fila superior: marca + botón de cierre alineados al header */}
             <div className="mb-6 flex items-center justify-between">
-              <span className="flex items-baseline gap-2.5">
-                <YnaraMark size={21} variant="ivory" />
-                <span className="font-display text-base font-semibold tracking-tight text-text-bright">
-                  Ynara
-                </span>
-              </span>
+              <YnaraLockup size={16} tone="dark" />
               <button
                 type="button"
                 onClick={() => setMenuOpen(false)}

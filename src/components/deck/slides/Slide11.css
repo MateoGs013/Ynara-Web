@@ -13,14 +13,21 @@
    superior dibuja el ledger (la primera fila la lleva por borde-top del grupo). */
 .s11__row {
   display: grid;
-  grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+  grid-template-columns: minmax(0, 0.32fr) minmax(0, 0.68fr);
   align-items: baseline;
-  gap: clamp(0.8rem, 3vw, 3rem);
+  gap: clamp(0.8rem, 2vw, 2rem);
   padding-block: clamp(0.7rem, 1.9vh, 1.3rem);
   border-top: 1px solid var(--deck-hair);
 }
+/* El break-even cierra el argumento (el negocio funciona): la última fila se
+   ENMARCA en azul de marca arriba y abajo —no una regla suelta que parezca
+   subrayar la fila anterior— y lleva el número en azul. */
 .s11__row:last-child {
-  border-bottom: 1px solid var(--deck-hair);
+  border-bottom: 1px solid var(--c-blue);
+  border-top-color: var(--c-blue);
+}
+.s11__row:last-child .s11__num {
+  color: var(--c-blue);
 }
 
 .s11__num {

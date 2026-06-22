@@ -20,7 +20,7 @@ export const nav = {
     { label: "Privacidad", href: "#privacidad" },
     { label: "Precio", href: "#precio" },
   ],
-  cta: { label: "Quiero la beta", href: "#descargar" },
+  cta: { label: "Quiero sumarme", href: "#descargar" },
 } as const;
 
 export const hero = {
@@ -29,8 +29,8 @@ export const hero = {
   // El valor en una línea: QUÉ es y QUÉ hace. El acento va en la palabra clave.
   value: "Una sola app para *organizar* tu vida, *recordar* todo y *cuidar* tu energía.",
   sub: "Hoy saltás entre agenda, notas, recordatorios y una IA suelta. Ynara junta todo eso en una — y aprende cómo sos.",
-  badge: "Beta cerrada · iOS y Android · 2026",
-  ctaPrimary: { label: "Quiero la beta", href: "#descargar" },
+  badge: "Acceso anticipado · iOS y Android · 2026",
+  ctaPrimary: { label: "Quiero sumarme", href: "#descargar" },
   ctaSecondary: { label: "Ver cómo funciona", href: "#producto" },
 } as const;
 
@@ -160,7 +160,7 @@ export const pricing = {
       price: "$0",
       period: "para siempre",
       features: ["Los tres pilares", "Memoria reciente", "Un dispositivo"],
-      cta: "Quiero la beta",
+      cta: "Quiero sumarme",
       featured: false,
     },
     {
@@ -173,7 +173,7 @@ export const pricing = {
         "Multidispositivo",
         "Prioridad de respuesta",
       ],
-      cta: "Quiero la beta",
+      cta: "Quiero sumarme",
       featured: true,
     },
   ],
@@ -181,14 +181,14 @@ export const pricing = {
 } as const;
 
 export const cta = {
-  eyebrow: "Beta cerrada · 2026",
+  eyebrow: "Acceso anticipado · 2026",
   title: "Pensar mejor, recordar siempre.",
   statement:
-    "MVP en el segundo semestre de 2026, para iOS y Android. Los primeros de la lista entran a la beta cerrada y la estrenan antes que nadie. Sin spam: un solo mail, cuando esté lista.",
+    "MVP en el segundo semestre de 2026, para iOS y Android. Los primeros de la lista entran al acceso anticipado y la estrenan antes que nadie. Sin spam: un solo mail, cuando esté lista.",
   lead: "Tu asistente personal con memoria. MVP en el segundo semestre de 2026, para iOS y Android.",
   primary: {
-    label: "Quiero la beta",
-    href: "mailto:hola@ynara.app?subject=Quiero%20sumarme%20a%20la%20beta%20de%20Ynara",
+    label: "Quiero sumarme",
+    href: "mailto:hola@ynara.app?subject=Quiero%20sumarme%20a%20Ynara",
   },
   stores: ["App Store · Próximamente", "Google Play · Próximamente"],
 } as const;
@@ -205,12 +205,12 @@ export const footer = {
       ],
     },
     {
-      title: "Beta",
+      title: "Sumate",
       links: [
         { label: "Acceso", href: "#descargar" },
         { label: "Contacto", href: "mailto:hola@ynara.app" },
       ],
     },
   ],
-  meta: "Tesis Da Vinci 2026 · Self-hosted · Hecho en Argentina",
+  meta: "Self-hosted · Hecho en Argentina",
 } as const;

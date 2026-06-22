@@ -13,9 +13,9 @@ import "./Slide16.css";
  * como rótulo sobreimpreso. 3 columnas en desktop, cae a 2 y 1 en mobile.
  * Cascada de reveals card por card.
  */
-export function Slide16() {
+export function Slide16({ index }: { index: number }) {
   return (
-    <Slide index={15} contentClassName="s16">
+    <Slide index={index} contentClassName="s16">
       <div className="s16__head">
         <DeckEyebrow>{d16.eyebrow}</DeckEyebrow>
         <h2 className="deck-title s16__statement" data-reveal>
