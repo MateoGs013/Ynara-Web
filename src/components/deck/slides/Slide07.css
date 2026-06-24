@@ -22,6 +22,15 @@
   gap: clamp(0.9rem, 2vh, 1.5rem);
 }
 
+/* El título vive en la columna izquierda (~0.82fr de la lámina): el tamaño
+   gigante del deck-title oscuro lo desbordaba (la última palabra se recortaba
+   contra la ventana). Lo acotamos para que entre completo y respire. Sube por
+   especificidad sobre la fundación `.deck-slide[data-world="dark"] .deck-title`. */
+.deck-slide[data-world="dark"] .s07 .deck-title {
+  font-size: clamp(1.9rem, 1.1rem + 2.6vw, 3.4rem);
+  line-height: 1.06;
+}
+
 /* ── Recorrido rotulado: inicio → precio → CTA (acompaña al mensaje) ───────── */
 .s07__journey {
   list-style: none;
