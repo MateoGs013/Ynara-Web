@@ -258,10 +258,18 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
     registerGsap();
     const reduced = reducedMotion();
 
-    const renderer = new WebGLRenderer({
-      canvas,
-      antialias: (window.devicePixelRatio || 1) < 1.5,
-    });
+    let renderer: WebGLRenderer;
+    try {
+      renderer = new WebGLRenderer({
+        canvas,
+        antialias: (window.devicePixelRatio || 1) < 1.5,
+      });
+    } catch {
+      // WebGL no disponible / contexto perdido: el body ya tiene fondo
+      // var(--c-void), así que la página queda oscura y legible. Degradamos
+      // sin romper el render (sin esto, el throw tiraba todo el efecto).
+      return;
+    }
     renderer.setClearColor(BG, 1);
 
     const scene = new Scene();
@@ -272,8 +280,13 @@ export default function CascadeField({ bare = false, endSelector }: CascadeField
 
     const W = 70;
     const H = 40;
-    // Mobile: menos vértices y DPR más bajo — el shader de vértice es lo caro.
-    const coarse = window.innerWidth < 768;
+    // Mobile / hardware modesto: menos vértices y DPR más bajo — el shader de
+    // vértice es lo caro. Al criterio de ancho le sumamos CPU/memoria para que
+    // los equipos de baja potencia arranquen en la ruta liviana.
+    const navInfo = navigator as Navigator & { deviceMemory?: number };
+    const lowPower =
+      (navInfo.hardwareConcurrency || 8) <= 4 || (navInfo.deviceMemory || 8) <= 4;
+    const coarse = window.innerWidth < 768 || lowPower;
     const RES = coarse ? 4 : 6;
     const MAX_DPR = coarse ? 1.5 : 1.75;
     const geometry = new PlaneGeometry(W, H, W * RES, H * RES);

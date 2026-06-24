@@ -208,7 +208,9 @@ export function HorizontalModes() {
           if (!st) return "+=0";
           const s = st.start + tl.labels.scaleStart * (st.end - st.start);
           const e = st.start + tl.labels.scaleEnd * (st.end - st.start);
-          return s + (e - s) * 0.7;
+          // Desanclar el titular ANTES (0.5 en vez de 0.7) de que la primera card
+          // sea legible → el titular no queda solapado con la card que crece.
+          return s + (e - s) * 0.5;
         },
         pin: textPin,
         pinSpacing: false,
@@ -359,6 +361,9 @@ export function HorizontalModes() {
       <div className="hm-text-pin" ref={textPinRef}>
         <p className="hm-pin-label">{problem.pillarsEyebrow}</p>
         <p className="hm-pin-text">{problem.pillarsIntro}</p>
+        <span className="hm-pin-hint" aria-hidden>
+          El recorrido sigue al costado
+        </span>
       </div>
 
       {/* La sección horizontal — acá COMPLETA la cascada del campo */}

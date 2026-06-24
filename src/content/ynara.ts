@@ -17,6 +17,7 @@ export const site = {
 export const nav = {
   links: [
     { label: "Qué hace", href: "#producto" },
+    { label: "Demo", href: "#voz" },
     { label: "Privacidad", href: "#privacidad" },
     { label: "Precio", href: "#precio" },
   ],
@@ -27,7 +28,7 @@ export const hero = {
   eyebrow: "Asistente personal con memoria",
   wordmark: "Ynara",
   // El valor en una línea: QUÉ es y QUÉ hace. El acento va en la palabra clave.
-  value: "Una sola app para *organizar* tu vida, *recordar* todo y *cuidar* tu energía.",
+  value: "Una sola app para *organizar* tu vida, *recordar* todo y *acompañarte* cada día.",
   sub: "Hoy saltás entre agenda, notas, recordatorios y una IA suelta. Ynara junta todo eso en una — y aprende cómo sos.",
   badge: "Acceso anticipado · iOS y Android · 2026",
   ctaPrimary: { label: "Quiero sumarme", href: "#descargar" },
@@ -55,7 +56,7 @@ export const problem = {
   ],
   // Intro de la sección horizontal (lleva a las cards).
   pillarsEyebrow: "Lo que hace por vos",
-  pillarsIntro: "Una sola app. Cuatro cosas que ninguna otra junta.",
+  pillarsIntro: "Una sola app. Tres pilares que ninguna otra junta — y un cuarto que nace donde se tocan.",
   layers: [
     {
       key: "productividad",
@@ -88,7 +89,7 @@ export const problem = {
       ],
     },
     {
-      key: "consejo",
+      key: "aconseja",
       title: "Aconseja",
       note: "Sugiere, no impone.",
       features: [
@@ -98,7 +99,7 @@ export const problem = {
       ],
     },
   ],
-  intersection: "Nadie cruza las tres. Ynara vive donde se tocan.",
+  intersection: "Ninguna junta las tres. Ynara vive donde se tocan — y ahí te aconseja qué hacer.",
   competitors: [
     { name: "Motion", does: "organiza", but: "no recuerda ni acompaña." },
     { name: "Pi", does: "acompaña", but: "no organiza." },
@@ -149,14 +150,14 @@ export const feel = {
 
 export const pricing = {
   eyebrow: "Precio",
-  wordmark: "Gratis",
+  wordmark: "Gratuito",
   statement:
     "Los tres pilares y la memoria reciente, gratis para siempre. Premium suma memoria extendida, funciones avanzadas y multidispositivo por USD 4–6 al mes.",
   title: "Empezás gratis. Subís cuando quieras.",
   lead: "Lo esencial gratis, para siempre. La suscripción suma memoria extendida y funciones avanzadas.",
   plans: [
     {
-      name: "Free",
+      name: "Gratuito",
       price: "$0",
       period: "para siempre",
       features: ["Los tres pilares", "Memoria reciente", "Un dispositivo"],
@@ -190,7 +191,7 @@ export const cta = {
     label: "Quiero sumarme",
     href: "mailto:hola@ynara.app?subject=Quiero%20sumarme%20a%20Ynara",
   },
-  stores: ["App Store · Próximamente", "Google Play · Próximamente"],
+  stores: ["App Store — Próximamente", "Google Play — Próximamente"],
 } as const;
 
 export const footer = {
@@ -200,6 +201,7 @@ export const footer = {
       title: "Producto",
       links: [
         { label: "Qué hace", href: "#producto" },
+        { label: "Demo", href: "#voz" },
         { label: "Privacidad", href: "#privacidad" },
         { label: "Precio", href: "#precio" },
       ],

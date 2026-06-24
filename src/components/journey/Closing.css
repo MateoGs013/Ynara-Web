@@ -4,7 +4,8 @@
     z-index: 3;
     background: var(--c-ivory);
     color: var(--c-navy);
-    padding: clamp(6svh, 9svh, 11svh) 0 clamp(8svh, 11svh, 13svh);
+    padding: clamp(9svh, 13svh, 15svh) 0 clamp(8svh, 11svh, 13svh);
+    scroll-margin-top: 96px;
   }
   .cl-inner {
     width: 100%;
@@ -53,7 +54,7 @@
     font-weight: 600; font-size: clamp(1.05rem, 1.4vw, 1.3rem);
     color: var(--c-navy-deep);
   }
-  .cl-plan.is-featured .cl-plan-price { color: var(--c-violet); }
+  .cl-plan.is-featured .cl-plan-price { color: var(--c-navy-deep); }
   .cl-plan-period {
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
     font-weight: 400; font-size: 0.82rem; color: var(--c-ink-muted);

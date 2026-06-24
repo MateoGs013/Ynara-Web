@@ -11,7 +11,7 @@ import "./Marquee.css";
  * Una fila llena (navy sólido) y otra en outline → ritmo, no monotonía.
  */
 
-const WORDS = ["Organiza", "Recuerda", "Acompaña", "Anticipa", "Aprende", "Cuida"];
+const WORDS = ["Organiza", "Recuerda", "Acompaña"];
 
 function Row({ outline }: { outline?: boolean }) {
   // Duplico el contenido 2x para un loop sin costura.

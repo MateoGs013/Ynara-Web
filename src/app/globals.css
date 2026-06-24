@@ -247,6 +247,12 @@ html.intro-lock body {
   }
 }
 
+/* Reserva el canal de la scrollbar SIEMPRE → al soltar el intro-lock (overflow:
+   hidden) el contenido no salta ~10px en el primer vistazo (sin CLS percibido). */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Scrollbar nocturna discreta */
 ::-webkit-scrollbar {
   width: 10px;
@@ -642,6 +648,14 @@ html.intro-lock body {
   outline: 2px solid var(--c-blue-bright);
   outline-offset: 3px;
   border-radius: 3px;
+}
+
+/* En superficies marfil el azul brillante cae por debajo de 3:1: el foco pasa
+   al azul de marca (contraste suficiente sobre claro). */
+.tr :focus-visible,
+.cl :focus-visible,
+.h-slide :focus-visible {
+  outline-color: var(--c-blue);
 }
 
 /* ============================================================================
