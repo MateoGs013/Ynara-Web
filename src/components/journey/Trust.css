@@ -4,7 +4,8 @@
     z-index: 3;
     background: var(--c-ivory);
     color: var(--c-navy);
-    padding: clamp(6svh, 9svh, 11svh) 0 clamp(8svh, 12svh, 14svh);
+    padding: clamp(9svh, 13svh, 15svh) 0 clamp(8svh, 12svh, 14svh);
+    scroll-margin-top: 96px;
   }
   .tr-inner {
     width: 100%;

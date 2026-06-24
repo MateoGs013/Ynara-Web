@@ -21,6 +21,29 @@
     letter-spacing: -0.035em;
     color: var(--c-text-bright);
   }
+  /* Señal de que el scroll se vuelve horizontal (el recorrido sigue al costado). */
+  .hm-pin-hint {
+    display: inline-flex;
+    align-items: center;
+    margin-top: clamp(1.4rem, 3vh, 2.4rem);
+    font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-acc);
+    opacity: 0.82;
+  }
+  .hm-pin-hint::after {
+    content: "→";
+    margin-left: 0.6rem;
+    font-size: 1rem;
+    animation: hm-pin-nudge 1.6s ease-in-out infinite;
+  }
+  @keyframes hm-pin-nudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(7px); }
+  }
 
   .horizontal-section {
     width: 100vw;
@@ -211,6 +234,9 @@
       padding: 10vw 6vw 8vw;
     }
     .h-slide.side { min-height: 40svh; }
+    /* En el stack mobile (~344px útiles) los max-width en px recortaban la medida. */
+    .h-slide__claim,
+    .h-slide__features { max-width: 100% !important; }
   }
   @media (prefers-reduced-motion: reduce) {
     .horizontal-section {
@@ -254,4 +280,10 @@
     .slide-side__svg polyline {
       stroke-dashoffset: 0 !important;
     }
+  }
+
+  /* El hint de scroll lateral sólo aplica al viaje horizontal (desktop, puntero
+     fino): en el stack vertical no hay "costado", así que se oculta. */
+  @media (max-width: 767px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .hm-pin-hint { display: none; }
   }

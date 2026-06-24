@@ -25,7 +25,9 @@ export default function SmoothScroll() {
     registerGsap();
 
     const lenis = new Lenis({
-      duration: 1.1,
+      // Más corto (1.1 → 0.9): el smooth-scroll responde más rápido al gesto y
+      // pelea menos con el scroll nativo del recién llegado (doble pin + wheel).
+      duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - 2 ** (-10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.4,

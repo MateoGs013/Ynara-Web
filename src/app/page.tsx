@@ -15,7 +15,7 @@ import { VoiceChapter } from "@/components/journey/VoiceChapter";
  *   02 Pilares     → lo que hace: scroll HORIZONTAL con las 3 cards (tablero→cards).
  *   03 Demo        → cómo se siente: chats reales (carbón).
  *   04 Privacidad  → tus datos son tuyos (carbón).
- *   05 Precio+CTA  → empezá gratis, sumate a la beta (ivory).
+ *   05 Precio+CTA  → empezá gratis, sumate al acceso anticipado (ivory).
  */
 export default function HomePage() {
   return (

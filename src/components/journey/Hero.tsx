@@ -78,13 +78,25 @@ export function Hero() {
       } catch {
         introSeen = window.__ynaraIntroDone === true;
       }
+      let played = false;
+      const playOnce = () => {
+        if (played) return;
+        played = true;
+        play();
+      };
       if (introSeen) {
-        gsap.delayedCall(0.2, play);
+        gsap.delayedCall(0.2, playOnce);
         return;
       }
-      const onDone = () => play();
+      const onDone = () => playOnce();
       window.addEventListener("ynara:intro-done", onDone, { once: true });
-      return () => window.removeEventListener("ynara:intro-done", onDone);
+      // Failsafe: si el evento del preloader nunca llega, revelá igual a los ~2.4s
+      // → el héroe (LCP) nunca queda oculto/colgado en una conexión lenta.
+      const failsafe = gsap.delayedCall(2.4, playOnce);
+      return () => {
+        window.removeEventListener("ynara:intro-done", onDone);
+        failsafe.kill();
+      };
     },
     { scope: ref },
   );
@@ -94,6 +106,7 @@ export function Hero() {
       <div className="hero-content">
         <div className="hero-grid">
           <div className="hero-head">
+            <p className="hero-eyebrow">{hero.eyebrow}</p>
             <p className="hero-value">
               <Accented text={hero.value} />
             </p>
@@ -106,6 +119,8 @@ export function Hero() {
                 {hero.ctaSecondary.label}
               </a>
             </div>
+
+            <p className="hero-badge hero-aux">{hero.badge}</p>
           </div>
           {/* El <h1> incluye la propuesta de valor para SEO/a11y sin alterar el
               look: "Ynara" sigue siendo lo único visible; el valor va en sr-only. */}

@@ -141,6 +141,20 @@ export function SiteNav() {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
+      {/* Scrim del header, world-aware y detrás del contenido (z-index:-1):
+          garantiza legibilidad de la marca + CTA sobre el campo vivo (oscuro) y
+          sobre las secciones marfil (claro), y tapa el contenido que pasa por
+          debajo del header fijo al scrollear (clave en mobile). */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-28 transition-[background] duration-300"
+        style={{
+          zIndex: -1,
+          background: onLight
+            ? "linear-gradient(to bottom, var(--c-ivory) 0%, color-mix(in srgb, var(--c-ivory) 60%, transparent) 50%, transparent 100%)"
+            : "linear-gradient(to bottom, color-mix(in srgb, var(--c-void) 70%, transparent) 0%, transparent 100%)",
+        }}
+      />
       <div className="flex items-center justify-between px-[var(--gutter)] py-[clamp(1.25rem,4vh,2.25rem)]">
         <a
           ref={brandRef}
