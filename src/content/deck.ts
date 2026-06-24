@@ -276,7 +276,7 @@ export const d02 = {
     { title: "Memoria", line: "Recuerda todo por vos." },
     { title: "Bienestar", line: "Cuida tu energía y tus pausas." },
   ],
-  intersection: "Y cuando las tres se cruzan, te aconseja qué hacer.",
+  intersection: "Y cuando las tres se encuentran, te aconseja qué hacer.",
 } as const;
 
 // L03 · Storytelling — un día (humano)
@@ -359,7 +359,7 @@ export const d06b = {
 // L07 · Landing — capturas reales de la landing (del deck TP3).
 export const d07 = {
   eyebrow: "La página",
-  statement: "Que entre con dudas y salga con ganas de conocernos.",
+  statement: "Que entre con dudas y salga con ganas.",
   support:
     "Lo primero que ve alguien interesado no es la app: es la landing. La primera impresión de la marca, antes de descargar nada.",
   shots: [
@@ -380,7 +380,7 @@ export const d08 = {
     note: l.note,
     features: l.features,
   })),
-  intersection: "Y cuando las tres se cruzan, te aconseja qué hacer.",
+  intersection: "Y cuando las tres se encuentran, te aconseja qué hacer.",
 } as const;
 
 // L09 · Funcionalidades — la app. Los 4 verbos funcionando: los 3 chats canónicos
