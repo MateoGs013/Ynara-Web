@@ -4,12 +4,16 @@ Experiencia web inmersiva para **Ynara** — el asistente personal adaptativo co
 memoria propia (tesis Da Vinci 2026). No es una página de secciones: es **un objeto
 vivo de luz** que se transforma mientras se recorre.
 
+![Hero — la forma de luz recibe con la tipografía masiva](docs/screenshots/hero.jpg)
+
 ## La idea
 
 Una sola **forma generativa 3D** (WebGL) persiste de principio a fin y **morfea con
 el scroll** a través de 8 capítulos — olas de luz → red de puntos → plenitud. La
 tipografía masiva entra como voz. Paleta de marca _locked_: el drama nace del
 contraste de valor, la escala y el movimiento, no de colores nuevos.
+
+![Capítulo Memoria — la forma acompaña y el layout se invierte](docs/screenshots/memoria.jpg)
 
 ## Stack
 
