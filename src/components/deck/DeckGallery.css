@@ -27,6 +27,11 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr));
+  /* Fila ACOTADA al alto del grid: sin esto la fila implícita es `auto` y crece
+     al alto natural de la imagen (una historia 9:16 = 1920px), desbordando la
+     lámina y descentrando la pieza. `minmax(0, 1fr)` la clava al alto disponible
+     para que el marco y la imagen (max-height) resuelvan bien y queden centrados. */
+  grid-template-rows: minmax(0, 1fr);
   gap: clamp(0.8rem, 2vw, 1.8rem);
   align-items: stretch;
   justify-items: center;
@@ -43,9 +48,10 @@
 .deck-gallery__grid[data-count="4"] {
   --cols: 4;
 }
-
 .deck-gallery__item {
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   min-width: 0;
@@ -79,6 +85,46 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Marco "fit" (GalleryImage.aspect): en vez de un rectángulo fijo con la
+   imagen recortada/estirada, es un CONTENEDOR TRANSPARENTE que llena el alto
+   disponible y centra la imagen. La imagen se muestra a su proporción REAL,
+   escalada al máximo que entre (sin recorte, sin letterbox en el marco: el
+   borde/sombra abrazan la imagen exacta). El estilo visual pasa a la imagen. */
+.deck-gallery__frame--fit {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+  /* aspect-ratio inline sólo como hint de layout; el tamaño real lo fija la
+     imagen con sus max-width/max-height. */
+  aspect-ratio: auto !important;
+}
+.deck-gallery__frame--fit .deck-gallery__img {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  /* Cap de alto DEFINIDO: `max-height: 100%` no resuelve porque el alto del
+     ancestro flex/grid es indefinido (la imagen se renderizaba a su tamaño
+     natural y desbordaba la lámina — más notorio en la historia 9:16). Un cap
+     por viewport, acotado al alto real del grid (viewport menos el chrome de
+     eyebrow + caption + padding), mantiene la imagen dentro de la lámina y las
+     piezas verticales finas. Mobile lo re-acota más abajo con 62vh. */
+  max-height: min(100%, calc(100svh - 12.5rem));
+  object-fit: contain;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--deck-hair);
+  box-shadow: 0 20px 48px -30px rgb(8 9 14 / 0.85);
 }
 
 /* Placeholder (si todavía no hay imagen): velo navy + marca + rótulo. */
@@ -154,8 +200,14 @@
   .deck-gallery__grid {
     --cols: 1 !important;
   }
-  .deck-gallery__frame {
+  /* Sólo los marcos "cover" toman 4/3 fijo en mobile; los "fit" conservan su
+     comportamiento natural (imagen a proporción real) para no volver a colapsar. */
+  .deck-gallery__frame:not(.deck-gallery__frame--fit) {
     aspect-ratio: 4 / 3;
     flex: 0 0 auto;
+  }
+  /* Fit en mobile: cap de alto por viewport para que la imagen no empuje el layout. */
+  .deck-gallery__frame--fit .deck-gallery__img {
+    max-height: 62vh;
   }
 }

@@ -14,31 +14,34 @@ contraste de valor, la escala y el movimiento, no de colores nuevos.
 ## Stack
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · three.js 0.164 ·
-GSAP 3.15 (ScrollTrigger + SplitText) · Lenis · Biome.
+GSAP 3.12 (ScrollTrigger + SplitText) · Lenis · Biome.
 
 ## Arquitectura
 
 ```
 src/
   app/                  layout (Field persistente) · page · SEO (robots, sitemap, OG)
+                        · /presentacion (deck, layout propio) · /lab (sandbox de dev)
   components/
-    field/              LA FORMA y su motor
+    field/              LA FORMA y su motor (home)
       CascadeField.tsx  terreno de luz WebGL (PlaneGeometry muy subdividido + shaders
                         simplex-noise Ashima, morfeo por scroll, mouse reactivo)
       Field.tsx         canvas fija detrás de todo + base void + grano
-    journey/            los capítulos tejidos sobre la forma
-    lib/
-      motion/           utilidades GSAP / ScrollTrigger
-      reveal/           RevealText y primitivos de animación
-      cn/               classname helper
+    journey/            los capítulos de home tejidos sobre la forma
+    deck/               motor del deck de tesis (30 láminas) + living-field/ (motor
+                        WebGL propio del deck, separado de CascadeField)
+    motion/             Magnetic, RevealText — primitivos de animación
     ui/ site/           primitivos (YnaraMark, SiteNav, SiteFooter, Button…)
-  content/ynara.ts      banco de copy (voz rioplatense)
+  content/              banco de copy — ynara.ts (home), deck.ts (deck)
+  lib/                  cn.ts, motion.ts, reveal.ts, useDeckRoute.ts
 ```
 
 El scroll no mueve cajas: **transforma la forma y el tipo**. `CascadeField` es el
-corazón WebGL — `PlaneGeometry` muy subdividido con `RawShaderMaterial` (simplex-noise
-Ashima), conducido por el scroll de la página vía ScrollTrigger y montado por `Field`
-detrás de todo. Los capítulos viven en `components/journey/*`.
+corazón WebGL de home — `PlaneGeometry` muy subdividido con `RawShaderMaterial`
+(simplex-noise Ashima), conducido por el scroll de la página vía ScrollTrigger y
+montado por `Field` detrás de todo. Los capítulos viven en `components/journey/*`.
+El deck de tesis (`/presentacion`) corre su propio motor WebGL
+(`components/deck/living-field/`), independiente de `CascadeField`.
 
 ## Desarrollo
 

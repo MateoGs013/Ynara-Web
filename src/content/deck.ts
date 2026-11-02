@@ -111,22 +111,6 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
   },
   {
     id: 11,
-    section: "Funcionalidades principales",
-    title: "Tres pilares",
-    world: "ivory",
-    register: "calma",
-    field: 0.45,
-  },
-  {
-    id: 12,
-    section: "Funcionalidades principales",
-    title: "La app",
-    world: "ivory",
-    register: "calma",
-    field: 0.45,
-  },
-  {
-    id: 13,
     section: "Monetización",
     title: "Planes",
     world: "ivory",
@@ -134,17 +118,18 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.45,
   },
   {
-    id: 14,
+    id: 12,
     section: "Monetización",
     title: "Viabilidad",
     world: "ivory",
     register: "calma",
     field: 0.45,
   },
-  // ── Lanzamiento (Nerdearla 2026): piezas físicas → stand → escenario → demo →
-  //    equipo → folletería. Cada imagen en su propia lámina, grande y clara. ──
+  // ── Lanzamiento (Nerdearla 2026): piezas físicas → folletería → stand →
+  //    equipo acreditado → merch (remera + buzo → resto de objetos) →
+  //    escenario → demo. Cada imagen en su propia lámina, grande y clara. ──
   {
-    id: 15,
+    id: 13,
     section: "Lanzamiento",
     title: "Piezas",
     world: "dark",
@@ -152,7 +137,15 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.24,
   },
   {
-    id: 16,
+    id: 14,
+    section: "Lanzamiento",
+    title: "Folletería",
+    world: "dark",
+    register: "calma",
+    field: 0.3,
+  },
+  {
+    id: 15,
     section: "Lanzamiento",
     title: "El stand",
     world: "dark",
@@ -160,7 +153,42 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.26,
   },
   {
+    id: 16,
+    section: "Lanzamiento",
+    title: "El equipo",
+    world: "dark",
+    register: "calma",
+    field: 0.28,
+  },
+  // Merch: remera + buzo primero (los dos ítems que pidió Mateo), después el
+  // resto de objetos (3 renders). Section queda "Promoción" (categoría real
+  // del contenido) aunque narrativamente viven acá, pegados al equipo.
+  {
     id: 17,
+    section: "Promoción",
+    title: "Objetos",
+    world: "dark",
+    register: "calma",
+    field: 0.45,
+  },
+  {
+    id: 18,
+    section: "Promoción",
+    title: "Objetos",
+    world: "dark",
+    register: "calma",
+    field: 0.45,
+  },
+  {
+    id: 19,
+    section: "Promoción",
+    title: "Objetos",
+    world: "dark",
+    register: "calma",
+    field: 0.45,
+  },
+  {
+    id: 20,
     section: "Lanzamiento",
     title: "El escenario",
     world: "dark",
@@ -168,83 +196,62 @@ export const DECK_SLIDES: readonly DeckSlideMeta[] = [
     field: 0.28,
   },
   {
-    id: 18,
+    id: 21,
     section: "Lanzamiento",
     title: "La demo",
     world: "dark",
     register: "calma",
     field: 0.3,
   },
+  // ── Promoción (resto): UNA lámina por pieza (Redes: 4 posts + historia;
+  //    Vía pública: 3 formatos) — cada una con su proporción real, sin
+  //    compartir grilla. Las imágenes mandan; el rótulo dice qué es. ──
+  { id: 22, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
+  { id: 23, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
+  { id: 24, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
+  { id: 25, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
   {
-    id: 19,
-    section: "Lanzamiento",
-    title: "El equipo",
-    world: "dark",
-    register: "calma",
-    field: 0.28,
-  },
-  {
-    id: 20,
-    section: "Lanzamiento",
-    title: "Folletería",
+    id: 26,
+    section: "Promoción",
+    title: "Redes · historia",
     world: "dark",
     register: "calma",
     field: 0.3,
   },
-  // ── Promoción: cada lámina muestra MÁXIMO 3 imágenes grandes (Redes 2+2,
-  //    Vía pública 2+2, Objetos 3+2+2). Las imágenes mandan; el rótulo dice qué es.
-  { id: 21, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
-  { id: 22, section: "Promoción", title: "Redes", world: "dark", register: "chaos", field: 0.05 },
-  {
-    id: 23,
-    section: "Promoción",
-    title: "Vía pública",
-    world: "dark",
-    register: "chaos",
-    field: 0.06,
-  },
-  {
-    id: 24,
-    section: "Promoción",
-    title: "Vía pública",
-    world: "dark",
-    register: "chaos",
-    field: 0.06,
-  },
-  {
-    id: 25,
-    section: "Promoción",
-    title: "Objetos",
-    world: "dark",
-    register: "calma",
-    field: 0.45,
-  },
-  {
-    id: 26,
-    section: "Promoción",
-    title: "Objetos",
-    world: "dark",
-    register: "calma",
-    field: 0.45,
-  },
   {
     id: 27,
     section: "Promoción",
-    title: "Objetos",
+    title: "Vía pública",
     world: "dark",
-    register: "calma",
-    field: 0.45,
+    register: "chaos",
+    field: 0.06,
   },
   {
     id: 28,
+    section: "Promoción",
+    title: "Vía pública",
+    world: "dark",
+    register: "chaos",
+    field: 0.06,
+  },
+  {
+    id: 29,
+    section: "Promoción",
+    title: "Vía pública",
+    world: "dark",
+    register: "chaos",
+    field: 0.06,
+  },
+  {
+    id: 30,
     section: "Próximas funcionalidades",
     title: "Roadmap",
     world: "dark",
     register: "calma",
     field: 0.45,
   },
-  { id: 29, section: "Cierre", title: "Cierre", world: "dark", register: "calma", field: 0.32 },
-  { id: 30, section: "Cierre", title: "Gracias", world: "dark", register: "calma", field: 0.9 },
+  { id: 31, section: "Cierre", title: "Cierre", world: "dark", register: "calma", field: 0.32 },
+  { id: 32, section: "Cierre", title: "Gracias", world: "dark", register: "calma", field: 0.9 },
 ] as const;
 
 export const TOTAL_SLIDES = DECK_SLIDES.length;
@@ -349,6 +356,8 @@ export const d06b = {
     { name: "Violeta", role: "Señal", token: "var(--c-violet)", hex: "#8165A3" },
     { name: "Marfil", role: "Luz", token: "var(--c-ivory)", hex: "#F3F0EA" },
     { name: "Noche", role: "Fondo", token: "var(--c-navy)", hex: "#242C3F" },
+    { name: "Índigo", role: "Apoyo", token: "var(--c-indigo)", hex: "#434A82" },
+    { name: "Azul violáceo", role: "Apoyo", token: "var(--c-blue-violet)", hex: "#5C6FB3" },
   ],
   typefaces: [
     { name: "Space Grotesk", role: "Display", varName: "var(--font-display)" },
@@ -367,36 +376,6 @@ export const d07 = {
     { img: "/promo/tp3-22.png", alt: "Landing de Ynara — precio" },
     { img: "/promo/tp3-23.png", alt: "Landing de Ynara — cierre y CTA" },
   ],
-} as const;
-
-// L08 · Funcionalidades — los 3 pilares
-export const d08 = {
-  eyebrow: "Funcionalidades principales",
-  intro: "Tres cosas que ninguna app junta.",
-  // 3 pilares adelante (Productividad / Memoria / Bienestar). Los 5 modos son el
-  // mecanismo; acá van los pilares. Aconseja = la intersección.
-  pillars: problem.layers.slice(0, 3).map((l) => ({
-    title: l.title,
-    note: l.note,
-    features: l.features,
-  })),
-  intersection: "Y cuando las tres se encuentran, te aconseja qué hacer.",
-} as const;
-
-// L09 · Funcionalidades — la app. Los 4 verbos funcionando: los 3 chats canónicos
-// (Productividad/Memoria/Bienestar) + un 4to que ilustra Aconseja (la intersección).
-export const d09 = {
-  eyebrow: "La app",
-  statement: "Le hablás como a una persona y resuelve.",
-  chats: [
-    ...feel.chats,
-    {
-      mode: "Aconseja",
-      user: "tengo tres entregas y cero energía",
-      ynara: "Arrancá por la del martes, es la más corta. El resto puede esperar a mañana.",
-    },
-  ],
-  placeholder: "UI real de la app",
 } as const;
 
 // L10 · Monetización — planes
@@ -499,38 +478,82 @@ export const d13 = {
   fallback: "Plan B: captura fija si no responde en 5 s",
 } as const;
 
-// Promoción · Redes — publicaciones reales de Instagram (TP2), en DOS láminas de
-// 2 imágenes grandes. La cuenta no publicita la solución: documenta el problema.
-export const d14 = {
+// Promoción · Redes — publicaciones e historia reales de Instagram. UNA
+// lámina por pieza (no comparten grilla) para que cada una tenga su espacio
+// y su proporción real — nada de letterbox por apretar 2-3 en una fila.
+export const dRedes = {
   eyebrow: "Promoción · Redes",
   caption: "@ynara.app — no publicita la solución, documenta el problema.",
-  a: [
-    { img: "/promo/tp2-08.jpg", alt: "Publicación de Instagram de Ynara — «Menos apps»" },
-    { img: "/promo/tp2-09.jpg", alt: "Publicación de Instagram de Ynara — «Tu agenda en contexto»" },
-  ],
-  b: [
-    { img: "/promo/tp2-10.jpg", alt: "Publicación de Instagram de Ynara — «Recordá mejor»" },
-    { img: "/promo/tp2-11.jpg", alt: "Publicación de Instagram de Ynara — «Dos meses gratis»" },
-  ],
 } as const;
 
-// Promoción · Vía pública — renders reales de OOH (TP2), en DOS láminas de 2
-// imágenes grandes rotuladas. Mismo gesto: te muestran tu propio caos en la calle.
-export const d15 = {
+export const dRedesAnsiedad = {
+  img: "/promo/ig-post-ansiedad-pestana.png",
+  alt: "Publicación de Instagram de Ynara — «Ansiedad de pestaña»",
+  fit: "contain",
+  aspect: "4/5",
+} as const;
+
+export const dRedesAtencion = {
+  img: "/promo/ig-post-atencion-fragmentada.png",
+  alt: "Publicación de Instagram de Ynara — «Atención fragmentada»",
+  fit: "contain",
+  aspect: "4/5",
+} as const;
+
+export const dRedesTareas = {
+  img: "/promo/ig-post-tareas.png",
+  alt: "Publicación de Instagram de Ynara — lista de tareas surreal",
+  fit: "contain",
+  aspect: "4/5",
+} as const;
+
+export const dRedesTweet = {
+  img: "/promo/ig-post-tweet.png",
+  alt: "Publicación de Instagram de Ynara en formato tweet — «Desesperación» #mePaso",
+  fit: "contain",
+  aspect: "4/5",
+} as const;
+
+// Promoción · Redes — historia (formato vertical 9:16, lámina propia).
+export const dRedesHistoria = {
+  eyebrow: "Promoción · Redes",
+  caption: "Historia de Instagram — el swipe-up lleva directo a probar la demo.",
+  img: "/promo/ig-historia.png",
+  alt: "Historia de Instagram de Ynara — «Foco. Memoria. Presencia» con CTA a probar",
+  fit: "contain",
+  aspect: "9/16",
+} as const;
+
+// Promoción · Vía pública — renders reales de OOH. UN formato por lámina
+// (cartel de calle, parada de colectivo, afiche guerrilla) — mismo criterio
+// que Redes: cada pieza con su proporción real, sin compartir grilla.
+export const dViaPublica = {
   eyebrow: "Promoción · Vía pública",
+} as const;
+
+export const dViaCartelCalle = {
+  img: "/promo/via-publica-cartel-calle.jpg",
+  label: "Cartel de calle",
+  alt: "Cartel grande de Ynara en un lote urbano — «Ynara habla en calma»",
+  fit: "contain",
+  aspect: "3/2",
   caption: "Tu propio caos, en la calle.",
-  a: [
-    { img: "/promo/tp2-12.jpg", label: "Cartel de autopista", alt: "Cartel de Ynara en una autopista" },
-    { img: "/promo/tp2-13.jpg", label: "Andén de subte", alt: "Gráfica de Ynara en un andén de subte" },
-  ],
-  b: [
-    {
-      img: "/promo/tp2-14.jpg",
-      label: "Parada de colectivo",
-      alt: "Gráfica de Ynara en una parada de colectivo",
-    },
-    { img: "/promo/tp2-15.jpg", label: "Tótem digital", alt: "Tótem digital de Ynara en interior" },
-  ],
+} as const;
+
+export const dViaParadaColectivo = {
+  img: "/promo/via-publica-parada-colectivo.jpg",
+  label: "Parada de colectivo",
+  alt: "Pantalla de Ynara en una parada de colectivo — «Orden que te acompaña»",
+  fit: "contain",
+  aspect: "3/2",
+} as const;
+
+export const dViaAfichePerdida = {
+  img: "/promo/via-publica-afiche-perdida.jpg",
+  label: "Afiche «Perdida»",
+  alt: "Afiche guerrilla de Ynara estilo aviso de mascota perdida — «Perdida: mi paciencia después de las 16hs»",
+  fit: "contain",
+  aspect: "3/2",
 } as const;
 
 // Promoción · Objetos — renders reales de producto (TP2), en TRES láminas de
@@ -541,7 +564,11 @@ export const d16 = {
   a: [
     { img: "/promo/tp2-01.jpg", label: "Funda negra", alt: "Funda de teléfono negra de Ynara" },
     { img: "/promo/tp2-02.jpg", label: "Funda marfil", alt: "Funda de teléfono marfil de Ynara" },
-    { img: "/promo/tp2-03.jpg", label: "Soporte-cargador", alt: "Soporte-cargador MagSafe de Ynara" },
+    {
+      img: "/promo/tp2-03.jpg",
+      label: "Soporte-cargador",
+      alt: "Soporte-cargador MagSafe de Ynara",
+    },
   ],
   b: [
     {
