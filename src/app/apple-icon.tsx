@@ -2,6 +2,8 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
+// Ícono fijo: se prerenderiza en build (requerido con output: "export").
+export const dynamic = "force-static";
 
 export default function AppleIcon() {
   return new ImageResponse(

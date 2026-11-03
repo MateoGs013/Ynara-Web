@@ -4,6 +4,8 @@ import { site } from "@/content/ynara";
 export const alt = "Ynara · Tu asistente personal con memoria";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+// Imagen fija: se prerenderiza en build (requerido con output: "export").
+export const dynamic = "force-static";
 
 export default function OpengraphImage() {
   return new ImageResponse(
